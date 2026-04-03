@@ -8,18 +8,24 @@ O projeto está sendo desenvolvido com foco em boas práticas de integração en
 ✅ Atualmente implementado:
 Cadastro de usuários
 Sistema de login/autenticação
+
 🔜 Em desenvolvimento:
+
 Visualização de cardápio
 Realização de pedidos
 Rastreamento de pedidos em tempo real
 Histórico de pedidos
 Sistema de pagamento online
+
 🛠️ Tecnologias utilizadas
+
 Flutter / FlutterFlow
 API REST (Xano)
 Banco de Dados (PostgreSQL)
 JSON para comunicação de dados
+
 ⚙️ Como rodar o projeto
+
 Clone este repositório:
 git clone https://github.com/AndrewPagani/Sabor-Local.git
 Abra no FlutterFlow ou ambiente Flutter
