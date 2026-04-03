@@ -1,0 +1,62 @@
+import '/backend/api_requests/api_calls.dart';
+import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
+import 'cadastroendereco_widget.dart' show CadastroenderecoWidget;
+import 'package:flutter/material.dart';
+
+class CadastroenderecoModel extends FlutterFlowModel<CadastroenderecoWidget> {
+  ///  State fields for stateful widgets in this page.
+
+  // State field(s) for CEP widget.
+  FocusNode? cepFocusNode;
+  TextEditingController? cepTextController;
+  String? Function(BuildContext, String?)? cepTextControllerValidator;
+  // Stores action output result for [Backend Call - API (validacep)] action in Button widget.
+  ApiCallResponse? apiResult3kj;
+  // State field(s) for Logradouro widget.
+  FocusNode? logradouroFocusNode;
+  TextEditingController? logradouroTextController;
+  String? Function(BuildContext, String?)? logradouroTextControllerValidator;
+  // State field(s) for Numero widget.
+  FocusNode? numeroFocusNode;
+  TextEditingController? numeroTextController;
+  String? Function(BuildContext, String?)? numeroTextControllerValidator;
+  // State field(s) for bairro widget.
+  FocusNode? bairroFocusNode;
+  TextEditingController? bairroTextController;
+  String? Function(BuildContext, String?)? bairroTextControllerValidator;
+  // State field(s) for complemento widget.
+  FocusNode? complementoFocusNode;
+  TextEditingController? complementoTextController;
+  String? Function(BuildContext, String?)? complementoTextControllerValidator;
+  // State field(s) for referencia widget.
+  FocusNode? referenciaFocusNode;
+  TextEditingController? referenciaTextController;
+  String? Function(BuildContext, String?)? referenciaTextControllerValidator;
+  // Stores action output result for [Backend Call - API (addendereco)] action in Button widget.
+  ApiCallResponse? apiResultjg4;
+
+  @override
+  void initState(BuildContext context) {}
+
+  @override
+  void dispose() {
+    cepFocusNode?.dispose();
+    cepTextController?.dispose();
+
+    logradouroFocusNode?.dispose();
+    logradouroTextController?.dispose();
+
+    numeroFocusNode?.dispose();
+    numeroTextController?.dispose();
+
+    bairroFocusNode?.dispose();
+    bairroTextController?.dispose();
+
+    complementoFocusNode?.dispose();
+    complementoTextController?.dispose();
+
+    referenciaFocusNode?.dispose();
+    referenciaTextController?.dispose();
+  }
+}
