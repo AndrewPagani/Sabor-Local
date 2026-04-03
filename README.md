@@ -2,7 +2,7 @@
 
 O Sabor Local é um aplicativo mobile em desenvolvimento voltado para restaurantes, com o objetivo de facilitar a experiência do usuário desde o cadastro até a realização e acompanhamento de pedidos.
 O projeto está sendo desenvolvido com foco em boas práticas de integração entre frontend e backend, utilizando API REST e banco de dados estruturado.
-
+ 
 🚀 Funcionalidades
 
 ✅ Atualmente implementado:
