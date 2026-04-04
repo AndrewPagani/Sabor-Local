@@ -11,8 +11,8 @@ class CadastroenderecoModel extends FlutterFlowModel<CadastroenderecoWidget> {
   FocusNode? cepFocusNode;
   TextEditingController? cepTextController;
   String? Function(BuildContext, String?)? cepTextControllerValidator;
-  // Stores action output result for [Backend Call - API (validacep)] action in Button widget.
-  ApiCallResponse? apiResult3kj;
+  // Stores action output result for [Backend Call - API (validacep)] action in Sim widget.
+  ApiCallResponse? apiResultyp5;
   // State field(s) for Logradouro widget.
   FocusNode? logradouroFocusNode;
   TextEditingController? logradouroTextController;

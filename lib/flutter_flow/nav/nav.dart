@@ -33,12 +33,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       navigatorKey: appNavigatorKey,
-      errorBuilder: (context, state) => CodigoEmailWidget(),
+      errorBuilder: (context, state) => CadastroenderecoWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
-          builder: (context, _) => CodigoEmailWidget(),
+          builder: (context, _) => CadastroenderecoWidget(),
         ),
         FFRoute(
           name: LoginWidget.routeName,

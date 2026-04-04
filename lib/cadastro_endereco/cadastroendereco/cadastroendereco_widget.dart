@@ -290,74 +290,102 @@ class _CadastroenderecoWidgetState extends State<CadastroenderecoWidget> {
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            FFButtonWidget(
-                              onPressed: () async {
-                                safeSetState(() {
-                                  _model.cepTextController?.text =
-                                      _model.cepTextController.text;
-                                });
-                                _model.apiResult3kj = await ValidacepCall.call(
-                                  cep: _model.cepTextController.text,
-                                );
-
-                                if ((getJsonField(
-                                          (_model.apiResult3kj?.jsonBody ?? ''),
-                                          r'''$.logradouro''',
-                                        ) ==
-                                        null) ||
-                                    (getJsonField(
-                                          (_model.apiResult3kj?.jsonBody ?? ''),
-                                          r'''$.bairro''',
-                                        ) ==
-                                        null) ||
-                                    (_model.cepTextController.text == '')) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        'Ops... CEP inválido',
-                                        style: TextStyle(
-                                          color: FlutterFlowTheme.of(context)
-                                              .primaryText,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 16.0,
-                                        ),
-                                      ),
-                                      duration: Duration(milliseconds: 4000),
-                                      backgroundColor:
-                                          FlutterFlowTheme.of(context).error,
-                                    ),
-                                  );
-                                } else {
-                                  safeSetState(() {
-                                    _model.logradouroTextController?.text =
-                                        getJsonField(
-                                      (_model.apiResult3kj?.jsonBody ?? ''),
-                                      r'''$.logradouro''',
-                                    ).toString();
-                                  });
-                                  safeSetState(() {
-                                    _model.bairroTextController?.text =
-                                        getJsonField(
-                                      (_model.apiResult3kj?.jsonBody ?? ''),
-                                      r'''$.bairro''',
-                                    ).toString();
-                                  });
-                                }
-
-                                safeSetState(() {});
-                              },
-                              text: 'Preencher com CEP',
-                              options: FFButtonOptions(
-                                height: 16.85,
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    16.0, 0.0, 16.0, 0.0),
-                                iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 0.0, 0.0, 0.0),
-                                color: Color(0x004B39EF),
-                                textStyle: FlutterFlowTheme.of(context)
-                                    .titleSmall
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 0.0, 8.0, 0.0),
+                              child: Text(
+                                'Preencher com CEP?',
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyMedium
                                     .override(
-                                      font: GoogleFonts.interTight(
+                                      font: GoogleFonts.inter(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
+                                      ),
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryText,
+                                      letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 0.0, 11.0, 0.0),
+                              child: InkWell(
+                                splashColor: Colors.transparent,
+                                focusColor: Colors.transparent,
+                                hoverColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onTap: () async {
+                                  if (_model.cepTextController.text == '') {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          'Insira um CEP válido',
+                                          style: TextStyle(
+                                            color: FlutterFlowTheme.of(context)
+                                                .secondaryText,
+                                            fontSize: 16.0,
+                                          ),
+                                        ),
+                                        duration: Duration(milliseconds: 4000),
+                                        backgroundColor:
+                                            FlutterFlowTheme.of(context).error,
+                                      ),
+                                    );
+                                  } else {
+                                    _model.apiResultyp5 =
+                                        await ValidacepCall.call(
+                                      cep: _model.cepTextController.text,
+                                    );
+
+                                    safeSetState(() {
+                                      _model.logradouroTextController?.text =
+                                          getJsonField(
+                                        (_model.apiResultyp5?.jsonBody ?? ''),
+                                        r'''$.logradouro''',
+                                      ).toString();
+                                    });
+                                    safeSetState(() {
+                                      _model.bairroTextController?.text =
+                                          getJsonField(
+                                        (_model.apiResultyp5?.jsonBody ?? ''),
+                                        r'''$.bairro''',
+                                      ).toString();
+                                    });
+                                  }
+
+                                  safeSetState(() {});
+                                },
+                                child: Text(
+                                  'Sim',
+                                  style: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .override(
+                                        font: GoogleFonts.interTight(
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .fontStyle,
+                                        ),
+                                        color:
+                                            FlutterFlowTheme.of(context).error,
+                                        fontSize: 15.0,
+                                        letterSpacing: 0.0,
                                         fontWeight: FlutterFlowTheme.of(context)
                                             .titleSmall
                                             .fontWeight,
@@ -365,18 +393,50 @@ class _CadastroenderecoWidgetState extends State<CadastroenderecoWidget> {
                                             .titleSmall
                                             .fontStyle,
                                       ),
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryText,
-                                      letterSpacing: 0.0,
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .fontStyle,
-                                    ),
-                                elevation: 0.0,
-                                borderRadius: BorderRadius.circular(8.0),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 0.0, 33.0, 0.0),
+                              child: InkWell(
+                                splashColor: Colors.transparent,
+                                focusColor: Colors.transparent,
+                                hoverColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onTap: () async {
+                                  safeSetState(() {
+                                    _model.logradouroTextController?.clear();
+                                    _model.bairroTextController?.clear();
+                                  });
+                                },
+                                child: Text(
+                                  'Não',
+                                  style: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .override(
+                                        font: GoogleFonts.interTight(
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .fontStyle,
+                                        ),
+                                        color:
+                                            FlutterFlowTheme.of(context).error,
+                                        fontSize: 15.0,
+                                        letterSpacing: 0.0,
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontStyle,
+                                      ),
+                                ),
                               ),
                             ),
                           ],
@@ -1259,11 +1319,11 @@ class _CadastroenderecoWidgetState extends State<CadastroenderecoWidget> {
                                       await AddcepCall.call(
                                         cep: _model.cepTextController.text,
                                         uf: getJsonField(
-                                          (_model.apiResult3kj?.jsonBody ?? ''),
+                                          (_model.apiResultyp5?.jsonBody ?? ''),
                                           r'''$.uf''',
                                         ).toString(),
                                         cidade: getJsonField(
-                                          (_model.apiResult3kj?.jsonBody ?? ''),
+                                          (_model.apiResultyp5?.jsonBody ?? ''),
                                           r'''$.localidade''',
                                         ).toString(),
                                       );
