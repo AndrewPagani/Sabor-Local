@@ -146,53 +146,6 @@ class AddenderecoCall {
       ));
 }
 
-class CaduserCall {
-  static Future<ApiCallResponse> call({
-    String? nome = '',
-    String? email = '',
-    String? password = '',
-  }) async {
-    final ffApiRequestBody = '''
-{
-  "nome": "${escapeStringForJson(nome)}",
-  "email": "${escapeStringForJson(email)}",
-  "password": "${escapeStringForJson(password)}"
-}''';
-    return ApiManager.instance.makeApiCall(
-      callName: 'caduser',
-      apiUrl: 'https://x8ki-letl-twmt.n7.xano.io/api:UXPL7lyX/user',
-      callType: ApiCallType.POST,
-      headers: {},
-      params: {},
-      body: ffApiRequestBody,
-      bodyType: BodyType.JSON,
-      returnBody: true,
-      encodeBodyUtf8: false,
-      decodeUtf8: false,
-      cache: false,
-      isStreamingApi: false,
-      alwaysAllowBody: false,
-    );
-  }
-
-  static String? nome(dynamic response) => castToType<String>(getJsonField(
-        response,
-        r'''$.nome''',
-      ));
-  static String? email(dynamic response) => castToType<String>(getJsonField(
-        response,
-        r'''$.email''',
-      ));
-  static String? pass(dynamic response) => castToType<String>(getJsonField(
-        response,
-        r'''$.password''',
-      ));
-  static String? erro(dynamic response) => castToType<String>(getJsonField(
-        response,
-        r'''$.code''',
-      ));
-}
-
 class AddcepCall {
   static Future<ApiCallResponse> call({
     String? cep = '',
@@ -237,43 +190,6 @@ class AddcepCall {
   static int? addid(dynamic response) => castToType<int>(getJsonField(
         response,
         r'''$.id''',
-      ));
-}
-
-class CadclienteCall {
-  static Future<ApiCallResponse> call({
-    String? cpf = '',
-    String? celular = '',
-  }) async {
-    final ffApiRequestBody = '''
-{
-  "cpf": "${escapeStringForJson(cpf)}",
-  "celular": "${escapeStringForJson(celular)}"
-}''';
-    return ApiManager.instance.makeApiCall(
-      callName: 'cadcliente',
-      apiUrl: 'https://x8ki-letl-twmt.n7.xano.io/api:UXPL7lyX/cliente',
-      callType: ApiCallType.POST,
-      headers: {},
-      params: {},
-      body: ffApiRequestBody,
-      bodyType: BodyType.JSON,
-      returnBody: true,
-      encodeBodyUtf8: false,
-      decodeUtf8: false,
-      cache: false,
-      isStreamingApi: false,
-      alwaysAllowBody: false,
-    );
-  }
-
-  static String? cpf(dynamic response) => castToType<String>(getJsonField(
-        response,
-        r'''$.cpf''',
-      ));
-  static String? cell(dynamic response) => castToType<String>(getJsonField(
-        response,
-        r'''$.celular''',
       ));
 }
 
