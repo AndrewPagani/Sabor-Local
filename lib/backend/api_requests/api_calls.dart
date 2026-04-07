@@ -266,6 +266,65 @@ class AuthloginCall {
       ));
 }
 
+class EnviacodigoCall {
+  static Future<ApiCallResponse> call({
+    String? email = '',
+  }) async {
+    final ffApiRequestBody = '''
+{
+  "email": "${escapeStringForJson(email)}"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'enviacodigo',
+      apiUrl: 'https://x8ki-letl-twmt.n7.xano.io/api:ue7fMkeV/enviar_codigo',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  static String? coderro(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.code''',
+      ));
+}
+
+class ValidarcodigoCall {
+  static Future<ApiCallResponse> call({
+    String? email = '',
+    String? codigo = '',
+  }) async {
+    final ffApiRequestBody = '''
+{
+  "email": "${escapeStringForJson(email)}",
+  "codigo": "${escapeStringForJson(codigo)}"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'validarcodigo',
+      apiUrl: 'https://x8ki-letl-twmt.n7.xano.io/api:ue7fMkeV/validar_codigo',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
 class ApiPagingParams {
   int nextPageNumber = 0;
   int numItems = 0;

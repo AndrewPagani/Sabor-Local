@@ -942,6 +942,8 @@ class _CadastroWidgetState extends State<CadastroWidget> {
                                         FlutterFlowTheme.of(context).error,
                                   ),
                                 );
+                                if (_shouldSetState) safeSetState(() {});
+                                return;
                               } else {
                                 if (functions.verifyCPF(
                                         _model.cpfTextController.text) ==
@@ -954,8 +956,7 @@ class _CadastroWidgetState extends State<CadastroWidget> {
                                       nome: _model
                                           .nomecompletoTextController.text,
                                       email: _model.emailTextController.text,
-                                      password:
-                                          _model.senhaVisibility.toString(),
+                                      password: _model.senhaTextController.text,
                                       cpf: _model.cpfTextController.text,
                                       telefone:
                                           _model.telefoneTextController.text,
@@ -989,20 +990,58 @@ class _CadastroWidgetState extends State<CadastroWidget> {
                                       if (_shouldSetState) safeSetState(() {});
                                       return;
                                     } else {
-                                      context.pushNamed(
-                                        CodigoEmailWidget.routeName,
-                                        extra: <String, dynamic>{
-                                          '__transition_info__': TransitionInfo(
-                                            hasTransition: true,
-                                            transitionType:
-                                                PageTransitionType.fade,
-                                          ),
-                                        },
+                                      _model.enviacordigoOP =
+                                          await EnviacodigoCall.call(
+                                        email: _model.emailTextController.text,
                                       );
-                                    }
 
-                                    if (_shouldSetState) safeSetState(() {});
-                                    return;
+                                      _shouldSetState = true;
+                                      if (getJsonField(
+                                            (_model.enviacordigoOP?.jsonBody ??
+                                                ''),
+                                            r'''$.code''',
+                                          ) ==
+                                          null) {
+                                        context.pushNamed(
+                                          CodigoEmailWidget.routeName,
+                                          queryParameters: {
+                                            'emailRecebido': serializeParam(
+                                              _model.emailTextController.text,
+                                              ParamType.String,
+                                            ),
+                                          }.withoutNulls,
+                                          extra: <String, dynamic>{
+                                            '__transition_info__':
+                                                TransitionInfo(
+                                              hasTransition: true,
+                                              transitionType:
+                                                  PageTransitionType.fade,
+                                            ),
+                                          },
+                                        );
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              'Insira um email válido',
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 16.0,
+                                              ),
+                                            ),
+                                            duration:
+                                                Duration(milliseconds: 4000),
+                                            backgroundColor:
+                                                FlutterFlowTheme.of(context)
+                                                    .error,
+                                          ),
+                                        );
+                                      }
+
+                                      if (_shouldSetState) safeSetState(() {});
+                                      return;
+                                    }
                                   } else {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
@@ -1019,10 +1058,9 @@ class _CadastroWidgetState extends State<CadastroWidget> {
                                             FlutterFlowTheme.of(context).error,
                                       ),
                                     );
+                                    if (_shouldSetState) safeSetState(() {});
+                                    return;
                                   }
-
-                                  if (_shouldSetState) safeSetState(() {});
-                                  return;
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(

@@ -1,3 +1,4 @@
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -9,7 +10,12 @@ import 'codigo_email_model.dart';
 export 'codigo_email_model.dart';
 
 class CodigoEmailWidget extends StatefulWidget {
-  const CodigoEmailWidget({super.key});
+  const CodigoEmailWidget({
+    super.key,
+    required this.emailRecebido,
+  });
+
+  final String? emailRecebido;
 
   static String routeName = 'CodigoEmail';
   static String routePath = '/codigoEmail';
@@ -209,8 +215,69 @@ class _CodigoEmailWidgetState extends State<CodigoEmailWidget> {
                               140.0, 10.0, 140.0, 0.0),
                           child: FFButtonWidget(
                             onPressed: () async {
-                              context
-                                  .pushNamed(CadastroenderecoWidget.routeName);
+                              var _shouldSetState = false;
+                              if (_model.pinCodeController!.text == '') {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Insira um código',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16.0,
+                                      ),
+                                    ),
+                                    duration: Duration(milliseconds: 4000),
+                                    backgroundColor:
+                                        FlutterFlowTheme.of(context).error,
+                                  ),
+                                );
+                                if (_shouldSetState) safeSetState(() {});
+                                return;
+                              } else {
+                                _model.apiResultg9j =
+                                    await ValidarcodigoCall.call(
+                                  email: widget.emailRecebido,
+                                  codigo: _model.pinCodeController!.text,
+                                );
+
+                                _shouldSetState = true;
+                                if (getJsonField(
+                                      (_model.apiResultg9j?.jsonBody ?? ''),
+                                      r'''$.payload''',
+                                    ) ==
+                                    null) {
+                                  context.pushNamed(
+                                    CadastroenderecoWidget.routeName,
+                                    extra: <String, dynamic>{
+                                      '__transition_info__': TransitionInfo(
+                                        hasTransition: true,
+                                        transitionType: PageTransitionType.fade,
+                                      ),
+                                    },
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        'Código inválido ou Expirado',
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16.0,
+                                        ),
+                                      ),
+                                      duration: Duration(milliseconds: 4000),
+                                      backgroundColor:
+                                          FlutterFlowTheme.of(context).error,
+                                    ),
+                                  );
+                                  if (_shouldSetState) safeSetState(() {});
+                                  return;
+                                }
+                              }
+
+                              if (_shouldSetState) safeSetState(() {});
                             },
                             text: 'Enviar',
                             options: FFButtonOptions(

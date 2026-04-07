@@ -33,12 +33,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       navigatorKey: appNavigatorKey,
-      errorBuilder: (context, state) => CadastroenderecoWidget(),
+      errorBuilder: (context, state) => LoginWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
-          builder: (context, _) => CadastroenderecoWidget(),
+          builder: (context, _) => LoginWidget(),
         ),
         FFRoute(
           name: LoginWidget.routeName,
@@ -53,7 +53,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: CodigoEmailWidget.routeName,
           path: CodigoEmailWidget.routePath,
-          builder: (context, params) => CodigoEmailWidget(),
+          builder: (context, params) => CodigoEmailWidget(
+            emailRecebido: params.getParam(
+              'emailRecebido',
+              ParamType.String,
+            ),
+          ),
         ),
         FFRoute(
           name: CadastroWidget.routeName,
@@ -69,6 +74,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: CodigoEmailCopyWidget.routeName,
           path: CodigoEmailCopyWidget.routePath,
           builder: (context, params) => CodigoEmailCopyWidget(),
+        ),
+        FFRoute(
+          name: CardapioWidget.routeName,
+          path: CardapioWidget.routePath,
+          builder: (context, params) => CardapioWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

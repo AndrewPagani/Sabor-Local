@@ -31,8 +31,10 @@ class CadastroModel extends FlutterFlowModel<CadastroWidget> {
   TextEditingController? senhaTextController;
   late bool senhaVisibility;
   String? Function(BuildContext, String?)? senhaTextControllerValidator;
-  // Stores action output result for [Backend Call - API (authsignup)] action in Button widget.
+  // Stores action output result for [Backend Call - API (authsignup)] action in Continuar widget.
   ApiCallResponse? apiResultm7y;
+  // Stores action output result for [Backend Call - API (enviacodigo)] action in Continuar widget.
+  ApiCallResponse? enviacordigoOP;
 
   @override
   void initState(BuildContext context) {

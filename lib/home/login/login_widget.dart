@@ -1,3 +1,4 @@
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -487,8 +488,73 @@ class _LoginWidgetState extends State<LoginWidget> {
                           padding: EdgeInsetsDirectional.fromSTEB(
                               140.0, 0.0, 140.0, 0.0),
                           child: FFButtonWidget(
-                            onPressed: () {
-                              print('Button pressed ...');
+                            onPressed: () async {
+                              var _shouldSetState = false;
+                              if ((_model.textController1.text == '') ||
+                                  (_model.textController2.text == '')) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Preencha todos os campos!',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16.0,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    duration: Duration(milliseconds: 4000),
+                                    backgroundColor:
+                                        FlutterFlowTheme.of(context).error,
+                                  ),
+                                );
+                                if (_shouldSetState) safeSetState(() {});
+                                return;
+                              } else {
+                                _model.apiResult1sb = await AuthloginCall.call(
+                                  email: _model.textController1.text,
+                                  password: _model.textController2.text,
+                                );
+
+                                _shouldSetState = true;
+                                if (getJsonField(
+                                      (_model.apiResult1sb?.jsonBody ?? ''),
+                                      r'''$.authToken''',
+                                    ) ==
+                                    null) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        'Credenciais Inválidas',
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16.0,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      duration: Duration(milliseconds: 4000),
+                                      backgroundColor:
+                                          FlutterFlowTheme.of(context).error,
+                                    ),
+                                  );
+                                  if (_shouldSetState) safeSetState(() {});
+                                  return;
+                                } else {
+                                  context.pushNamed(
+                                    CardapioWidget.routeName,
+                                    extra: <String, dynamic>{
+                                      '__transition_info__': TransitionInfo(
+                                        hasTransition: true,
+                                        transitionType: PageTransitionType.fade,
+                                        duration: Duration(milliseconds: 1000),
+                                      ),
+                                    },
+                                  );
+                                }
+                              }
+
+                              if (_shouldSetState) safeSetState(() {});
                             },
                             text: 'Entrar',
                             options: FFButtonOptions(
