@@ -2,28 +2,28 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'cardapio_model.dart';
-export 'cardapio_model.dart';
+import 'redefinir_senha_model.dart';
+export 'redefinir_senha_model.dart';
 
-class CardapioWidget extends StatefulWidget {
-  const CardapioWidget({super.key});
+class RedefinirSenhaWidget extends StatefulWidget {
+  const RedefinirSenhaWidget({super.key});
 
-  static String routeName = 'Cardapio';
-  static String routePath = '/cardapio';
+  static String routeName = 'RedefinirSenha';
+  static String routePath = '/redefinirSenha';
 
   @override
-  State<CardapioWidget> createState() => _CardapioWidgetState();
+  State<RedefinirSenhaWidget> createState() => _RedefinirSenhaWidgetState();
 }
 
-class _CardapioWidgetState extends State<CardapioWidget> {
-  late CardapioModel _model;
+class _RedefinirSenhaWidgetState extends State<RedefinirSenhaWidget> {
+  late RedefinirSenhaModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => CardapioModel());
+    _model = createModel(context, () => RedefinirSenhaModel());
   }
 
   @override
@@ -47,7 +47,7 @@ class _CardapioWidgetState extends State<CardapioWidget> {
           backgroundColor: FlutterFlowTheme.of(context).primary,
           automaticallyImplyLeading: false,
           title: Text(
-            'Cardapio5615641658',
+            'Page Title',
             style: FlutterFlowTheme.of(context).headlineMedium.override(
                   font: GoogleFonts.interTight(
                     fontWeight:

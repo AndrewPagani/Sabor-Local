@@ -1,33 +1,38 @@
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/index.dart';
-import 'package:flutter/services.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'codigo_email_copy_model.dart';
-export 'codigo_email_copy_model.dart';
+import 'codigo_senha_model.dart';
+export 'codigo_senha_model.dart';
 
-class CodigoEmailCopyWidget extends StatefulWidget {
-  const CodigoEmailCopyWidget({super.key});
+class CodigoSenhaWidget extends StatefulWidget {
+  const CodigoSenhaWidget({
+    super.key,
+    required this.emailr,
+  });
 
-  static String routeName = 'CodigoEmailCopy';
-  static String routePath = '/codigoEmailCopy';
+  final String? emailr;
+
+  static String routeName = 'CodigoSenha';
+  static String routePath = '/codigoSenha';
 
   @override
-  State<CodigoEmailCopyWidget> createState() => _CodigoEmailCopyWidgetState();
+  State<CodigoSenhaWidget> createState() => _CodigoSenhaWidgetState();
 }
 
-class _CodigoEmailCopyWidgetState extends State<CodigoEmailCopyWidget> {
-  late CodigoEmailCopyModel _model;
+class _CodigoSenhaWidgetState extends State<CodigoSenhaWidget> {
+  late CodigoSenhaModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => CodigoEmailCopyModel());
+    _model = createModel(context, () => CodigoSenhaModel());
 
     _model.pinCodeFocusNode ??= FocusNode();
   }
@@ -150,7 +155,9 @@ class _CodigoEmailCopyWidgetState extends State<CodigoEmailCopyWidget> {
                                             .bodyLarge
                                             .fontStyle,
                                       ),
-                                      color: Color(0xFF14181B),
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                      fontSize: 20.0,
                                       letterSpacing: 0.0,
                                       fontWeight: FlutterFlowTheme.of(context)
                                           .bodyLarge
@@ -169,12 +176,8 @@ class _CodigoEmailCopyWidgetState extends State<CodigoEmailCopyWidget> {
                                 showCursor: false,
                                 cursorColor:
                                     FlutterFlowTheme.of(context).primary,
-                                obscureText: true,
-                                obscuringCharacter: '*',
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.digitsOnly
-                                ],
+                                obscureText: false,
+                                keyboardType: TextInputType.visiblePassword,
                                 pinTheme: PinTheme(
                                   fieldHeight: 44.0,
                                   fieldWidth: 44.0,
@@ -213,8 +216,70 @@ class _CodigoEmailCopyWidgetState extends State<CodigoEmailCopyWidget> {
                               140.0, 10.0, 140.0, 0.0),
                           child: FFButtonWidget(
                             onPressed: () async {
-                              context
-                                  .pushNamed(CadastroenderecoWidget.routeName);
+                              var _shouldSetState = false;
+                              if (_model.pinCodeController!.text == '') {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Insira um código',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16.0,
+                                      ),
+                                    ),
+                                    duration: Duration(milliseconds: 4000),
+                                    backgroundColor:
+                                        FlutterFlowTheme.of(context).error,
+                                  ),
+                                );
+                                if (_shouldSetState) safeSetState(() {});
+                                return;
+                              } else {
+                                _model.apiResultg9j =
+                                    await ValidarcodigoCall.call(
+                                  email: widget.emailr,
+                                  codigo: _model.pinCodeController!.text,
+                                );
+
+                                _shouldSetState = true;
+                                if (getJsonField(
+                                      (_model.apiResultg9j?.jsonBody ?? ''),
+                                      r'''$.payload''',
+                                    ) ==
+                                    null) {
+                                  context.pushNamed(
+                                    RedefinirSenhaWidget.routeName,
+                                    extra: <String, dynamic>{
+                                      '__transition_info__': TransitionInfo(
+                                        hasTransition: true,
+                                        transitionType: PageTransitionType.fade,
+                                        duration: Duration(milliseconds: 1000),
+                                      ),
+                                    },
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        'Código inválido ou Expirado',
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16.0,
+                                        ),
+                                      ),
+                                      duration: Duration(milliseconds: 4000),
+                                      backgroundColor:
+                                          FlutterFlowTheme.of(context).error,
+                                    ),
+                                  );
+                                  if (_shouldSetState) safeSetState(() {});
+                                  return;
+                                }
+                              }
+
+                              if (_shouldSetState) safeSetState(() {});
                             },
                             text: 'Enviar',
                             options: FFButtonOptions(
@@ -266,7 +331,7 @@ class _CodigoEmailCopyWidgetState extends State<CodigoEmailCopyWidget> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'V 1.2.0',
+                        'V 1.3.2',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
                               font: GoogleFonts.inter(
                                 fontWeight: FontWeight.bold,
@@ -294,37 +359,49 @@ class _CodigoEmailCopyWidgetState extends State<CodigoEmailCopyWidget> {
                 Row(
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    FFButtonWidget(
-                      onPressed: () async {
-                        context.pushNamed(CadastroenderecoWidget.routeName);
-                      },
-                      text: '<',
-                      options: FFButtonOptions(
-                        height: 40.0,
-                        padding: EdgeInsetsDirectional.fromSTEB(
-                            16.0, 0.0, 16.0, 0.0),
-                        iconPadding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                        color: Color(0x00EF3939),
-                        textStyle: FlutterFlowTheme.of(context)
-                            .titleSmall
-                            .override(
-                              font: GoogleFonts.interTight(
+                    Padding(
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(0.0, 40.0, 0.0, 0.0),
+                      child: FFButtonWidget(
+                        onPressed: () async {
+                          context.pushNamed(
+                            EsqueceuASenhaWidget.routeName,
+                            queryParameters: {
+                              'emailr': serializeParam(
+                                '',
+                                ParamType.String,
+                              ),
+                            }.withoutNulls,
+                          );
+                        },
+                        text: '<',
+                        options: FFButtonOptions(
+                          height: 40.0,
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              16.0, 0.0, 16.0, 0.0),
+                          iconPadding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 0.0, 0.0),
+                          color: Color(0x00EF3939),
+                          textStyle: FlutterFlowTheme.of(context)
+                              .titleSmall
+                              .override(
+                                font: GoogleFonts.interTight(
+                                  fontWeight: FontWeight.bold,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontStyle,
+                                ),
+                                color: FlutterFlowTheme.of(context).primaryText,
+                                fontSize: 28.0,
+                                letterSpacing: 0.0,
                                 fontWeight: FontWeight.bold,
                                 fontStyle: FlutterFlowTheme.of(context)
                                     .titleSmall
                                     .fontStyle,
                               ),
-                              color: FlutterFlowTheme.of(context).primaryText,
-                              fontSize: 28.0,
-                              letterSpacing: 0.0,
-                              fontWeight: FontWeight.bold,
-                              fontStyle: FlutterFlowTheme.of(context)
-                                  .titleSmall
-                                  .fontStyle,
-                            ),
-                        elevation: 0.0,
-                        borderRadius: BorderRadius.circular(8.0),
+                          elevation: 0.0,
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
                       ),
                     ),
                   ],

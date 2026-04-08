@@ -1,6 +1,8 @@
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,7 +11,12 @@ export 'esqueceu_a_senha_model.dart';
 
 /// EsqueceuSenha
 class EsqueceuASenhaWidget extends StatefulWidget {
-  const EsqueceuASenhaWidget({super.key});
+  const EsqueceuASenhaWidget({
+    super.key,
+    required this.emailr,
+  });
+
+  final String? emailr;
 
   static String routeName = 'EsqueceuASenha';
   static String routePath = '/EsquceuAsenha';
@@ -313,8 +320,92 @@ class _EsqueceuASenhaWidgetState extends State<EsqueceuASenhaWidget> {
                           padding: EdgeInsetsDirectional.fromSTEB(
                               140.0, 10.0, 140.0, 0.0),
                           child: FFButtonWidget(
-                            onPressed: () {
-                              print('Button pressed ...');
+                            onPressed: () async {
+                              var _shouldSetState = false;
+                              if (_model.textController.text == '') {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Preencha um Email válido',
+                                      style: TextStyle(
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryText,
+                                      ),
+                                    ),
+                                    duration: Duration(milliseconds: 4000),
+                                    backgroundColor:
+                                        FlutterFlowTheme.of(context).error,
+                                  ),
+                                );
+                                if (_shouldSetState) safeSetState(() {});
+                                return;
+                              } else {
+                                if (functions.validarEmail(
+                                        _model.textController.text) ==
+                                    true) {
+                                  _model.apiResultb7c =
+                                      await EnviacodigoCall.call(
+                                    email: _model.textController.text,
+                                  );
+
+                                  _shouldSetState = true;
+                                  if (getJsonField(
+                                        (_model.apiResultb7c?.jsonBody ?? ''),
+                                        r'''$.code''',
+                                      ) ==
+                                      null) {
+                                    context.pushNamed(
+                                      CodigoSenhaWidget.routeName,
+                                      queryParameters: {
+                                        'emailr': serializeParam(
+                                          _model.textController.text,
+                                          ParamType.String,
+                                        ),
+                                      }.withoutNulls,
+                                    );
+
+                                    if (_shouldSetState) safeSetState(() {});
+                                    return;
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          'Email não cadastrado',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16.0,
+                                          ),
+                                        ),
+                                        duration: Duration(milliseconds: 4000),
+                                        backgroundColor:
+                                            FlutterFlowTheme.of(context).error,
+                                      ),
+                                    );
+                                    if (_shouldSetState) safeSetState(() {});
+                                    return;
+                                  }
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        'Insira um Email válido',
+                                        style: TextStyle(
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryText,
+                                        ),
+                                      ),
+                                      duration: Duration(milliseconds: 4000),
+                                      backgroundColor:
+                                          FlutterFlowTheme.of(context).error,
+                                    ),
+                                  );
+                                  if (_shouldSetState) safeSetState(() {});
+                                  return;
+                                }
+                              }
+
+                              if (_shouldSetState) safeSetState(() {});
                             },
                             text: 'Enviar',
                             options: FFButtonOptions(
@@ -366,7 +457,7 @@ class _EsqueceuASenhaWidgetState extends State<EsqueceuASenhaWidget> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'V 1.2.0',
+                        'V 1.3.2',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
                               font: GoogleFonts.inter(
                                 fontWeight: FontWeight.bold,
@@ -388,48 +479,51 @@ class _EsqueceuASenhaWidgetState extends State<EsqueceuASenhaWidget> {
                 ],
               ),
             ),
-            Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    FFButtonWidget(
-                      onPressed: () async {
-                        context.pushNamed(LoginWidget.routeName);
-                      },
-                      text: '<',
-                      options: FFButtonOptions(
-                        height: 40.0,
-                        padding: EdgeInsetsDirectional.fromSTEB(
-                            16.0, 0.0, 16.0, 0.0),
-                        iconPadding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                        color: Color(0x00EF3939),
-                        textStyle: FlutterFlowTheme.of(context)
-                            .titleSmall
-                            .override(
-                              font: GoogleFonts.interTight(
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(0.0, 40.0, 0.0, 0.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      FFButtonWidget(
+                        onPressed: () async {
+                          context.pushNamed(LoginWidget.routeName);
+                        },
+                        text: '<',
+                        options: FFButtonOptions(
+                          height: 40.0,
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              16.0, 0.0, 16.0, 0.0),
+                          iconPadding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 0.0, 0.0),
+                          color: Color(0x00EF3939),
+                          textStyle: FlutterFlowTheme.of(context)
+                              .titleSmall
+                              .override(
+                                font: GoogleFonts.interTight(
+                                  fontWeight: FontWeight.bold,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontStyle,
+                                ),
+                                color: FlutterFlowTheme.of(context).primaryText,
+                                fontSize: 28.0,
+                                letterSpacing: 0.0,
                                 fontWeight: FontWeight.bold,
                                 fontStyle: FlutterFlowTheme.of(context)
                                     .titleSmall
                                     .fontStyle,
                               ),
-                              color: FlutterFlowTheme.of(context).primaryText,
-                              fontSize: 28.0,
-                              letterSpacing: 0.0,
-                              fontWeight: FontWeight.bold,
-                              fontStyle: FlutterFlowTheme.of(context)
-                                  .titleSmall
-                                  .fontStyle,
-                            ),
-                        elevation: 0.0,
-                        borderRadius: BorderRadius.circular(8.0),
+                          elevation: 0.0,
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
           ],
         ),

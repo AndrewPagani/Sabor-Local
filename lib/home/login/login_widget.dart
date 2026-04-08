@@ -443,7 +443,15 @@ class _LoginWidgetState extends State<LoginWidget> {
                     children: [
                       FFButtonWidget(
                         onPressed: () async {
-                          context.pushNamed(EsqueceuASenhaWidget.routeName);
+                          context.pushNamed(
+                            EsqueceuASenhaWidget.routeName,
+                            queryParameters: {
+                              'emailr': serializeParam(
+                                '',
+                                ParamType.String,
+                              ),
+                            }.withoutNulls,
+                          );
                         },
                         text: 'Esqueci a senha',
                         options: FFButtonOptions(
@@ -522,24 +530,74 @@ class _LoginWidgetState extends State<LoginWidget> {
                                       r'''$.authToken''',
                                     ) ==
                                     null) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        'Credenciais Inválidas',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16.0,
+                                  if ((getJsonField(
+                                            (_model.apiResult1sb?.jsonBody ??
+                                                ''),
+                                            r'''$.authToken''',
+                                          ) ==
+                                          null) &&
+                                      (getJsonField(
+                                            (_model.apiResult1sb?.jsonBody ??
+                                                ''),
+                                            r'''$.statement''',
+                                          ) ==
+                                          null)) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          'Conta bloqueada, retorne em 5 minutos',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16.0,
+                                          ),
                                         ),
-                                        textAlign: TextAlign.center,
+                                        duration: Duration(milliseconds: 4000),
+                                        backgroundColor:
+                                            FlutterFlowTheme.of(context).error,
                                       ),
-                                      duration: Duration(milliseconds: 4000),
-                                      backgroundColor:
-                                          FlutterFlowTheme.of(context).error,
-                                    ),
-                                  );
-                                  if (_shouldSetState) safeSetState(() {});
-                                  return;
+                                    );
+                                    if (_shouldSetState) safeSetState(() {});
+                                    return;
+                                  } else {
+                                    if ((getJsonField(
+                                              (_model.apiResult1sb?.jsonBody ??
+                                                  ''),
+                                              r'''$.authToken''',
+                                            ) ==
+                                            null) &&
+                                        (getJsonField(
+                                              (_model.apiResult1sb?.jsonBody ??
+                                                  ''),
+                                              r'''$.code''',
+                                            ) ==
+                                            null)) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            'Senha incorreta',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 16.0,
+                                            ),
+                                          ),
+                                          duration:
+                                              Duration(milliseconds: 4000),
+                                          backgroundColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .error,
+                                        ),
+                                      );
+                                    } else {
+                                      if (_shouldSetState) safeSetState(() {});
+                                      return;
+                                    }
+
+                                    if (_shouldSetState) safeSetState(() {});
+                                    return;
+                                  }
                                 } else {
                                   context.pushNamed(
                                     CardapioWidget.routeName,
@@ -547,10 +605,13 @@ class _LoginWidgetState extends State<LoginWidget> {
                                       '__transition_info__': TransitionInfo(
                                         hasTransition: true,
                                         transitionType: PageTransitionType.fade,
-                                        duration: Duration(milliseconds: 1000),
+                                        duration: Duration(milliseconds: 500),
                                       ),
                                     },
                                   );
+
+                                  if (_shouldSetState) safeSetState(() {});
+                                  return;
                                 }
                               }
 
@@ -646,7 +707,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'V 1.2.0',
+                      'V 1.3.2',
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             font: GoogleFonts.inter(
                               fontWeight: FontWeight.bold,

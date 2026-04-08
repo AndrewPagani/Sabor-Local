@@ -48,7 +48,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: EsqueceuASenhaWidget.routeName,
           path: EsqueceuASenhaWidget.routePath,
-          builder: (context, params) => EsqueceuASenhaWidget(),
+          builder: (context, params) => EsqueceuASenhaWidget(
+            emailr: params.getParam(
+              'emailr',
+              ParamType.String,
+            ),
+          ),
         ),
         FFRoute(
           name: CodigoEmailWidget.routeName,
@@ -71,14 +76,24 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => CadastroenderecoWidget(),
         ),
         FFRoute(
-          name: CodigoEmailCopyWidget.routeName,
-          path: CodigoEmailCopyWidget.routePath,
-          builder: (context, params) => CodigoEmailCopyWidget(),
+          name: CodigoSenhaWidget.routeName,
+          path: CodigoSenhaWidget.routePath,
+          builder: (context, params) => CodigoSenhaWidget(
+            emailr: params.getParam(
+              'emailr',
+              ParamType.String,
+            ),
+          ),
         ),
         FFRoute(
           name: CardapioWidget.routeName,
           path: CardapioWidget.routePath,
           builder: (context, params) => CardapioWidget(),
+        ),
+        FFRoute(
+          name: RedefinirSenhaWidget.routeName,
+          path: RedefinirSenhaWidget.routePath,
+          builder: (context, params) => RedefinirSenhaWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
