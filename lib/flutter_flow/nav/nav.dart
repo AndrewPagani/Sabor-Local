@@ -79,8 +79,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: CodigoSenhaWidget.routeName,
           path: CodigoSenhaWidget.routePath,
           builder: (context, params) => CodigoSenhaWidget(
-            emailr: params.getParam(
-              'emailr',
+            codigoSenha: params.getParam(
+              'codigoSenha',
               ParamType.String,
             ),
           ),
@@ -93,7 +93,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: RedefinirSenhaWidget.routeName,
           path: RedefinirSenhaWidget.routePath,
-          builder: (context, params) => RedefinirSenhaWidget(),
+          builder: (context, params) => RedefinirSenhaWidget(
+            emailParametro: params.getParam(
+              'emailParametro',
+              ParamType.String,
+            ),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

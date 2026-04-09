@@ -926,6 +926,7 @@ class _CadastroWidgetState extends State<CadastroWidget> {
                                           '') ||
                                   (_model.telefoneTextController.text ==
                                           '')) {
+                                // ERRO - Preencha todos os campos
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
@@ -951,6 +952,7 @@ class _CadastroWidgetState extends State<CadastroWidget> {
                                   if (functions.validarEmail(
                                           _model.emailTextController.text) ==
                                       true) {
+                                    // API de cadastro
                                     _model.apiResultm7y =
                                         await AuthsignupCall.call(
                                       nome: _model
@@ -968,6 +970,7 @@ class _CadastroWidgetState extends State<CadastroWidget> {
                                           r'''$.authToken''',
                                         ) ==
                                         null) {
+                                      // ERRO - CPF ou telefone já cadastrados
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         SnackBar(
@@ -990,6 +993,7 @@ class _CadastroWidgetState extends State<CadastroWidget> {
                                       if (_shouldSetState) safeSetState(() {});
                                       return;
                                     } else {
+                                      // API de código
                                       _model.enviacordigoOP =
                                           await EnviacodigoCall.call(
                                         email: _model.emailTextController.text,
@@ -1002,6 +1006,8 @@ class _CadastroWidgetState extends State<CadastroWidget> {
                                             r'''$.code''',
                                           ) ==
                                           null) {
+                                        // Vai para a tela de Código
+
                                         context.pushNamed(
                                           CodigoEmailWidget.routeName,
                                           queryParameters: {
@@ -1020,6 +1026,7 @@ class _CadastroWidgetState extends State<CadastroWidget> {
                                           },
                                         );
                                       } else {
+                                        // ERRO - Insira um email válido
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           SnackBar(
@@ -1043,6 +1050,7 @@ class _CadastroWidgetState extends State<CadastroWidget> {
                                       return;
                                     }
                                   } else {
+                                    // ERRO - Preencha um Email válido
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text(
@@ -1062,6 +1070,7 @@ class _CadastroWidgetState extends State<CadastroWidget> {
                                     return;
                                   }
                                 } else {
+                                  // ERRO - CPF inválido
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text(
@@ -1128,6 +1137,8 @@ class _CadastroWidgetState extends State<CadastroWidget> {
                         padding: EdgeInsets.all(8.0),
                         child: FFButtonWidget(
                           onPressed: () async {
+                            // Vai para a tela de Login
+
                             context.pushNamed(LoginWidget.routeName);
                           },
                           text: 'Ja tem uma conta? ',
@@ -1209,6 +1220,8 @@ class _CadastroWidgetState extends State<CadastroWidget> {
                       children: [
                         FFButtonWidget(
                           onPressed: () async {
+                            // Volta para Login
+
                             context.pushNamed(LoginWidget.routeName);
                           },
                           text: '<',

@@ -12,10 +12,10 @@ export 'codigo_senha_model.dart';
 class CodigoSenhaWidget extends StatefulWidget {
   const CodigoSenhaWidget({
     super.key,
-    required this.emailr,
+    required this.codigoSenha,
   });
 
-  final String? emailr;
+  final String? codigoSenha;
 
   static String routeName = 'CodigoSenha';
   static String routePath = '/codigoSenha';
@@ -238,7 +238,7 @@ class _CodigoSenhaWidgetState extends State<CodigoSenhaWidget> {
                               } else {
                                 _model.apiResultg9j =
                                     await ValidarcodigoCall.call(
-                                  email: widget.emailr,
+                                  email: widget.codigoSenha,
                                   codigo: _model.pinCodeController!.text,
                                 );
 
@@ -250,6 +250,12 @@ class _CodigoSenhaWidgetState extends State<CodigoSenhaWidget> {
                                     null) {
                                   context.pushNamed(
                                     RedefinirSenhaWidget.routeName,
+                                    queryParameters: {
+                                      'emailParametro': serializeParam(
+                                        widget.codigoSenha,
+                                        ParamType.String,
+                                      ),
+                                    }.withoutNulls,
                                     extra: <String, dynamic>{
                                       '__transition_info__': TransitionInfo(
                                         hasTransition: true,

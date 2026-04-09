@@ -328,10 +328,11 @@ class _CadastroenderecoWidgetState extends State<CadastroenderecoWidget> {
                                 highlightColor: Colors.transparent,
                                 onTap: () async {
                                   if (_model.cepTextController.text == '') {
+                                    // ERRO - Insira um CEP
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text(
-                                          'Insira um CEP válido',
+                                          'Insira um CEP',
                                           style: TextStyle(
                                             color: FlutterFlowTheme.of(context)
                                                 .secondaryText,
@@ -344,11 +345,13 @@ class _CadastroenderecoWidgetState extends State<CadastroenderecoWidget> {
                                       ),
                                     );
                                   } else {
+                                    // API ValidaCEP
                                     _model.apiResultyp5 =
                                         await ValidacepCall.call(
                                       cep: _model.cepTextController.text,
                                     );
 
+                                    // Preenche o Logradouro
                                     safeSetState(() {
                                       _model.logradouroTextController?.text =
                                           getJsonField(
@@ -356,6 +359,7 @@ class _CadastroenderecoWidgetState extends State<CadastroenderecoWidget> {
                                         r'''$.logradouro''',
                                       ).toString();
                                     });
+                                    // Preenche o Bairro
                                     safeSetState(() {
                                       _model.bairroTextController?.text =
                                           getJsonField(
@@ -405,6 +409,7 @@ class _CadastroenderecoWidgetState extends State<CadastroenderecoWidget> {
                                 hoverColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
                                 onTap: () async {
+                                  // Limpa os campos
                                   safeSetState(() {
                                     _model.logradouroTextController?.clear();
                                     _model.bairroTextController?.clear();
@@ -1296,11 +1301,12 @@ class _CadastroenderecoWidgetState extends State<CadastroenderecoWidget> {
                                                 '') ||
                                         (_model.bairroTextController.text ==
                                                 '')) {
+                                      // ERRO - Preencha todos os Campos
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         SnackBar(
                                           content: Text(
-                                            'Informações incorretas! Tente novamente.',
+                                            'Preencha os campos obrigatórios',
                                             style: TextStyle(
                                               color:
                                                   FlutterFlowTheme.of(context)
@@ -1315,7 +1321,7 @@ class _CadastroenderecoWidgetState extends State<CadastroenderecoWidget> {
                                         ),
                                       );
                                     } else {
-                                      // Upa para a CEP
+                                      // API AddCEP
                                       await AddcepCall.call(
                                         cep: _model.cepTextController.text,
                                         uf: getJsonField(
@@ -1328,7 +1334,7 @@ class _CadastroenderecoWidgetState extends State<CadastroenderecoWidget> {
                                         ).toString(),
                                       );
 
-                                      // Upa para a ENDEREÇO
+                                      // API AddEndereço
                                       _model.apiResultjg4 =
                                           await AddenderecoCall.call(
                                         logradouro: _model
@@ -1343,6 +1349,8 @@ class _CadastroenderecoWidgetState extends State<CadastroenderecoWidget> {
                                             .referenciaTextController.text,
                                         cep2: _model.cepTextController.text,
                                       );
+
+                                      // Vai para o Login
 
                                       context.pushNamed(
                                         LoginWidget.routeName,
@@ -1448,6 +1456,8 @@ class _CadastroenderecoWidgetState extends State<CadastroenderecoWidget> {
                           children: [
                             FFButtonWidget(
                               onPressed: () async {
+                                // Volta para Login
+
                                 context.pushNamed(LoginWidget.routeName);
                               },
                               text: '<',

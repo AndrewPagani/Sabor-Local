@@ -205,20 +205,15 @@ class _EsqueceuASenhaWidgetState extends State<EsqueceuASenhaWidget> {
                                         .labelMedium
                                         .override(
                                           font: GoogleFonts.inter(
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .labelMedium
-                                                    .fontWeight,
+                                            fontWeight: FontWeight.w600,
                                             fontStyle:
                                                 FlutterFlowTheme.of(context)
                                                     .labelMedium
                                                     .fontStyle,
                                           ),
+                                          fontSize: 17.0,
                                           letterSpacing: 0.0,
-                                          fontWeight:
-                                              FlutterFlowTheme.of(context)
-                                                  .labelMedium
-                                                  .fontWeight,
+                                          fontWeight: FontWeight.w600,
                                           fontStyle:
                                               FlutterFlowTheme.of(context)
                                                   .labelMedium
@@ -281,19 +276,15 @@ class _EsqueceuASenhaWidgetState extends State<EsqueceuASenhaWidget> {
                                       .bodyMedium
                                       .override(
                                         font: GoogleFonts.inter(
-                                          fontWeight:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontWeight,
+                                          fontWeight: FontWeight.w600,
                                           fontStyle:
                                               FlutterFlowTheme.of(context)
                                                   .bodyMedium
                                                   .fontStyle,
                                         ),
+                                        fontSize: 17.0,
                                         letterSpacing: 0.0,
-                                        fontWeight: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .fontWeight,
+                                        fontWeight: FontWeight.w600,
                                         fontStyle: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .fontStyle,
@@ -357,7 +348,7 @@ class _EsqueceuASenhaWidgetState extends State<EsqueceuASenhaWidget> {
                                     context.pushNamed(
                                       CodigoSenhaWidget.routeName,
                                       queryParameters: {
-                                        'emailr': serializeParam(
+                                        'codigoSenha': serializeParam(
                                           _model.textController.text,
                                           ParamType.String,
                                         ),

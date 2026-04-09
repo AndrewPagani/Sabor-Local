@@ -218,6 +218,7 @@ class _CodigoEmailWidgetState extends State<CodigoEmailWidget> {
                             onPressed: () async {
                               var _shouldSetState = false;
                               if (_model.pinCodeController!.text == '') {
+                                // ERRO - Insira um código
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
@@ -236,6 +237,7 @@ class _CodigoEmailWidgetState extends State<CodigoEmailWidget> {
                                 if (_shouldSetState) safeSetState(() {});
                                 return;
                               } else {
+                                // API de validar código
                                 _model.apiResultg9j =
                                     await ValidarcodigoCall.call(
                                   email: widget.emailRecebido,
@@ -248,6 +250,8 @@ class _CodigoEmailWidgetState extends State<CodigoEmailWidget> {
                                       r'''$.payload''',
                                     ) ==
                                     null) {
+                                  // Vai para Cadastro de Endereço
+
                                   context.pushNamed(
                                     CadastroenderecoWidget.routeName,
                                     extra: <String, dynamic>{
@@ -258,6 +262,7 @@ class _CodigoEmailWidgetState extends State<CodigoEmailWidget> {
                                     },
                                   );
                                 } else {
+                                  // ERRO - Código inválido ou Expirado
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text(
@@ -362,6 +367,8 @@ class _CodigoEmailWidgetState extends State<CodigoEmailWidget> {
                     children: [
                       FFButtonWidget(
                         onPressed: () async {
+                          // Volta para cadastro
+
                           context.pushNamed(CadastroWidget.routeName);
                         },
                         text: '<',

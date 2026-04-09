@@ -443,6 +443,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                     children: [
                       FFButtonWidget(
                         onPressed: () async {
+                          // Vai para a tela de recuperar senha
+
                           context.pushNamed(
                             EsqueceuASenhaWidget.routeName,
                             queryParameters: {
@@ -500,6 +502,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                               var _shouldSetState = false;
                               if ((_model.textController1.text == '') ||
                                   (_model.textController2.text == '')) {
+                                // ERRO - Preencha os campos
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
@@ -519,6 +522,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                 if (_shouldSetState) safeSetState(() {});
                                 return;
                               } else {
+                                // API de login
                                 _model.apiResult1sb = await AuthloginCall.call(
                                   email: _model.textController1.text,
                                   password: _model.textController2.text,
@@ -542,6 +546,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                             r'''$.statement''',
                                           ) ==
                                           null)) {
+                                    // ERRO - Conta bloqueada
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text(
@@ -572,11 +577,12 @@ class _LoginWidgetState extends State<LoginWidget> {
                                               r'''$.code''',
                                             ) ==
                                             null)) {
+                                      // ERRO - Credenciais inválidas
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         SnackBar(
                                           content: Text(
-                                            'Senha incorreta',
+                                            'Credenciais Inválidas',
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w500,
@@ -599,6 +605,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                                     return;
                                   }
                                 } else {
+                                  // Vai para o cardápio
+
                                   context.pushNamed(
                                     CardapioWidget.routeName,
                                     extra: <String, dynamic>{
@@ -659,6 +667,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                     children: [
                       FFButtonWidget(
                         onPressed: () async {
+                          // Vai para o cadastro
+
                           context.pushNamed(CadastroWidget.routeName);
                         },
                         text: 'Criar conta',

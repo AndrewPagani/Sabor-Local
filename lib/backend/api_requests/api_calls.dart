@@ -325,6 +325,34 @@ class ValidarcodigoCall {
   }
 }
 
+class EditarsenhaCall {
+  static Future<ApiCallResponse> call({
+    String? password = '',
+    String? email = '',
+  }) async {
+    final ffApiRequestBody = '''
+{
+  "password": "${escapeStringForJson(password)}",
+  "email": "${escapeStringForJson(email)}"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'Editarsenha',
+      apiUrl: 'https://x8ki-letl-twmt.n7.xano.io/api:ue7fMkeV/Esqueceu_a_senha',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
 class ApiPagingParams {
   int nextPageNumber = 0;
   int numItems = 0;
