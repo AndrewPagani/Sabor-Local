@@ -353,6 +353,36 @@ class EditarsenhaCall {
   }
 }
 
+class VerificaCadastroCall {
+  static Future<ApiCallResponse> call({
+    String? email = '',
+    String? cpf = '',
+  }) async {
+    return ApiManager.instance.makeApiCall(
+      callName: 'verificaCadastro',
+      apiUrl:
+          'https://x8ki-letl-twmt.n7.xano.io/api:UXPL7lyX/verifica_cadastro',
+      callType: ApiCallType.GET,
+      headers: {},
+      params: {
+        'email': email,
+        'CPF': cpf,
+      },
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  static int? errorType(dynamic response) => castToType<int>(getJsonField(
+        response,
+        r'''$.payload''',
+      ));
+}
+
 class ApiPagingParams {
   int nextPageNumber = 0;
   int numItems = 0;

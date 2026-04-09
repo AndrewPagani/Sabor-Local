@@ -441,16 +441,19 @@ class _RedefinirSenhaWidgetState extends State<RedefinirSenhaWidget> {
                               var _shouldSetState = false;
                               if ((_model.textController1.text == '') ||
                                   (_model.textController2.text == '')) {
+                                // Preencha todos os campos
+                                ScaffoldMessenger.of(context).clearSnackBars();
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
                                       'Preencha todos os campos',
                                       style: TextStyle(
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16.0,
                                       ),
                                     ),
-                                    duration: Duration(milliseconds: 4000),
+                                    duration: Duration(milliseconds: 1500),
                                     backgroundColor:
                                         FlutterFlowTheme.of(context).error,
                                   ),
@@ -460,6 +463,7 @@ class _RedefinirSenhaWidgetState extends State<RedefinirSenhaWidget> {
                               } else {
                                 if (_model.textController1.text ==
                                     _model.textController2.text) {
+                                  // API Editar Senha
                                   _model.apiResult9iv =
                                       await EditarsenhaCall.call(
                                     password: _model.textController1.text,
@@ -467,19 +471,22 @@ class _RedefinirSenhaWidgetState extends State<RedefinirSenhaWidget> {
                                   );
 
                                   _shouldSetState = true;
+                                  // Vai para a Login
 
                                   context.pushNamed(LoginWidget.routeName);
                                 } else {
+                                  // As duas senhas precisam ser iguais
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text(
                                         'As duas senhas precisam ser iguais',
                                         style: TextStyle(
-                                          color: FlutterFlowTheme.of(context)
-                                              .primaryText,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16.0,
                                         ),
                                       ),
-                                      duration: Duration(milliseconds: 4000),
+                                      duration: Duration(milliseconds: 1500),
                                       backgroundColor:
                                           FlutterFlowTheme.of(context).error,
                                     ),

@@ -33,12 +33,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       navigatorKey: appNavigatorKey,
-      errorBuilder: (context, state) => CadastroWidget(),
+      errorBuilder: (context, state) => LoginWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
-          builder: (context, _) => CadastroWidget(),
+          builder: (context, _) => LoginWidget(),
         ),
         FFRoute(
           name: LoginWidget.routeName,
@@ -61,6 +61,22 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => CodigoEmailWidget(
             emailRecebido: params.getParam(
               'emailRecebido',
+              ParamType.String,
+            ),
+            nome: params.getParam(
+              'nome',
+              ParamType.String,
+            ),
+            cpf: params.getParam(
+              'cpf',
+              ParamType.String,
+            ),
+            telefone: params.getParam(
+              'telefone',
+              ParamType.String,
+            ),
+            senha: params.getParam(
+              'senha',
               ParamType.String,
             ),
           ),

@@ -13,9 +13,17 @@ class CodigoEmailWidget extends StatefulWidget {
   const CodigoEmailWidget({
     super.key,
     required this.emailRecebido,
+    required this.nome,
+    required this.cpf,
+    required this.telefone,
+    required this.senha,
   });
 
   final String? emailRecebido;
+  final String? nome;
+  final String? cpf;
+  final String? telefone;
+  final String? senha;
 
   static String routeName = 'CodigoEmail';
   static String routePath = '/codigoEmail';
@@ -225,11 +233,11 @@ class _CodigoEmailWidgetState extends State<CodigoEmailWidget> {
                                       'Insira um código',
                                       style: TextStyle(
                                         color: Colors.black,
-                                        fontWeight: FontWeight.w500,
+                                        fontWeight: FontWeight.w600,
                                         fontSize: 16.0,
                                       ),
                                     ),
-                                    duration: Duration(milliseconds: 4000),
+                                    duration: Duration(milliseconds: 1500),
                                     backgroundColor:
                                         FlutterFlowTheme.of(context).error,
                                   ),
@@ -250,17 +258,52 @@ class _CodigoEmailWidgetState extends State<CodigoEmailWidget> {
                                       r'''$.payload''',
                                     ) ==
                                     null) {
-                                  // Vai para Cadastro de Endereço
-
-                                  context.pushNamed(
-                                    CadastroenderecoWidget.routeName,
-                                    extra: <String, dynamic>{
-                                      '__transition_info__': TransitionInfo(
-                                        hasTransition: true,
-                                        transitionType: PageTransitionType.fade,
-                                      ),
-                                    },
+                                  // API de cadastro
+                                  _model.apiResultm7y =
+                                      await AuthsignupCall.call(
+                                    nome: widget.nome,
+                                    email: widget.emailRecebido,
+                                    password: widget.senha,
+                                    cpf: widget.cpf,
+                                    telefone: widget.telefone,
                                   );
+
+                                  _shouldSetState = true;
+                                  if (getJsonField(
+                                        (_model.apiResultm7y?.jsonBody ?? ''),
+                                        r'''$.authToken''',
+                                      ) ==
+                                      null) {
+                                    // ERRO - CPF ou telefone já cadastrados
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          'Email ou CPF já cadastrados',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 16.0,
+                                          ),
+                                        ),
+                                        duration: Duration(milliseconds: 1500),
+                                        backgroundColor:
+                                            FlutterFlowTheme.of(context).error,
+                                      ),
+                                    );
+                                    if (_shouldSetState) safeSetState(() {});
+                                    return;
+                                  } else {
+                                    context.pushNamed(
+                                      CadastroenderecoWidget.routeName,
+                                      extra: <String, dynamic>{
+                                        '__transition_info__': TransitionInfo(
+                                          hasTransition: true,
+                                          transitionType:
+                                              PageTransitionType.fade,
+                                        ),
+                                      },
+                                    );
+                                  }
                                 } else {
                                   // ERRO - Código inválido ou Expirado
                                   ScaffoldMessenger.of(context).showSnackBar(
@@ -269,11 +312,11 @@ class _CodigoEmailWidgetState extends State<CodigoEmailWidget> {
                                         'Código inválido ou Expirado',
                                         style: TextStyle(
                                           color: Colors.black,
-                                          fontWeight: FontWeight.w500,
+                                          fontWeight: FontWeight.w600,
                                           fontSize: 16.0,
                                         ),
                                       ),
-                                      duration: Duration(milliseconds: 4000),
+                                      duration: Duration(milliseconds: 1500),
                                       backgroundColor:
                                           FlutterFlowTheme.of(context).error,
                                     ),
@@ -355,6 +398,64 @@ class _CodigoEmailWidgetState extends State<CodigoEmailWidget> {
                     ],
                   ),
                 ],
+              ),
+            ),
+            Align(
+              alignment: AlignmentDirectional(0.0, 0.0),
+              child: Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0.0, 40.0, 0.0, 0.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        FFButtonWidget(
+                          onPressed: () async {
+                            context.pushNamed(
+                              LoginWidget.routeName,
+                              extra: <String, dynamic>{
+                                '__transition_info__': TransitionInfo(
+                                  hasTransition: true,
+                                  transitionType: PageTransitionType.fade,
+                                ),
+                              },
+                            );
+                          },
+                          text: '<',
+                          options: FFButtonOptions(
+                            height: 40.0,
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                16.0, 0.0, 16.0, 0.0),
+                            iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                0.0, 0.0, 0.0, 0.0),
+                            color: Color(0x00EF3939),
+                            textStyle: FlutterFlowTheme.of(context)
+                                .titleSmall
+                                .override(
+                                  font: GoogleFonts.interTight(
+                                    fontWeight: FontWeight.bold,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontStyle,
+                                  ),
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryText,
+                                  fontSize: 28.0,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FontWeight.bold,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontStyle,
+                                ),
+                            elevation: 0.0,
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

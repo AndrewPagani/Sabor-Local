@@ -327,23 +327,27 @@ class _CadastroenderecoWidgetState extends State<CadastroenderecoWidget> {
                                 hoverColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
                                 onTap: () async {
+                                  var _shouldSetState = false;
                                   if (_model.cepTextController.text == '') {
                                     // ERRO - Insira um CEP
+                                    ScaffoldMessenger.of(context)
+                                        .clearSnackBars();
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text(
                                           'Insira um CEP',
                                           style: TextStyle(
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryText,
+                                            color: Colors.white,
                                             fontSize: 16.0,
                                           ),
                                         ),
-                                        duration: Duration(milliseconds: 4000),
+                                        duration: Duration(milliseconds: 1500),
                                         backgroundColor:
                                             FlutterFlowTheme.of(context).error,
                                       ),
                                     );
+                                    if (_shouldSetState) safeSetState(() {});
+                                    return;
                                   } else {
                                     // API ValidaCEP
                                     _model.apiResultyp5 =
@@ -351,25 +355,55 @@ class _CadastroenderecoWidgetState extends State<CadastroenderecoWidget> {
                                       cep: _model.cepTextController.text,
                                     );
 
-                                    // Preenche o Logradouro
-                                    safeSetState(() {
-                                      _model.logradouroTextController?.text =
-                                          getJsonField(
-                                        (_model.apiResultyp5?.jsonBody ?? ''),
-                                        r'''$.logradouro''',
-                                      ).toString();
-                                    });
-                                    // Preenche o Bairro
-                                    safeSetState(() {
-                                      _model.bairroTextController?.text =
-                                          getJsonField(
-                                        (_model.apiResultyp5?.jsonBody ?? ''),
-                                        r'''$.bairro''',
-                                      ).toString();
-                                    });
+                                    _shouldSetState = true;
+                                    if (getJsonField(
+                                          (_model.apiResultyp5?.jsonBody ?? ''),
+                                          r'''$.logradouro''',
+                                        ) ==
+                                        null) {
+                                      // CEP Inválido
+                                      ScaffoldMessenger.of(context)
+                                          .clearSnackBars();
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            'CEP Inválido',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 16.0,
+                                            ),
+                                            textAlign: TextAlign.start,
+                                          ),
+                                          duration:
+                                              Duration(milliseconds: 1500),
+                                          backgroundColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .error,
+                                        ),
+                                      );
+                                    } else {
+                                      // Preenche o Logradouro
+                                      safeSetState(() {
+                                        _model.logradouroTextController?.text =
+                                            getJsonField(
+                                          (_model.apiResultyp5?.jsonBody ?? ''),
+                                          r'''$.logradouro''',
+                                        ).toString();
+                                      });
+                                      // Preenche o Bairro
+                                      safeSetState(() {
+                                        _model.bairroTextController?.text =
+                                            getJsonField(
+                                          (_model.apiResultyp5?.jsonBody ?? ''),
+                                          r'''$.bairro''',
+                                        ).toString();
+                                      });
+                                    }
                                   }
 
-                                  safeSetState(() {});
+                                  if (_shouldSetState) safeSetState(() {});
                                 },
                                 child: Text(
                                   'Sim',
@@ -1294,6 +1328,7 @@ class _CadastroenderecoWidgetState extends State<CadastroenderecoWidget> {
                                     140.0, 10.0, 140.0, 0.0),
                                 child: FFButtonWidget(
                                   onPressed: () async {
+                                    var _shouldSetState = false;
                                     if ((_model.logradouroTextController
                                                     .text ==
                                                 '') ||
@@ -1303,23 +1338,26 @@ class _CadastroenderecoWidgetState extends State<CadastroenderecoWidget> {
                                                 '')) {
                                       // ERRO - Preencha todos os Campos
                                       ScaffoldMessenger.of(context)
+                                          .clearSnackBars();
+                                      ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         SnackBar(
                                           content: Text(
                                             'Preencha os campos obrigatórios',
                                             style: TextStyle(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryText,
+                                              color: Colors.white,
+                                              fontSize: 16.0,
                                             ),
                                           ),
                                           duration:
-                                              Duration(milliseconds: 4000),
+                                              Duration(milliseconds: 1500),
                                           backgroundColor:
                                               FlutterFlowTheme.of(context)
                                                   .error,
                                         ),
                                       );
+                                      if (_shouldSetState) safeSetState(() {});
+                                      return;
                                     } else {
                                       // API AddCEP
                                       await AddcepCall.call(
@@ -1350,6 +1388,7 @@ class _CadastroenderecoWidgetState extends State<CadastroenderecoWidget> {
                                         cep2: _model.cepTextController.text,
                                       );
 
+                                      _shouldSetState = true;
                                       // Vai para o Login
 
                                       context.pushNamed(
@@ -1359,14 +1398,12 @@ class _CadastroenderecoWidgetState extends State<CadastroenderecoWidget> {
                                             hasTransition: true,
                                             transitionType:
                                                 PageTransitionType.fade,
-                                            duration:
-                                                Duration(milliseconds: 1000),
                                           ),
                                         },
                                       );
                                     }
 
-                                    safeSetState(() {});
+                                    if (_shouldSetState) safeSetState(() {});
                                   },
                                   text: 'Cadastrar',
                                   options: FFButtonOptions(

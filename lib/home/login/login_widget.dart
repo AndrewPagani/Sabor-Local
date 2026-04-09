@@ -508,13 +508,13 @@ class _LoginWidgetState extends State<LoginWidget> {
                                     content: Text(
                                       'Preencha todos os campos!',
                                       style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
                                         fontSize: 16.0,
                                       ),
                                       textAlign: TextAlign.center,
                                     ),
-                                    duration: Duration(milliseconds: 4000),
+                                    duration: Duration(milliseconds: 1500),
                                     backgroundColor:
                                         FlutterFlowTheme.of(context).error,
                                   ),
@@ -547,17 +547,19 @@ class _LoginWidgetState extends State<LoginWidget> {
                                           ) ==
                                           null)) {
                                     // ERRO - Conta bloqueada
+                                    ScaffoldMessenger.of(context)
+                                        .clearSnackBars();
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text(
                                           'Conta bloqueada, retorne em 5 minutos',
                                           style: TextStyle(
                                             color: Colors.white,
-                                            fontWeight: FontWeight.w500,
+                                            fontWeight: FontWeight.w600,
                                             fontSize: 16.0,
                                           ),
                                         ),
-                                        duration: Duration(milliseconds: 4000),
+                                        duration: Duration(milliseconds: 1500),
                                         backgroundColor:
                                             FlutterFlowTheme.of(context).error,
                                       ),
@@ -579,18 +581,20 @@ class _LoginWidgetState extends State<LoginWidget> {
                                             null)) {
                                       // ERRO - Credenciais inválidas
                                       ScaffoldMessenger.of(context)
+                                          .clearSnackBars();
+                                      ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         SnackBar(
                                           content: Text(
                                             'Credenciais Inválidas',
                                             style: TextStyle(
                                               color: Colors.white,
-                                              fontWeight: FontWeight.w500,
+                                              fontWeight: FontWeight.w600,
                                               fontSize: 16.0,
                                             ),
                                           ),
                                           duration:
-                                              Duration(milliseconds: 4000),
+                                              Duration(milliseconds: 1500),
                                           backgroundColor:
                                               FlutterFlowTheme.of(context)
                                                   .error,

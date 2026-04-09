@@ -314,16 +314,19 @@ class _EsqueceuASenhaWidgetState extends State<EsqueceuASenhaWidget> {
                             onPressed: () async {
                               var _shouldSetState = false;
                               if (_model.textController.text == '') {
+                                // Preencha um Email válido
+                                ScaffoldMessenger.of(context).clearSnackBars();
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
                                       'Preencha um Email válido',
                                       style: TextStyle(
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16.0,
                                       ),
                                     ),
-                                    duration: Duration(milliseconds: 4000),
+                                    duration: Duration(milliseconds: 1500),
                                     backgroundColor:
                                         FlutterFlowTheme.of(context).error,
                                   ),
@@ -334,6 +337,7 @@ class _EsqueceuASenhaWidgetState extends State<EsqueceuASenhaWidget> {
                                 if (functions.validarEmail(
                                         _model.textController.text) ==
                                     true) {
+                                  // API Envia Código
                                   _model.apiResultb7c =
                                       await EnviacodigoCall.call(
                                     email: _model.textController.text,
@@ -345,6 +349,8 @@ class _EsqueceuASenhaWidgetState extends State<EsqueceuASenhaWidget> {
                                         r'''$.code''',
                                       ) ==
                                       null) {
+                                    // Vai para a próxima tela
+
                                     context.pushNamed(
                                       CodigoSenhaWidget.routeName,
                                       queryParameters: {
@@ -358,17 +364,20 @@ class _EsqueceuASenhaWidgetState extends State<EsqueceuASenhaWidget> {
                                     if (_shouldSetState) safeSetState(() {});
                                     return;
                                   } else {
+                                    // Email não cadastrado
+                                    ScaffoldMessenger.of(context)
+                                        .clearSnackBars();
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text(
                                           'Email não cadastrado',
                                           style: TextStyle(
                                             color: Colors.white,
-                                            fontWeight: FontWeight.w500,
+                                            fontWeight: FontWeight.w600,
                                             fontSize: 16.0,
                                           ),
                                         ),
-                                        duration: Duration(milliseconds: 4000),
+                                        duration: Duration(milliseconds: 1500),
                                         backgroundColor:
                                             FlutterFlowTheme.of(context).error,
                                       ),
@@ -377,16 +386,20 @@ class _EsqueceuASenhaWidgetState extends State<EsqueceuASenhaWidget> {
                                     return;
                                   }
                                 } else {
+                                  // Insira um Email válido
+                                  ScaffoldMessenger.of(context)
+                                      .clearSnackBars();
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text(
                                         'Insira um Email válido',
                                         style: TextStyle(
-                                          color: FlutterFlowTheme.of(context)
-                                              .primaryText,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16.0,
                                         ),
                                       ),
-                                      duration: Duration(milliseconds: 4000),
+                                      duration: Duration(milliseconds: 1500),
                                       backgroundColor:
                                           FlutterFlowTheme.of(context).error,
                                     ),

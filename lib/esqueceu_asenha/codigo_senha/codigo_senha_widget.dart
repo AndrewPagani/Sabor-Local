@@ -218,17 +218,18 @@ class _CodigoSenhaWidgetState extends State<CodigoSenhaWidget> {
                             onPressed: () async {
                               var _shouldSetState = false;
                               if (_model.pinCodeController!.text == '') {
+                                ScaffoldMessenger.of(context).clearSnackBars();
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
                                       'Insira um código',
                                       style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
                                         fontSize: 16.0,
                                       ),
                                     ),
-                                    duration: Duration(milliseconds: 4000),
+                                    duration: Duration(milliseconds: 1500),
                                     backgroundColor:
                                         FlutterFlowTheme.of(context).error,
                                   ),
@@ -265,17 +266,19 @@ class _CodigoSenhaWidgetState extends State<CodigoSenhaWidget> {
                                     },
                                   );
                                 } else {
+                                  ScaffoldMessenger.of(context)
+                                      .clearSnackBars();
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text(
-                                        'Código inválido ou Expirado',
+                                        'Código Inválido ou Expirado',
                                         style: TextStyle(
-                                          color: Colors.black,
+                                          color: Colors.white,
                                           fontWeight: FontWeight.w500,
                                           fontSize: 16.0,
                                         ),
                                       ),
-                                      duration: Duration(milliseconds: 4000),
+                                      duration: Duration(milliseconds: 1500),
                                       backgroundColor:
                                           FlutterFlowTheme.of(context).error,
                                     ),

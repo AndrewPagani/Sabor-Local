@@ -937,7 +937,7 @@ class _CadastroWidgetState extends State<CadastroWidget> {
                                         fontSize: 16.0,
                                       ),
                                     ),
-                                    duration: Duration(milliseconds: 4000),
+                                    duration: Duration(milliseconds: 1500),
                                     backgroundColor:
                                         FlutterFlowTheme.of(context).error,
                                   ),
@@ -954,49 +954,20 @@ class _CadastroWidgetState extends State<CadastroWidget> {
                                     if (functions.validarEmail(
                                             _model.emailTextController.text) ==
                                         true) {
-                                      // API de cadastro
+                                      // Verifica se Email ou CPF já existe
                                       _model.apiResultm7y =
-                                          await AuthsignupCall.call(
-                                        nome: _model
-                                            .nomecompletoTextController.text,
+                                          await VerificaCadastroCall.call(
                                         email: _model.emailTextController.text,
-                                        password:
-                                            _model.senhaTextController.text,
                                         cpf: _model.cpfTextController.text,
-                                        telefone:
-                                            _model.telefoneTextController.text,
                                       );
 
                                       _shouldSetState = true;
                                       if (getJsonField(
                                             (_model.apiResultm7y?.jsonBody ??
                                                 ''),
-                                            r'''$.authToken''',
+                                            r'''$.payload''',
                                           ) ==
                                           null) {
-                                        // ERRO - CPF ou telefone já cadastrados
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              'Email ou CPF já cadastrados',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 16.0,
-                                              ),
-                                            ),
-                                            duration:
-                                                Duration(milliseconds: 4000),
-                                            backgroundColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .error,
-                                          ),
-                                        );
-                                        if (_shouldSetState)
-                                          safeSetState(() {});
-                                        return;
-                                      } else {
                                         // API de código
                                         _model.enviacordigoOP =
                                             await EnviacodigoCall.call(
@@ -1012,13 +983,32 @@ class _CadastroWidgetState extends State<CadastroWidget> {
                                               r'''$.code''',
                                             ) ==
                                             null) {
-                                          // Vai para a tela de Código
+                                          // Vai para a tela de Código e Envia os parametros de cadastro
 
                                           context.pushNamed(
                                             CodigoEmailWidget.routeName,
                                             queryParameters: {
                                               'emailRecebido': serializeParam(
                                                 _model.emailTextController.text,
+                                                ParamType.String,
+                                              ),
+                                              'nome': serializeParam(
+                                                _model
+                                                    .nomecompletoTextController
+                                                    .text,
+                                                ParamType.String,
+                                              ),
+                                              'cpf': serializeParam(
+                                                _model.cpfTextController.text,
+                                                ParamType.String,
+                                              ),
+                                              'telefone': serializeParam(
+                                                _model.telefoneTextController
+                                                    .text,
+                                                ParamType.String,
+                                              ),
+                                              'senha': serializeParam(
+                                                _model.senhaTextController.text,
                                                 ParamType.String,
                                               ),
                                             }.withoutNulls,
@@ -1045,7 +1035,7 @@ class _CadastroWidgetState extends State<CadastroWidget> {
                                                 ),
                                               ),
                                               duration:
-                                                  Duration(milliseconds: 4000),
+                                                  Duration(milliseconds: 1500),
                                               backgroundColor:
                                                   FlutterFlowTheme.of(context)
                                                       .error,
@@ -1053,6 +1043,30 @@ class _CadastroWidgetState extends State<CadastroWidget> {
                                           );
                                         }
 
+                                        if (_shouldSetState)
+                                          safeSetState(() {});
+                                        return;
+                                      } else {
+                                        // Email ou CPF já cadastrado
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              'Email ou CPF já cadastrado',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 16.0,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            duration:
+                                                Duration(milliseconds: 1500),
+                                            backgroundColor:
+                                                FlutterFlowTheme.of(context)
+                                                    .error,
+                                          ),
+                                        );
                                         if (_shouldSetState)
                                           safeSetState(() {});
                                         return;
@@ -1071,7 +1085,7 @@ class _CadastroWidgetState extends State<CadastroWidget> {
                                             ),
                                           ),
                                           duration:
-                                              Duration(milliseconds: 4000),
+                                              Duration(milliseconds: 1500),
                                           backgroundColor:
                                               FlutterFlowTheme.of(context)
                                                   .error,
@@ -1092,7 +1106,7 @@ class _CadastroWidgetState extends State<CadastroWidget> {
                                             fontSize: 16.0,
                                           ),
                                         ),
-                                        duration: Duration(milliseconds: 4000),
+                                        duration: Duration(milliseconds: 1500),
                                         backgroundColor:
                                             FlutterFlowTheme.of(context).error,
                                       ),
@@ -1112,7 +1126,7 @@ class _CadastroWidgetState extends State<CadastroWidget> {
                                           fontSize: 16.0,
                                         ),
                                       ),
-                                      duration: Duration(milliseconds: 4000),
+                                      duration: Duration(milliseconds: 1500),
                                       backgroundColor:
                                           FlutterFlowTheme.of(context).error,
                                     ),

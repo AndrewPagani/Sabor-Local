@@ -13,6 +13,8 @@ class CodigoEmailModel extends FlutterFlowModel<CodigoEmailWidget> {
   String? Function(BuildContext, String?)? pinCodeControllerValidator;
   // Stores action output result for [Backend Call - API (validarcodigo)] action in Button widget.
   ApiCallResponse? apiResultg9j;
+  // Stores action output result for [Backend Call - API (authsignup)] action in Button widget.
+  ApiCallResponse? apiResultm7y;
 
   @override
   void initState(BuildContext context) {

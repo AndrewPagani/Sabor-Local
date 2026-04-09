@@ -47,7 +47,7 @@ class _CardapioWidgetState extends State<CardapioWidget> {
           backgroundColor: FlutterFlowTheme.of(context).primary,
           automaticallyImplyLeading: false,
           title: Text(
-            'Cardapio5615641658',
+            'Cardapio',
             style: FlutterFlowTheme.of(context).headlineMedium.override(
                   font: GoogleFonts.interTight(
                     fontWeight:
