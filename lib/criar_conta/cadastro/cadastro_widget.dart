@@ -932,8 +932,7 @@ class _CadastroWidgetState extends State<CadastroWidget> {
                                     content: Text(
                                       'Preencha todos os campos',
                                       style: TextStyle(
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
+                                        color: Colors.white,
                                         fontWeight: FontWeight.w600,
                                         fontSize: 16.0,
                                       ),
@@ -949,37 +948,125 @@ class _CadastroWidgetState extends State<CadastroWidget> {
                                 if (functions.verifyCPF(
                                         _model.cpfTextController.text) ==
                                     14) {
-                                  if (functions.validarEmail(
-                                          _model.emailTextController.text) ==
+                                  if (functions.validarCPF(
+                                          _model.cpfTextController.text) ==
                                       true) {
-                                    // API de cadastro
-                                    _model.apiResultm7y =
-                                        await AuthsignupCall.call(
-                                      nome: _model
-                                          .nomecompletoTextController.text,
-                                      email: _model.emailTextController.text,
-                                      password: _model.senhaTextController.text,
-                                      cpf: _model.cpfTextController.text,
-                                      telefone:
-                                          _model.telefoneTextController.text,
-                                    );
+                                    if (functions.validarEmail(
+                                            _model.emailTextController.text) ==
+                                        true) {
+                                      // API de cadastro
+                                      _model.apiResultm7y =
+                                          await AuthsignupCall.call(
+                                        nome: _model
+                                            .nomecompletoTextController.text,
+                                        email: _model.emailTextController.text,
+                                        password:
+                                            _model.senhaTextController.text,
+                                        cpf: _model.cpfTextController.text,
+                                        telefone:
+                                            _model.telefoneTextController.text,
+                                      );
 
-                                    _shouldSetState = true;
-                                    if (getJsonField(
-                                          (_model.apiResultm7y?.jsonBody ?? ''),
-                                          r'''$.authToken''',
-                                        ) ==
-                                        null) {
-                                      // ERRO - CPF ou telefone já cadastrados
+                                      _shouldSetState = true;
+                                      if (getJsonField(
+                                            (_model.apiResultm7y?.jsonBody ??
+                                                ''),
+                                            r'''$.authToken''',
+                                          ) ==
+                                          null) {
+                                        // ERRO - CPF ou telefone já cadastrados
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              'Email ou CPF já cadastrados',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 16.0,
+                                              ),
+                                            ),
+                                            duration:
+                                                Duration(milliseconds: 4000),
+                                            backgroundColor:
+                                                FlutterFlowTheme.of(context)
+                                                    .error,
+                                          ),
+                                        );
+                                        if (_shouldSetState)
+                                          safeSetState(() {});
+                                        return;
+                                      } else {
+                                        // API de código
+                                        _model.enviacordigoOP =
+                                            await EnviacodigoCall.call(
+                                          email:
+                                              _model.emailTextController.text,
+                                        );
+
+                                        _shouldSetState = true;
+                                        if (getJsonField(
+                                              (_model.enviacordigoOP
+                                                      ?.jsonBody ??
+                                                  ''),
+                                              r'''$.code''',
+                                            ) ==
+                                            null) {
+                                          // Vai para a tela de Código
+
+                                          context.pushNamed(
+                                            CodigoEmailWidget.routeName,
+                                            queryParameters: {
+                                              'emailRecebido': serializeParam(
+                                                _model.emailTextController.text,
+                                                ParamType.String,
+                                              ),
+                                            }.withoutNulls,
+                                            extra: <String, dynamic>{
+                                              '__transition_info__':
+                                                  TransitionInfo(
+                                                hasTransition: true,
+                                                transitionType:
+                                                    PageTransitionType.fade,
+                                              ),
+                                            },
+                                          );
+                                        } else {
+                                          // ERRO - Insira um email válido
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                'Insira um Email válido',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 16.0,
+                                                ),
+                                              ),
+                                              duration:
+                                                  Duration(milliseconds: 4000),
+                                              backgroundColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .error,
+                                            ),
+                                          );
+                                        }
+
+                                        if (_shouldSetState)
+                                          safeSetState(() {});
+                                        return;
+                                      }
+                                    } else {
+                                      // ERRO - Preencha um Email válido
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         SnackBar(
                                           content: Text(
-                                            'Email ou CPF já cadastrados',
+                                            'Preencha um Email válido',
                                             style: TextStyle(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryText,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w600,
                                               fontSize: 16.0,
                                             ),
                                           ),
@@ -992,72 +1079,16 @@ class _CadastroWidgetState extends State<CadastroWidget> {
                                       );
                                       if (_shouldSetState) safeSetState(() {});
                                       return;
-                                    } else {
-                                      // API de código
-                                      _model.enviacordigoOP =
-                                          await EnviacodigoCall.call(
-                                        email: _model.emailTextController.text,
-                                      );
-
-                                      _shouldSetState = true;
-                                      if (getJsonField(
-                                            (_model.enviacordigoOP?.jsonBody ??
-                                                ''),
-                                            r'''$.code''',
-                                          ) ==
-                                          null) {
-                                        // Vai para a tela de Código
-
-                                        context.pushNamed(
-                                          CodigoEmailWidget.routeName,
-                                          queryParameters: {
-                                            'emailRecebido': serializeParam(
-                                              _model.emailTextController.text,
-                                              ParamType.String,
-                                            ),
-                                          }.withoutNulls,
-                                          extra: <String, dynamic>{
-                                            '__transition_info__':
-                                                TransitionInfo(
-                                              hasTransition: true,
-                                              transitionType:
-                                                  PageTransitionType.fade,
-                                            ),
-                                          },
-                                        );
-                                      } else {
-                                        // ERRO - Insira um email válido
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              'Insira um email válido',
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 16.0,
-                                              ),
-                                            ),
-                                            duration:
-                                                Duration(milliseconds: 4000),
-                                            backgroundColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .error,
-                                          ),
-                                        );
-                                      }
-
-                                      if (_shouldSetState) safeSetState(() {});
-                                      return;
                                     }
                                   } else {
-                                    // ERRO - Preencha um Email válido
+                                    // ERRO - CPF inválido
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text(
-                                          'Preencha um Email válido',
+                                          'Digite um CPF existente',
                                           style: TextStyle(
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryText,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w600,
                                             fontSize: 16.0,
                                           ),
                                         ),
@@ -1076,8 +1107,8 @@ class _CadastroWidgetState extends State<CadastroWidget> {
                                       content: Text(
                                         'CPF inválido',
                                         style: TextStyle(
-                                          color: FlutterFlowTheme.of(context)
-                                              .primaryText,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600,
                                           fontSize: 16.0,
                                         ),
                                       ),

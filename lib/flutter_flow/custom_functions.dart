@@ -21,3 +21,48 @@ bool validarEmail(String? textoEmail) {
   final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
   return emailRegex.hasMatch(textoEmail);
 }
+
+bool? validarCPF(String? cpfDigitado) {
+  if (cpfDigitado == null || cpfDigitado.isEmpty) {
+    return false;
+  }
+
+  // Limpa o campo
+  String cpf = cpfDigitado.replaceAll(RegExp(r'[^0-9]'), '');
+
+  // Verifica se sobraram exatamente 11 números
+  if (cpf.length != 11) {
+    return false;
+  }
+
+  // Bloqueia sequências repetidas
+  if (RegExp(r'^(\d)\1{10}$').hasMatch(cpf)) {
+    return false;
+  }
+
+  // CÁLCULO DO PRIMEIRO DÍGITO
+  int soma = 0;
+  for (int i = 0; i < 9; i++) {
+    soma += int.parse(cpf[i]) * (10 - i);
+  }
+  int resto = (soma * 10) % 11;
+  if (resto == 10 || resto == 11) resto = 0;
+
+  if (resto != int.parse(cpf[9])) {
+    return false;
+  }
+
+  // CÁLCULO DO SEGUNDO DÍGITO
+  soma = 0;
+  for (int i = 0; i < 10; i++) {
+    soma += int.parse(cpf[i]) * (11 - i);
+  }
+  resto = (soma * 10) % 11;
+  if (resto == 10 || resto == 11) resto = 0;
+
+  if (resto != int.parse(cpf[10])) {
+    return false;
+  }
+
+  return true;
+}
