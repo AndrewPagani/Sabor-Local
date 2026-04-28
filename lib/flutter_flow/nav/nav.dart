@@ -89,7 +89,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: CadastroenderecoWidget.routeName,
           path: CadastroenderecoWidget.routePath,
-          builder: (context, params) => CadastroenderecoWidget(),
+          builder: (context, params) => CadastroenderecoWidget(
+            cpf: params.getParam(
+              'cpf',
+              ParamType.String,
+            ),
+          ),
         ),
         FFRoute(
           name: CodigoSenhaWidget.routeName,

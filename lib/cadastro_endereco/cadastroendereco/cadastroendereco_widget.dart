@@ -9,7 +9,12 @@ import 'cadastroendereco_model.dart';
 export 'cadastroendereco_model.dart';
 
 class CadastroenderecoWidget extends StatefulWidget {
-  const CadastroenderecoWidget({super.key});
+  const CadastroenderecoWidget({
+    super.key,
+    required this.cpf,
+  });
+
+  final String? cpf;
 
   static String routeName = 'Cadastroendereco';
   static String routePath = '/cadastroendereco';
@@ -1386,6 +1391,7 @@ class _CadastroenderecoWidgetState extends State<CadastroenderecoWidget> {
                                         referencia: _model
                                             .referenciaTextController.text,
                                         cep2: _model.cepTextController.text,
+                                        cpf: widget.cpf,
                                       );
 
                                       _shouldSetState = true;
@@ -1493,9 +1499,7 @@ class _CadastroenderecoWidgetState extends State<CadastroenderecoWidget> {
                           children: [
                             FFButtonWidget(
                               onPressed: () async {
-                                // Volta para Login
-
-                                context.pushNamed(LoginWidget.routeName);
+                                context.safePop();
                               },
                               text: '<',
                               options: FFButtonOptions(

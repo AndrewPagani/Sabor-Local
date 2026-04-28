@@ -581,15 +581,7 @@ class _RedefinirSenhaWidgetState extends State<RedefinirSenhaWidget> {
                           EdgeInsetsDirectional.fromSTEB(0.0, 40.0, 0.0, 0.0),
                       child: FFButtonWidget(
                         onPressed: () async {
-                          context.pushNamed(
-                            EsqueceuASenhaWidget.routeName,
-                            queryParameters: {
-                              'emailr': serializeParam(
-                                '',
-                                ParamType.String,
-                              ),
-                            }.withoutNulls,
-                          );
+                          context.safePop();
                         },
                         text: '<',
                         options: FFButtonOptions(

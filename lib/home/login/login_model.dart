@@ -18,6 +18,8 @@ class LoginModel extends FlutterFlowModel<LoginWidget> {
   String? Function(BuildContext, String?)? textController2Validator;
   // Stores action output result for [Backend Call - API (authlogin)] action in Entrar widget.
   ApiCallResponse? apiResult1sb;
+  // Stores action output result for [Backend Call - API (validaemail)] action in Entrar widget.
+  ApiCallResponse? apiResult6ro;
 
   @override
   void initState(BuildContext context) {

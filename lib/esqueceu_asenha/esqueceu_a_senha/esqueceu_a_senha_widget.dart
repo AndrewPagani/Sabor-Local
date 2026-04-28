@@ -493,7 +493,7 @@ class _EsqueceuASenhaWidgetState extends State<EsqueceuASenhaWidget> {
                     children: [
                       FFButtonWidget(
                         onPressed: () async {
-                          context.pushNamed(LoginWidget.routeName);
+                          context.safePop();
                         },
                         text: '<',
                         options: FFButtonOptions(

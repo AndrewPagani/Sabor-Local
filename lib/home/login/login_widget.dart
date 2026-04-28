@@ -60,8 +60,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                 Theme.of(context).brightness == Brightness.dark
                     ? 'assets/images/WhatsApp_Image_2026-03-21_at_03.34.36.jpeg'
                     : 'assets/images/Gemini_Generated_Image_ycic0iycic0iycic.png',
-                width: 403.83,
-                height: 952.0,
+                width: 1436.93,
+                height: 1373.2,
                 fit: BoxFit.fill,
               ),
             ),
@@ -534,39 +534,17 @@ class _LoginWidgetState extends State<LoginWidget> {
                                       r'''$.authToken''',
                                     ) ==
                                     null) {
-                                  if ((getJsonField(
-                                            (_model.apiResult1sb?.jsonBody ??
-                                                ''),
-                                            r'''$.authToken''',
-                                          ) ==
-                                          null) &&
-                                      (getJsonField(
-                                            (_model.apiResult1sb?.jsonBody ??
-                                                ''),
-                                            r'''$.statement''',
-                                          ) ==
-                                          null)) {
-                                    // ERRO - Conta bloqueada
-                                    ScaffoldMessenger.of(context)
-                                        .clearSnackBars();
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          'Conta bloqueada, retorne em 5 minutos',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 16.0,
-                                          ),
-                                        ),
-                                        duration: Duration(milliseconds: 1500),
-                                        backgroundColor:
-                                            FlutterFlowTheme.of(context).error,
-                                      ),
-                                    );
-                                    if (_shouldSetState) safeSetState(() {});
-                                    return;
-                                  } else {
+                                  _model.apiResult6ro =
+                                      await ValidaemailCall.call(
+                                    email: _model.textController1.text,
+                                  );
+
+                                  _shouldSetState = true;
+                                  if (getJsonField(
+                                        (_model.apiResult6ro?.jsonBody ?? ''),
+                                        r'''$.code''',
+                                      ) ==
+                                      null) {
                                     if ((getJsonField(
                                               (_model.apiResult1sb?.jsonBody ??
                                                   ''),
@@ -576,17 +554,17 @@ class _LoginWidgetState extends State<LoginWidget> {
                                         (getJsonField(
                                               (_model.apiResult1sb?.jsonBody ??
                                                   ''),
-                                              r'''$.code''',
+                                              r'''$.statement''',
                                             ) ==
                                             null)) {
-                                      // ERRO - Credenciais inválidas
+                                      // ERRO - Conta bloqueada
                                       ScaffoldMessenger.of(context)
                                           .clearSnackBars();
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         SnackBar(
                                           content: Text(
-                                            'Credenciais Inválidas',
+                                            'Conta bloqueada, retorne em 5 minutos',
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w600,
@@ -600,11 +578,71 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                   .error,
                                         ),
                                       );
+                                      if (_shouldSetState) safeSetState(() {});
+                                      return;
                                     } else {
+                                      if ((getJsonField(
+                                                (_model.apiResult1sb
+                                                        ?.jsonBody ??
+                                                    ''),
+                                                r'''$.authToken''',
+                                              ) ==
+                                              null) &&
+                                          (getJsonField(
+                                                (_model.apiResult1sb
+                                                        ?.jsonBody ??
+                                                    ''),
+                                                r'''$.code''',
+                                              ) ==
+                                              null)) {
+                                        // ERRO - Credenciais inválidas
+                                        ScaffoldMessenger.of(context)
+                                            .clearSnackBars();
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              'Credenciais Inválidas',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 16.0,
+                                              ),
+                                            ),
+                                            duration:
+                                                Duration(milliseconds: 1500),
+                                            backgroundColor:
+                                                FlutterFlowTheme.of(context)
+                                                    .error,
+                                          ),
+                                        );
+                                      } else {
+                                        if (_shouldSetState)
+                                          safeSetState(() {});
+                                        return;
+                                      }
+
                                       if (_shouldSetState) safeSetState(() {});
                                       return;
                                     }
-
+                                  } else {
+                                    ScaffoldMessenger.of(context)
+                                        .clearSnackBars();
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          'Email não cadastrado',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 16.0,
+                                          ),
+                                        ),
+                                        duration: Duration(milliseconds: 1500),
+                                        backgroundColor:
+                                            FlutterFlowTheme.of(context).error,
+                                      ),
+                                    );
                                     if (_shouldSetState) safeSetState(() {});
                                     return;
                                   }
@@ -712,35 +750,38 @@ class _LoginWidgetState extends State<LoginWidget> {
                 ].divide(SizedBox(height: 10.0)),
               ),
             ),
-            Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'V 1.3.2',
-                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            font: GoogleFonts.inter(
+            Align(
+              alignment: AlignmentDirectional(0.0, 0.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'V 1.3.2',
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              font: GoogleFonts.inter(
+                                fontWeight: FontWeight.bold,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .fontStyle,
+                              ),
+                              color: FlutterFlowTheme.of(context).secondaryText,
+                              fontSize: 15.0,
+                              letterSpacing: 0.0,
                               fontWeight: FontWeight.bold,
                               fontStyle: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .fontStyle,
                             ),
-                            color: FlutterFlowTheme.of(context).secondaryText,
-                            fontSize: 15.0,
-                            letterSpacing: 0.0,
-                            fontWeight: FontWeight.bold,
-                            fontStyle: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .fontStyle,
-                          ),
-                    ),
-                  ],
-                ),
-              ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ],
         ),

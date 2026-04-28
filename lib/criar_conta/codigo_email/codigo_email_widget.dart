@@ -295,6 +295,12 @@ class _CodigoEmailWidgetState extends State<CodigoEmailWidget> {
                                   } else {
                                     context.pushNamed(
                                       CadastroenderecoWidget.routeName,
+                                      queryParameters: {
+                                        'cpf': serializeParam(
+                                          widget.cpf,
+                                          ParamType.String,
+                                        ),
+                                      }.withoutNulls,
                                       extra: <String, dynamic>{
                                         '__transition_info__': TransitionInfo(
                                           hasTransition: true,
@@ -412,15 +418,7 @@ class _CodigoEmailWidgetState extends State<CodigoEmailWidget> {
                       children: [
                         FFButtonWidget(
                           onPressed: () async {
-                            context.pushNamed(
-                              LoginWidget.routeName,
-                              extra: <String, dynamic>{
-                                '__transition_info__': TransitionInfo(
-                                  hasTransition: true,
-                                  transitionType: PageTransitionType.fade,
-                                ),
-                              },
-                            );
+                            context.safePop();
                           },
                           text: '<',
                           options: FFButtonOptions(

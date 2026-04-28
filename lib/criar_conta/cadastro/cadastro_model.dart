@@ -12,15 +12,15 @@ class CadastroModel extends FlutterFlowModel<CadastroWidget> {
   FocusNode? nomecompletoFocusNode;
   TextEditingController? nomecompletoTextController;
   String? Function(BuildContext, String?)? nomecompletoTextControllerValidator;
+  // State field(s) for email widget.
+  FocusNode? emailFocusNode;
+  TextEditingController? emailTextController;
+  String? Function(BuildContext, String?)? emailTextControllerValidator;
   // State field(s) for CPF widget.
   FocusNode? cpfFocusNode;
   TextEditingController? cpfTextController;
   late MaskTextInputFormatter cpfMask;
   String? Function(BuildContext, String?)? cpfTextControllerValidator;
-  // State field(s) for email widget.
-  FocusNode? emailFocusNode;
-  TextEditingController? emailTextController;
-  String? Function(BuildContext, String?)? emailTextControllerValidator;
   // State field(s) for telefone widget.
   FocusNode? telefoneFocusNode;
   TextEditingController? telefoneTextController;
@@ -46,11 +46,11 @@ class CadastroModel extends FlutterFlowModel<CadastroWidget> {
     nomecompletoFocusNode?.dispose();
     nomecompletoTextController?.dispose();
 
-    cpfFocusNode?.dispose();
-    cpfTextController?.dispose();
-
     emailFocusNode?.dispose();
     emailTextController?.dispose();
+
+    cpfFocusNode?.dispose();
+    cpfTextController?.dispose();
 
     telefoneFocusNode?.dispose();
     telefoneTextController?.dispose();

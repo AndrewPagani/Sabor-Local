@@ -94,6 +94,7 @@ class AddenderecoCall {
     String? complemento,
     String? referencia,
     String? cep2 = '',
+    String? cpf = '',
   }) async {
     complemento ??= null;
     referencia ??= null;
@@ -105,7 +106,8 @@ class AddenderecoCall {
   "numero": "${escapeStringForJson(numero)}",
   "bairro": "${escapeStringForJson(bairro)}",
   "complemento": "${escapeStringForJson(complemento)}",
-  "referencia": "${escapeStringForJson(referencia)}"
+  "referencia": "${escapeStringForJson(referencia)}",
+  "cpf": "${escapeStringForJson(cpf)}"
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'addendereco',
@@ -380,6 +382,37 @@ class VerificaCadastroCall {
   static int? errorType(dynamic response) => castToType<int>(getJsonField(
         response,
         r'''$.payload''',
+      ));
+}
+
+class ValidaemailCall {
+  static Future<ApiCallResponse> call({
+    String? email = '',
+  }) async {
+    final ffApiRequestBody = '''
+{
+  "email": "${escapeStringForJson(email)}"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'validaemail',
+      apiUrl: 'https://x8ki-letl-twmt.n7.xano.io/api:ue7fMkeV/validaemail2',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  static String? eRROEmail(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.code''',
       ));
 }
 
