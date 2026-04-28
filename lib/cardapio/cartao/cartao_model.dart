@@ -1,8 +1,8 @@
 import '/flutter_flow/flutter_flow_util.dart';
-import 'cardapio_widget.dart' show CardapioWidget;
+import 'cartao_widget.dart' show CartaoWidget;
 import 'package:flutter/material.dart';
 
-class CardapioModel extends FlutterFlowModel<CardapioWidget> {
+class CartaoModel extends FlutterFlowModel<CartaoWidget> {
   @override
   void initState(BuildContext context) {}
 

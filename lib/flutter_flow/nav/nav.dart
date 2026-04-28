@@ -107,9 +107,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: CardapioWidget.routeName,
-          path: CardapioWidget.routePath,
-          builder: (context, params) => CardapioWidget(),
+          name: CartaoWidget.routeName,
+          path: CartaoWidget.routePath,
+          builder: (context, params) => CartaoWidget(),
         ),
         FFRoute(
           name: RedefinirSenhaWidget.routeName,

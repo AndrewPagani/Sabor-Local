@@ -9,6 +9,6 @@ export '/cadastro_endereco/cadastroendereco/cadastroendereco_widget.dart'
     show CadastroenderecoWidget;
 export '/esqueceu_asenha/codigo_senha/codigo_senha_widget.dart'
     show CodigoSenhaWidget;
-export '/cardapio/cardapio/cardapio_widget.dart' show CardapioWidget;
+export '/cardapio/cartao/cartao_widget.dart' show CartaoWidget;
 export '/esqueceu_asenha/redefinir_senha/redefinir_senha_widget.dart'
     show RedefinirSenhaWidget;

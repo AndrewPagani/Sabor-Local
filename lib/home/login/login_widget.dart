@@ -650,7 +650,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                   // Vai para o cardápio
 
                                   context.pushNamed(
-                                    CardapioWidget.routeName,
+                                    CartaoWidget.routeName,
                                     extra: <String, dynamic>{
                                       '__transition_info__': TransitionInfo(
                                         hasTransition: true,

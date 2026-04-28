@@ -1,28 +1,28 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
-import 'cardapio_model.dart';
-export 'cardapio_model.dart';
+import 'cartao_model.dart';
+export 'cartao_model.dart';
 
-class CardapioWidget extends StatefulWidget {
-  const CardapioWidget({super.key});
+class CartaoWidget extends StatefulWidget {
+  const CartaoWidget({super.key});
 
-  static String routeName = 'Cardapio';
-  static String routePath = '/cardapio';
+  static String routeName = 'cartao';
+  static String routePath = '/cartao';
 
   @override
-  State<CardapioWidget> createState() => _CardapioWidgetState();
+  State<CartaoWidget> createState() => _CartaoWidgetState();
 }
 
-class _CardapioWidgetState extends State<CardapioWidget> {
-  late CardapioModel _model;
+class _CartaoWidgetState extends State<CartaoWidget> {
+  late CartaoModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => CardapioModel());
+    _model = createModel(context, () => CartaoModel());
   }
 
   @override
