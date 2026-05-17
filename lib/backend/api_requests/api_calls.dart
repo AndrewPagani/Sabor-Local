@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 
 import '/flutter_flow/flutter_flow_util.dart';
@@ -47,6 +48,122 @@ class BuscaclienteCall {
 }
 
 /// End Auth Group Code
+
+/// Start SaborLocal Group Code
+
+class SaborLocalGroup {
+  static String getBaseUrl() =>
+      'https://x8ki-letl-twmt.n7.xano.io/api:UXPL7lyX';
+  static Map<String, String> headers = {};
+  static GetItemCall getItemCall = GetItemCall();
+  static PostItemCall postItemCall = PostItemCall();
+}
+
+class GetItemCall {
+  Future<ApiCallResponse> call() async {
+    final baseUrl = SaborLocalGroup.getBaseUrl();
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'GetItem',
+      apiUrl: '${baseUrl}/item',
+      callType: ApiCallType.GET,
+      headers: {},
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  List<int>? id(dynamic response) => (getJsonField(
+        response,
+        r'''$[:].id''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<int>(x))
+          .withoutNulls
+          .toList();
+  List<int>? pedidoid(dynamic response) => (getJsonField(
+        response,
+        r'''$[:].pedido_id''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<int>(x))
+          .withoutNulls
+          .toList();
+  List<int>? qtd(dynamic response) => (getJsonField(
+        response,
+        r'''$[:].qtd''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<int>(x))
+          .withoutNulls
+          .toList();
+  List<int>? valorunit(dynamic response) => (getJsonField(
+        response,
+        r'''$[:].valor_unit''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<int>(x))
+          .withoutNulls
+          .toList();
+  List<int>? subtotal(dynamic response) => (getJsonField(
+        response,
+        r'''$[:].subtotal''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<int>(x))
+          .withoutNulls
+          .toList();
+}
+
+class PostItemCall {
+  Future<ApiCallResponse> call({
+    String? pedidoId = '',
+    String? qtd = '',
+    String? valorUnit = '',
+    String? subtotal = '',
+    String? produtoId = '',
+    String? statusItemId = '',
+  }) async {
+    final baseUrl = SaborLocalGroup.getBaseUrl();
+
+    final ffApiRequestBody = '''
+{
+  "pedido_id": "${escapeStringForJson(pedidoId)}",
+  "qtd": "${escapeStringForJson(qtd)}",
+  "valor_unit": "${escapeStringForJson(valorUnit)}",
+  "subtotal": "${escapeStringForJson(subtotal)}",
+  "produto_id": "${escapeStringForJson(produtoId)}",
+  "status_cliente_id": "${escapeStringForJson(statusItemId)}"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'PostItem',
+      apiUrl: '${baseUrl}/item',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+/// End SaborLocal Group Code
 
 class ValidacepCall {
   static Future<ApiCallResponse> call({
@@ -414,6 +531,97 @@ class ValidaemailCall {
         response,
         r'''$.code''',
       ));
+}
+
+class BuscaCardapioCall {
+  static Future<ApiCallResponse> call() async {
+    return ApiManager.instance.makeApiCall(
+      callName: 'BuscaCardapio',
+      apiUrl: 'https://x8ki-letl-twmt.n7.xano.io/api:UXPL7lyX/produto',
+      callType: ApiCallType.GET,
+      headers: {},
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: true,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  static List<String>? nome(dynamic response) => (getJsonField(
+        response,
+        r'''$[:].nome''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<String>(x))
+          .withoutNulls
+          .toList();
+  static List<String>? filtros(dynamic response) => (getJsonField(
+        response,
+        r'''$[:].filtros''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<String>(x))
+          .withoutNulls
+          .toList();
+  static List<String>? descricao(dynamic response) => (getJsonField(
+        response,
+        r'''$[:].descricao''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<String>(x))
+          .withoutNulls
+          .toList();
+  static List<String>? ingredientes(dynamic response) => (getJsonField(
+        response,
+        r'''$[:].ingredientes''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<String>(x))
+          .withoutNulls
+          .toList();
+  static List<String>? url(dynamic response) => (getJsonField(
+        response,
+        r'''$[:].url''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<String>(x))
+          .withoutNulls
+          .toList();
+  static List<bool>? precisaprod(dynamic response) => (getJsonField(
+        response,
+        r'''$[:].precisa_produzir''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<bool>(x))
+          .withoutNulls
+          .toList();
+  static List<double>? preco(dynamic response) => (getJsonField(
+        response,
+        r'''$[:].preco''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<double>(x))
+          .withoutNulls
+          .toList();
+  static List<int>? qtddisp(dynamic response) => (getJsonField(
+        response,
+        r'''$[:].qtd_disp''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<int>(x))
+          .withoutNulls
+          .toList();
 }
 
 class ApiPagingParams {

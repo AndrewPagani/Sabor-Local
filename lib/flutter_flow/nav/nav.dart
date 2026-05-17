@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '/backend/schema/structs/index.dart';
+
 import '/flutter_flow/flutter_flow_util.dart';
 
 import '/index.dart';
@@ -33,12 +35,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       navigatorKey: appNavigatorKey,
-      errorBuilder: (context, state) => LoginWidget(),
+      errorBuilder: (context, state) => CardapioWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
-          builder: (context, _) => LoginWidget(),
+          builder: (context, _) => CardapioWidget(),
         ),
         FFRoute(
           name: LoginWidget.routeName,
@@ -120,6 +122,26 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               ParamType.String,
             ),
           ),
+        ),
+        FFRoute(
+          name: CardapioWidget.routeName,
+          path: CardapioWidget.routePath,
+          builder: (context, params) => CardapioWidget(),
+        ),
+        FFRoute(
+          name: CarrinhoWidget.routeName,
+          path: CarrinhoWidget.routePath,
+          builder: (context, params) => CarrinhoWidget(),
+        ),
+        FFRoute(
+          name: ConfiguracaoWidget.routeName,
+          path: ConfiguracaoWidget.routePath,
+          builder: (context, params) => ConfiguracaoWidget(),
+        ),
+        FFRoute(
+          name: PagamentoWidget.routeName,
+          path: PagamentoWidget.routePath,
+          builder: (context, params) => PagamentoWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -191,6 +213,7 @@ class FFParameters {
     String paramName,
     ParamType type, {
     bool isList = false,
+    StructBuilder<T>? structBuilder,
   }) {
     if (futureParamValues.containsKey(paramName)) {
       return futureParamValues[paramName];
@@ -208,6 +231,7 @@ class FFParameters {
       param,
       type,
       isList,
+      structBuilder: structBuilder,
     );
   }
 }

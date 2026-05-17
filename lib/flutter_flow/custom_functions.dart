@@ -8,6 +8,7 @@ import 'package:timeago/timeago.dart' as timeago;
 import 'lat_lng.dart';
 import 'place.dart';
 import 'uploaded_file.dart';
+import '/backend/schema/structs/index.dart';
 
 int? verifyCPF(String? textoCPF) {
   return textoCPF?.length ?? 0;
@@ -65,4 +66,17 @@ bool? validarCPF(String? cpfDigitado) {
   }
 
   return true;
+}
+
+String? formatarParaReal(double? valor) {
+  // Se o valor for nulo, retorna um padrão seguro
+  if (valor == null) {
+    return 'R\$ 0,00';
+  }
+
+  // Converte o valor para String com 2 casas decimais e substitui o ponto por vírgula
+  String valorFormatado = valor.toStringAsFixed(2).replaceAll('.', ',');
+
+  // Retorna o valor formatado com o cifrão escapado corretamente
+  return 'R\$ $valorFormatado';
 }
