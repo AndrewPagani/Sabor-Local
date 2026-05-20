@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '/backend/schema/structs/index.dart';
-
 import '/flutter_flow/flutter_flow_util.dart';
 
 import '/index.dart';
@@ -35,12 +33,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       navigatorKey: appNavigatorKey,
-      errorBuilder: (context, state) => CardapioWidget(),
+      errorBuilder: (context, state) => LoginWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
-          builder: (context, _) => CardapioWidget(),
+          builder: (context, _) => LoginWidget(),
         ),
         FFRoute(
           name: LoginWidget.routeName,
@@ -131,7 +129,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: CarrinhoWidget.routeName,
           path: CarrinhoWidget.routePath,
-          builder: (context, params) => CarrinhoWidget(),
+          builder: (context, params) => CarrinhoWidget(
+            preco: params.getParam(
+              'preco',
+              ParamType.double,
+            ),
+          ),
         ),
         FFRoute(
           name: ConfiguracaoWidget.routeName,
@@ -142,6 +145,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: PagamentoWidget.routeName,
           path: PagamentoWidget.routePath,
           builder: (context, params) => PagamentoWidget(),
+        ),
+        FFRoute(
+          name: CardapioCopyWidget.routeName,
+          path: CardapioCopyWidget.routePath,
+          builder: (context, params) => CardapioCopyWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -213,7 +221,6 @@ class FFParameters {
     String paramName,
     ParamType type, {
     bool isList = false,
-    StructBuilder<T>? structBuilder,
   }) {
     if (futureParamValues.containsKey(paramName)) {
       return futureParamValues[paramName];
@@ -231,7 +238,6 @@ class FFParameters {
       param,
       type,
       isList,
-      structBuilder: structBuilder,
     );
   }
 }

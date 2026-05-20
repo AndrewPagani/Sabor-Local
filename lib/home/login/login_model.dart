@@ -20,6 +20,8 @@ class LoginModel extends FlutterFlowModel<LoginWidget> {
   ApiCallResponse? apiResult1sb;
   // Stores action output result for [Backend Call - API (validaemail)] action in Entrar widget.
   ApiCallResponse? apiResult6ro;
+  // Stores action output result for [Backend Call - API (buscacliente)] action in Entrar widget.
+  ApiCallResponse? busca;
 
   @override
   void initState(BuildContext context) {

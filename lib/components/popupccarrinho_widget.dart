@@ -3,14 +3,15 @@ import '/flutter_flow/flutter_flow_count_controller.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/custom_functions.dart' as functions;
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'popupcardapio_model.dart';
-export 'popupcardapio_model.dart';
+import 'package:provider/provider.dart';
+import 'popupccarrinho_model.dart';
+export 'popupccarrinho_model.dart';
 
-class PopupcardapioWidget extends StatefulWidget {
-  const PopupcardapioWidget({
+class PopupccarrinhoWidget extends StatefulWidget {
+  const PopupccarrinhoWidget({
     super.key,
     required this.parametroPopup,
     required this.nome,
@@ -26,11 +27,11 @@ class PopupcardapioWidget extends StatefulWidget {
   final int? estoque;
 
   @override
-  State<PopupcardapioWidget> createState() => _PopupcardapioWidgetState();
+  State<PopupccarrinhoWidget> createState() => _PopupccarrinhoWidgetState();
 }
 
-class _PopupcardapioWidgetState extends State<PopupcardapioWidget> {
-  late PopupcardapioModel _model;
+class _PopupccarrinhoWidgetState extends State<PopupccarrinhoWidget> {
+  late PopupccarrinhoModel _model;
 
   @override
   void setState(VoidCallback callback) {
@@ -41,7 +42,7 @@ class _PopupcardapioWidgetState extends State<PopupcardapioWidget> {
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => PopupcardapioModel());
+    _model = createModel(context, () => PopupccarrinhoModel());
   }
 
   @override
@@ -53,6 +54,8 @@ class _PopupcardapioWidgetState extends State<PopupcardapioWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return Container(
       width: 370.0,
       height: 100.0,
@@ -87,8 +90,10 @@ class _PopupcardapioWidgetState extends State<PopupcardapioWidget> {
                         bottomLeft: Radius.circular(10.0),
                         bottomRight: Radius.circular(10.0),
                       ),
-                      child: Image.network(
-                        valueOrDefault<String>(
+                      child: CachedNetworkImage(
+                        fadeInDuration: Duration(milliseconds: 500),
+                        fadeOutDuration: Duration(milliseconds: 500),
+                        imageUrl: valueOrDefault<String>(
                           widget.url?.toString(),
                           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM4sEG5g9GFcy4SUxbzWNzUTf1jMISTDZrTw&s',
                         ),
@@ -146,8 +151,18 @@ class _PopupcardapioWidgetState extends State<PopupcardapioWidget> {
                                   ),
                         ),
                         count: _model.countControllerValue ??= 1,
-                        updateCount: (count) => safeSetState(
-                            () => _model.countControllerValue = count),
+                        updateCount: (count) async {
+                          safeSetState(
+                              () => _model.countControllerValue = count);
+                          _model.apiResultkyx =
+                              await SaborLocalGroup.postItemCall.call(
+                            authtoken: FFAppState().authtoken,
+                            nomeProduto: widget.nome?.toString(),
+                            qtd: _model.countControllerValue.toString(),
+                          );
+
+                          safeSetState(() {});
+                        },
                         stepSize: 1,
                         minimum: 1,
                         maximum: widget.estoque!,
@@ -169,6 +184,11 @@ class _PopupcardapioWidgetState extends State<PopupcardapioWidget> {
                         size: 24.0,
                       ),
                       onPressed: () async {
+                        await SaborLocalGroup.deleteItemCall.call(
+                          authtoken: FFAppState().authtoken,
+                          nomeProduto: widget.nome?.toString(),
+                        );
+
                         FFAppState()
                             .removeFromCardapiorstate(widget.parametroPopup!);
                         _model.updatePage(() {});
@@ -213,7 +233,7 @@ class _PopupcardapioWidgetState extends State<PopupcardapioWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
-                                          font: GoogleFonts.inter(
+                                          font: GoogleFonts.poppins(
                                             fontWeight: FontWeight.w500,
                                             fontStyle:
                                                 FlutterFlowTheme.of(context)
@@ -249,54 +269,33 @@ class _PopupcardapioWidgetState extends State<PopupcardapioWidget> {
                     Padding(
                       padding:
                           EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
-                      child: FutureBuilder<ApiCallResponse>(
-                        future: SaborLocalGroup.getItemCall.call(),
-                        builder: (context, snapshot) {
-                          // Customize what your widget looks like when it's loading.
-                          if (!snapshot.hasData) {
-                            return Center(
-                              child: SizedBox(
-                                width: 50.0,
-                                height: 50.0,
-                                child: CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                    FlutterFlowTheme.of(context).primary,
-                                  ),
-                                ),
+                      child: Text(
+                        valueOrDefault<String>(
+                          formatNumber(
+                            (widget.preco!) * (_model.countControllerValue!),
+                            formatType: FormatType.decimal,
+                            decimalType: DecimalType.commaDecimal,
+                            currency: 'R\$ ',
+                          ),
+                          'Ops...',
+                        ),
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              font: GoogleFonts.inter(
+                                fontWeight: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .fontWeight,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .fontStyle,
                               ),
-                            );
-                          }
-                          final textGetItemResponse = snapshot.data!;
-
-                          return Text(
-                            valueOrDefault<String>(
-                              functions.formatarParaReal(getJsonField(
-                                widget.parametroPopup,
-                                r'''$.preco''',
-                              )),
-                              'ops...',
+                              letterSpacing: 0.0,
+                              fontWeight: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .fontWeight,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .fontStyle,
                             ),
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  font: GoogleFonts.inter(
-                                    fontWeight: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontWeight,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontStyle,
-                                  ),
-                                  letterSpacing: 0.0,
-                                  fontWeight: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .fontWeight,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .fontStyle,
-                                ),
-                          );
-                        },
                       ),
                     ),
                   ],

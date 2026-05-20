@@ -17,3 +17,5 @@ export '/interface_user/carrinho/carrinho_widget.dart' show CarrinhoWidget;
 export '/interface_user/configuracao/configuracao_widget.dart'
     show ConfiguracaoWidget;
 export '/interface_user/pagamento/pagamento_widget.dart' show PagamentoWidget;
+export '/interface_user/cardapio_copy/cardapio_copy_widget.dart'
+    show CardapioCopyWidget;

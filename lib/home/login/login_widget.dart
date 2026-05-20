@@ -5,6 +5,7 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'login_model.dart';
 export 'login_model.dart';
 
@@ -44,6 +45,8 @@ class _LoginWidgetState extends State<LoginWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -647,6 +650,22 @@ class _LoginWidgetState extends State<LoginWidget> {
                                     return;
                                   }
                                 } else {
+                                  FFAppState().authtoken =
+                                      AuthloginCall.tokenlogin(
+                                    (_model.apiResult1sb?.jsonBody ?? ''),
+                                  )!;
+                                  safeSetState(() {});
+                                  _model.busca =
+                                      await AuthGroup.buscaclienteCall.call(
+                                    authtoken: FFAppState().authtoken,
+                                  );
+
+                                  _shouldSetState = true;
+                                  FFAppState().nomeUser = getJsonField(
+                                    (_model.busca?.jsonBody ?? ''),
+                                    r'''$.nome''',
+                                  ).toString();
+                                  safeSetState(() {});
                                   // Vai para o cardápio
 
                                   context.pushNamed(
@@ -655,7 +674,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                       '__transition_info__': TransitionInfo(
                                         hasTransition: true,
                                         transitionType: PageTransitionType.fade,
-                                        duration: Duration(milliseconds: 500),
+                                        duration: Duration(milliseconds: 700),
                                       ),
                                     },
                                   );

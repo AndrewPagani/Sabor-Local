@@ -48,4 +48,16 @@ class FFAppState extends ChangeNotifier {
   void insertAtIndexInCardapiorstate(int index, dynamic value) {
     cardapiorstate.insert(index, value);
   }
+
+  String _authtoken = '';
+  String get authtoken => _authtoken;
+  set authtoken(String value) {
+    _authtoken = value;
+  }
+
+  String _nomeUser = '';
+  String get nomeUser => _nomeUser;
+  set nomeUser(String value) {
+    _nomeUser = value;
+  }
 }

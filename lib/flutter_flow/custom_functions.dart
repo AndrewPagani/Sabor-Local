@@ -8,7 +8,6 @@ import 'package:timeago/timeago.dart' as timeago;
 import 'lat_lng.dart';
 import 'place.dart';
 import 'uploaded_file.dart';
-import '/backend/schema/structs/index.dart';
 
 int? verifyCPF(String? textoCPF) {
   return textoCPF?.length ?? 0;
@@ -79,4 +78,58 @@ String? formatarParaReal(double? valor) {
 
   // Retorna o valor formatado com o cifrão escapado corretamente
   return 'R\$ $valorFormatado';
+}
+
+String? obterPrimeiroNome(String? nomeUser) {
+  if (nomeUser == null || nomeUser.trim().isEmpty) {
+    return 'Usuário';
+  }
+  List<String> partesDoNome = nomeUser.trim().split(' ');
+
+  return partesDoNome.first;
+}
+
+double somaTotal(List<dynamic> precoTotal) {
+  if (precoTotal == null || precoTotal.isEmpty) {
+    return 0.0;
+  }
+
+  double total = 0.0;
+  for (var item in precoTotal) {
+    var precoItem = item['preco'];
+
+    // Mude 'quantidade' para o nome exato do campo do carrinho (ex: 'qtd', 'count')
+    var qtdItem = item['quantidade'];
+
+    if (precoItem != null) {
+      double preco = double.tryParse(precoItem.toString()) ?? 0.0;
+      int quantidade = int.tryParse(qtdItem.toString()) ?? 1;
+
+      total += (preco * quantidade);
+    }
+  }
+
+  return total;
+}
+
+List<dynamic> barraDePesquisa(
+  List<dynamic> listaDeProdutos,
+  String? textoDigitato,
+) {
+  if (listaDeProdutos == null) return [];
+
+  if (textoDigitato == null || textoDigitato.isEmpty) {
+    return listaDeProdutos;
+  }
+
+  final String termo = textoDigitato.toLowerCase();
+
+  return listaDeProdutos.where((item) {
+    if (item is Map) {
+      // Ajuste 'nome' se na sua API a chave do prato for diferente
+      final String nomePrato = (item['nome'] ?? '').toString().toLowerCase();
+      return nomePrato.contains(termo);
+    }
+    return false;
+  }).toList();
 }

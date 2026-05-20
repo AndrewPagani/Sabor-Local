@@ -1,8 +1,9 @@
 import '/backend/api_requests/api_calls.dart';
-import '/components/popupcardapio_widget.dart';
+import '/components/popupccarrinho_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -12,9 +13,14 @@ import 'carrinho_model.dart';
 export 'carrinho_model.dart';
 
 class CarrinhoWidget extends StatefulWidget {
-  const CarrinhoWidget({super.key});
+  const CarrinhoWidget({
+    super.key,
+    required this.preco,
+  });
 
-  static String routeName = 'carrinho';
+  final double? preco;
+
+  static String routeName = 'Carrinho';
   static String routePath = '/carrinho';
 
   @override
@@ -200,14 +206,14 @@ class _CarrinhoWidgetState extends State<CarrinhoWidget> {
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             10.0, 0.0, 10.0, 0.0),
                                         child: wrapWithModel(
-                                          model: _model.popupcardapioModels
+                                          model: _model.popupccarrinhoModels
                                               .getModel(
                                             childrencarrinhoIndex.toString(),
                                             childrencarrinhoIndex,
                                           ),
                                           updateCallback: () =>
                                               safeSetState(() {}),
-                                          child: PopupcardapioWidget(
+                                          child: PopupccarrinhoWidget(
                                             key: Key(
                                               'Key2kz_${childrencarrinhoIndex.toString()}',
                                             ),
@@ -372,15 +378,35 @@ class _CarrinhoWidgetState extends State<CarrinhoWidget> {
                                     ),
                               ),
                             ),
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 0.0, 10.0, 0.0),
-                              child: Text(
-                                '',
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .override(
-                                      font: GoogleFonts.inter(
+                            if (valueOrDefault<bool>(
+                              FFAppState().cardapiorstate.length > 0,
+                              true,
+                            ))
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    0.0, 0.0, 10.0, 0.0),
+                                child: Text(
+                                  formatNumber(
+                                    functions.somaTotal(
+                                        FFAppState().cardapiorstate.toList()),
+                                    formatType: FormatType.decimal,
+                                    decimalType: DecimalType.commaDecimal,
+                                    currency: 'R\$ ',
+                                  ),
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        font: GoogleFonts.inter(
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
+                                        letterSpacing: 0.0,
                                         fontWeight: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .fontWeight,
@@ -388,16 +414,8 @@ class _CarrinhoWidgetState extends State<CarrinhoWidget> {
                                             .bodyMedium
                                             .fontStyle,
                                       ),
-                                      letterSpacing: 0.0,
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontStyle,
-                                    ),
+                                ),
                               ),
-                            ),
                           ],
                         ),
                       ),

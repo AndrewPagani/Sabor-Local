@@ -5,8 +5,10 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'popup_model.dart';
 export 'popup_model.dart';
 
@@ -15,10 +17,12 @@ class PopupWidget extends StatefulWidget {
     super.key,
     required this.parametroPopup,
     required this.preco,
+    required this.nome,
   });
 
   final dynamic parametroPopup;
   final double? preco;
+  final String? nome;
 
   @override
   State<PopupWidget> createState() => _PopupWidgetState();
@@ -48,6 +52,8 @@ class _PopupWidgetState extends State<PopupWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(12.0),
       child: Container(
@@ -71,8 +77,10 @@ class _PopupWidgetState extends State<PopupWidget> {
                       Expanded(
                         child: ClipRRect(
                           borderRadius: BorderRadius.only(),
-                          child: Image.network(
-                            valueOrDefault<String>(
+                          child: CachedNetworkImage(
+                            fadeInDuration: Duration(milliseconds: 500),
+                            fadeOutDuration: Duration(milliseconds: 500),
+                            imageUrl: valueOrDefault<String>(
                               getJsonField(
                                 widget.parametroPopup,
                                 r'''$.url''',
@@ -143,7 +151,7 @@ class _PopupWidgetState extends State<PopupWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
-                                          font: GoogleFonts.inter(
+                                          font: GoogleFonts.poppins(
                                             fontWeight: FontWeight.w600,
                                             fontStyle:
                                                 FlutterFlowTheme.of(context)
@@ -245,12 +253,29 @@ class _PopupWidgetState extends State<PopupWidget> {
                                       size: 24.0,
                                     ),
                                     onPressed: () async {
+                                      await SaborLocalGroup.pOSTpedidoCall.call(
+                                        authtoken: FFAppState().authtoken,
+                                      );
+
+                                      await SaborLocalGroup.postItemCall.call(
+                                        qtd: '1',
+                                        authtoken: FFAppState().authtoken,
+                                        nomeProduto: widget.nome,
+                                      );
+
                                       FFAppState().addToCardapiorstate(
                                           widget.parametroPopup!);
                                       _model.updatePage(() {});
 
-                                      context
-                                          .pushNamed(CarrinhoWidget.routeName);
+                                      context.pushNamed(
+                                        CarrinhoWidget.routeName,
+                                        queryParameters: {
+                                          'preco': serializeParam(
+                                            widget.preco,
+                                            ParamType.double,
+                                          ),
+                                        }.withoutNulls,
+                                      );
                                     },
                                   ),
                                 ),
@@ -323,9 +348,8 @@ class _PopupWidgetState extends State<PopupWidget> {
                                                                     .of(context)
                                                                 .bodyMedium
                                                                 .override(
-                                                                  font:
-                                                                      GoogleFonts
-                                                                          .inter(
+                                                                  font: GoogleFonts
+                                                                      .poppins(
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .w500,
@@ -426,9 +450,8 @@ class _PopupWidgetState extends State<PopupWidget> {
                                                                   .of(context)
                                                               .bodyMedium
                                                               .override(
-                                                                font:
-                                                                    GoogleFonts
-                                                                        .inter(
+                                                                font: GoogleFonts
+                                                                    .poppins(
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w500,

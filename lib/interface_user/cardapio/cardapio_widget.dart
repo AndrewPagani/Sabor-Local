@@ -4,10 +4,12 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:provider/provider.dart';
 import 'cardapio_model.dart';
 export 'cardapio_model.dart';
 
@@ -31,8 +33,8 @@ class _CardapioWidgetState extends State<CardapioWidget> {
     super.initState();
     _model = createModel(context, () => CardapioModel());
 
-    _model.textController ??= TextEditingController();
-    _model.textFieldFocusNode ??= FocusNode();
+    _model.pesquisaTextController ??= TextEditingController();
+    _model.pesquisaFocusNode ??= FocusNode();
   }
 
   @override
@@ -44,6 +46,8 @@ class _CardapioWidgetState extends State<CardapioWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -119,11 +123,43 @@ class _CardapioWidgetState extends State<CardapioWidget> {
                             padding: EdgeInsetsDirectional.fromSTEB(
                                 43.0, 9.0, 0.0, 0.0),
                             child: Text(
-                              'Bem-vindo, usuario',
+                              'Bem-vindo,',
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    font: GoogleFonts.inter(
+                                    font: GoogleFonts.poppins(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
+                                    color: Colors.white,
+                                    fontSize: 20.0,
+                                    letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
+                                  ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                5.0, 9.0, 0.0, 0.0),
+                            child: Text(
+                              valueOrDefault<String>(
+                                functions
+                                    .obterPrimeiroNome(FFAppState().nomeUser),
+                                'Usuário',
+                              ),
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    font: GoogleFonts.poppins(
                                       fontWeight: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .fontWeight,
@@ -184,124 +220,152 @@ class _CardapioWidgetState extends State<CardapioWidget> {
                                 ),
                               ),
                               Expanded(
-                                child: Container(
-                                  width: 200.0,
-                                  child: TextFormField(
-                                    controller: _model.textController,
-                                    focusNode: _model.textFieldFocusNode,
-                                    autofocus: false,
-                                    enabled: true,
-                                    obscureText: false,
-                                    decoration: InputDecoration(
-                                      isDense: true,
-                                      labelStyle: FlutterFlowTheme.of(context)
-                                          .labelMedium
-                                          .override(
-                                            font: GoogleFonts.inter(
-                                              fontWeight:
+                                child: FutureBuilder<ApiCallResponse>(
+                                  future: BuscaCardapioCall.call(),
+                                  builder: (context, snapshot) {
+                                    // Customize what your widget looks like when it's loading.
+                                    if (!snapshot.hasData) {
+                                      return Center(
+                                        child: SizedBox(
+                                          width: 50.0,
+                                          height: 50.0,
+                                          child: CircularProgressIndicator(
+                                            valueColor:
+                                                AlwaysStoppedAnimation<Color>(
+                                              FlutterFlowTheme.of(context)
+                                                  .primary,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                    final pesquisaBuscaCardapioResponse =
+                                        snapshot.data!;
+
+                                    return Container(
+                                      width: 200.0,
+                                      child: TextFormField(
+                                        controller:
+                                            _model.pesquisaTextController,
+                                        focusNode: _model.pesquisaFocusNode,
+                                        onChanged: (_) => EasyDebounce.debounce(
+                                          '_model.pesquisaTextController',
+                                          Duration(milliseconds: 3000),
+                                          () => safeSetState(() {}),
+                                        ),
+                                        autofocus: false,
+                                        enabled: true,
+                                        obscureText: false,
+                                        decoration: InputDecoration(
+                                          isDense: true,
+                                          labelStyle: FlutterFlowTheme.of(
+                                                  context)
+                                              .labelMedium
+                                              .override(
+                                                font: GoogleFonts.inter(
+                                                  fontWeight: FontWeight.normal,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .labelMedium
+                                                          .fontStyle,
+                                                ),
+                                                fontSize: 21.0,
+                                                letterSpacing: 0.0,
+                                                fontWeight: FontWeight.normal,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelMedium
+                                                        .fontStyle,
+                                              ),
+                                          hintText: 'Pesquisa',
+                                          hintStyle: FlutterFlowTheme.of(
+                                                  context)
+                                              .labelMedium
+                                              .override(
+                                                font: GoogleFonts.poppins(
+                                                  fontWeight: FontWeight.normal,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .labelMedium
+                                                          .fontStyle,
+                                                ),
+                                                color: Color(0xFF969FA3),
+                                                fontSize: 18.0,
+                                                letterSpacing: 0.0,
+                                                fontWeight: FontWeight.normal,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelMedium
+                                                        .fontStyle,
+                                              ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Color(0x00000000),
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Color(0x00000000),
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                          errorBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color:
                                                   FlutterFlowTheme.of(context)
-                                                      .labelMedium
-                                                      .fontWeight,
+                                                      .error,
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                          focusedErrorBorder:
+                                              OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .error,
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                        ),
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                              font: GoogleFonts.montserrat(
+                                                fontWeight: FontWeight.normal,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
+                                              fontSize: 21.0,
+                                              letterSpacing: 0.0,
+                                              fontWeight: FontWeight.normal,
                                               fontStyle:
                                                   FlutterFlowTheme.of(context)
-                                                      .labelMedium
+                                                      .bodyMedium
                                                       .fontStyle,
                                             ),
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .labelMedium
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .labelMedium
-                                                    .fontStyle,
-                                          ),
-                                      hintText: 'Pesquisa',
-                                      hintStyle: FlutterFlowTheme.of(context)
-                                          .labelMedium
-                                          .override(
-                                            font: GoogleFonts.inter(
-                                              fontWeight: FontWeight.w500,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .labelMedium
-                                                      .fontStyle,
-                                            ),
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryBackground,
-                                            fontSize: 21.0,
-                                            letterSpacing: 0.0,
-                                            fontWeight: FontWeight.w500,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .labelMedium
-                                                    .fontStyle,
-                                          ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Color(0x00000000),
-                                          width: 1.0,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
+                                        cursorColor:
+                                            FlutterFlowTheme.of(context)
+                                                .primaryText,
+                                        enableInteractiveSelection: true,
+                                        validator: _model
+                                            .pesquisaTextControllerValidator
+                                            .asValidator(context),
                                       ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Color(0x00000000),
-                                          width: 1.0,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                      ),
-                                      errorBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: FlutterFlowTheme.of(context)
-                                              .error,
-                                          width: 1.0,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                      ),
-                                      focusedErrorBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: FlutterFlowTheme.of(context)
-                                              .error,
-                                          width: 1.0,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                      ),
-                                    ),
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                          font: GoogleFonts.inter(
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
-                                          ),
-                                          letterSpacing: 0.0,
-                                          fontWeight:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontWeight,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontStyle,
-                                        ),
-                                    cursorColor: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                    enableInteractiveSelection: true,
-                                    validator: _model.textControllerValidator
-                                        .asValidator(context),
-                                  ),
+                                    );
+                                  },
                                 ),
                               ),
                               Icon(
@@ -442,6 +506,7 @@ class _CardapioWidgetState extends State<CardapioWidget> {
                       ],
                     ),
                     Row(
+                      key: ValueKey('teste'),
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Expanded(
@@ -484,10 +549,10 @@ class _CardapioWidgetState extends State<CardapioWidget> {
                                   ),
                                 ),
 
-                                itemBuilder: (context, _, entradasIndex) {
-                                  final entradasItem = _model
+                                itemBuilder: (context, _, pratoprincipalIndex) {
+                                  final pratoprincipalItem = _model
                                       .listViewPagingController1!
-                                      .itemList![entradasIndex];
+                                      .itemList![pratoprincipalIndex];
                                   return Builder(
                                     builder: (context) => Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
@@ -521,11 +586,15 @@ class _CardapioWidgetState extends State<CardapioWidget> {
                                                   child: PopupWidget(
                                                     parametroPopup:
                                                         getJsonField(
-                                                      entradasItem,
+                                                      pratoprincipalItem,
                                                       r'''$''',
                                                     ),
-                                                    preco: entradasIndex
+                                                    preco: pratoprincipalIndex
                                                         .toDouble(),
+                                                    nome: getJsonField(
+                                                      pratoprincipalItem,
+                                                      r'''$.nome''',
+                                                    ).toString(),
                                                   ),
                                                 ),
                                               );
@@ -566,7 +635,7 @@ class _CardapioWidgetState extends State<CardapioWidget> {
                                                           valueOrDefault<
                                                               String>(
                                                             getJsonField(
-                                                              entradasItem,
+                                                              pratoprincipalItem,
                                                               r'''$.url''',
                                                             )?.toString(),
                                                             'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM4sEG5g9GFcy4SUxbzWNzUTf1jMISTDZrTw&s',
@@ -632,7 +701,7 @@ class _CardapioWidgetState extends State<CardapioWidget> {
                                                                         child:
                                                                             Text(
                                                                           getJsonField(
-                                                                            entradasItem,
+                                                                            pratoprincipalItem,
                                                                             r'''$.nome''',
                                                                           ).toString(),
                                                                           textAlign:
@@ -641,11 +710,11 @@ class _CardapioWidgetState extends State<CardapioWidget> {
                                                                               .bodyMedium
                                                                               .override(
                                                                                 font: GoogleFonts.inter(
-                                                                                  fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                                                  fontWeight: FontWeight.w500,
                                                                                   fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                                                 ),
                                                                                 letterSpacing: 0.0,
-                                                                                fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                                                fontWeight: FontWeight.w500,
                                                                                 fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                                               ),
                                                                         ),
@@ -672,7 +741,7 @@ class _CardapioWidgetState extends State<CardapioWidget> {
                                                                             String>(
                                                                           functions
                                                                               .formatarParaReal(getJsonField(
-                                                                            entradasItem,
+                                                                            pratoprincipalItem,
                                                                             r'''$.preco''',
                                                                           )),
                                                                           'ops...',
@@ -828,6 +897,10 @@ class _CardapioWidgetState extends State<CardapioWidget> {
                                                     ),
                                                     preco: entradasIndex
                                                         .toDouble(),
+                                                    nome: getJsonField(
+                                                      entradasItem,
+                                                      r'''$.nome''',
+                                                    ).toString(),
                                                   ),
                                                 ),
                                               );
@@ -943,11 +1016,11 @@ class _CardapioWidgetState extends State<CardapioWidget> {
                                                                               .bodyMedium
                                                                               .override(
                                                                                 font: GoogleFonts.inter(
-                                                                                  fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                                                  fontWeight: FontWeight.w500,
                                                                                   fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                                                 ),
                                                                                 letterSpacing: 0.0,
-                                                                                fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                                                fontWeight: FontWeight.w500,
                                                                                 fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                                               ),
                                                                         ),
@@ -1130,6 +1203,10 @@ class _CardapioWidgetState extends State<CardapioWidget> {
                                                     ),
                                                     preco:
                                                         bebidasIndex.toDouble(),
+                                                    nome: getJsonField(
+                                                      bebidasItem,
+                                                      r'''$.nome''',
+                                                    ).toString(),
                                                   ),
                                                 ),
                                               );
@@ -1245,11 +1322,11 @@ class _CardapioWidgetState extends State<CardapioWidget> {
                                                                               .bodyMedium
                                                                               .override(
                                                                                 font: GoogleFonts.inter(
-                                                                                  fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                                                  fontWeight: FontWeight.w500,
                                                                                   fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                                                 ),
                                                                                 letterSpacing: 0.0,
-                                                                                fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                                                fontWeight: FontWeight.w500,
                                                                                 fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                                               ),
                                                                         ),
@@ -1432,6 +1509,10 @@ class _CardapioWidgetState extends State<CardapioWidget> {
                                                     ),
                                                     preco: sobremesasIndex
                                                         .toDouble(),
+                                                    nome: getJsonField(
+                                                      sobremesasItem,
+                                                      r'''$.nome''',
+                                                    ).toString(),
                                                   ),
                                                 ),
                                               );
@@ -1547,11 +1628,11 @@ class _CardapioWidgetState extends State<CardapioWidget> {
                                                                               .bodyMedium
                                                                               .override(
                                                                                 font: GoogleFonts.inter(
-                                                                                  fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                                                  fontWeight: FontWeight.w500,
                                                                                   fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                                                 ),
                                                                                 letterSpacing: 0.0,
-                                                                                fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                                                fontWeight: FontWeight.w500,
                                                                                 fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                                               ),
                                                                         ),
@@ -1670,7 +1751,15 @@ class _CardapioWidgetState extends State<CardapioWidget> {
                             hoverColor: Colors.transparent,
                             highlightColor: Colors.transparent,
                             onTap: () async {
-                              context.pushNamed(CarrinhoWidget.routeName);
+                              context.pushNamed(
+                                CarrinhoWidget.routeName,
+                                queryParameters: {
+                                  'preco': serializeParam(
+                                    0.0,
+                                    ParamType.double,
+                                  ),
+                                }.withoutNulls,
+                              );
                             },
                             child: Icon(
                               Icons.shopping_cart,

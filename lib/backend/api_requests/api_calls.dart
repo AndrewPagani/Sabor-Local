@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 
 import '/flutter_flow/flutter_flow_util.dart';
@@ -35,7 +34,7 @@ class BuscaclienteCall {
       returnBody: true,
       encodeBodyUtf8: false,
       decodeUtf8: false,
-      cache: false,
+      cache: true,
       isStreamingApi: false,
       alwaysAllowBody: false,
     );
@@ -44,6 +43,10 @@ class BuscaclienteCall {
   int? status(dynamic response) => castToType<int>(getJsonField(
         response,
         r'''$.response.status''',
+      ));
+  String? nome(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.nome''',
       ));
 }
 
@@ -57,6 +60,8 @@ class SaborLocalGroup {
   static Map<String, String> headers = {};
   static GetItemCall getItemCall = GetItemCall();
   static PostItemCall postItemCall = PostItemCall();
+  static POSTpedidoCall pOSTpedidoCall = POSTpedidoCall();
+  static DeleteItemCall deleteItemCall = DeleteItemCall();
 }
 
 class GetItemCall {
@@ -127,27 +132,88 @@ class GetItemCall {
 
 class PostItemCall {
   Future<ApiCallResponse> call({
-    String? pedidoId = '',
+    String? authtoken = '',
+    String? nomeProduto = '',
     String? qtd = '',
-    String? valorUnit = '',
-    String? subtotal = '',
-    String? produtoId = '',
-    String? statusItemId = '',
   }) async {
     final baseUrl = SaborLocalGroup.getBaseUrl();
 
     final ffApiRequestBody = '''
 {
-  "pedido_id": "${escapeStringForJson(pedidoId)}",
   "qtd": "${escapeStringForJson(qtd)}",
-  "valor_unit": "${escapeStringForJson(valorUnit)}",
-  "subtotal": "${escapeStringForJson(subtotal)}",
-  "produto_id": "${escapeStringForJson(produtoId)}",
-  "status_cliente_id": "${escapeStringForJson(statusItemId)}"
+  "authtoken": "${escapeStringForJson(authtoken)}",
+  "nomeProduto": "${escapeStringForJson(nomeProduto)}"
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'PostItem',
       apiUrl: '${baseUrl}/item',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class POSTpedidoCall {
+  Future<ApiCallResponse> call({
+    String? authtoken = '',
+  }) async {
+    final baseUrl = SaborLocalGroup.getBaseUrl();
+
+    final ffApiRequestBody = '''
+{
+  "authtoken": "${escapeStringForJson(authtoken)}"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'POSTpedido',
+      apiUrl: '${baseUrl}/pedido',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  String? statement(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.statement''',
+      ));
+  int? pedidoid(dynamic response) => castToType<int>(getJsonField(
+        response,
+        r'''$.pedido.id''',
+      ));
+}
+
+class DeleteItemCall {
+  Future<ApiCallResponse> call({
+    String? authtoken = '',
+    String? nomeProduto = '',
+  }) async {
+    final baseUrl = SaborLocalGroup.getBaseUrl();
+
+    final ffApiRequestBody = '''
+{
+  "authtoken": "${escapeStringForJson(authtoken)}",
+  "nomeProduto": "${escapeStringForJson(nomeProduto)}"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'deleteItem',
+      apiUrl: '${baseUrl}/deleteItem',
       callType: ApiCallType.POST,
       headers: {},
       params: {},
@@ -372,7 +438,7 @@ class AuthloginCall {
       returnBody: true,
       encodeBodyUtf8: false,
       decodeUtf8: false,
-      cache: false,
+      cache: true,
       isStreamingApi: false,
       alwaysAllowBody: false,
     );
@@ -616,6 +682,15 @@ class BuscaCardapioCall {
   static List<int>? qtddisp(dynamic response) => (getJsonField(
         response,
         r'''$[:].qtd_disp''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<int>(x))
+          .withoutNulls
+          .toList();
+  static List<int>? id(dynamic response) => (getJsonField(
+        response,
+        r'''$[:].id''',
         true,
       ) as List?)
           ?.withoutNulls
