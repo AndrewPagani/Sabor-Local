@@ -133,7 +133,7 @@ class _PopupccarrinhoWidgetState extends State<PopupccarrinhoWidget> {
                           count.toString(),
                           style:
                               FlutterFlowTheme.of(context).titleLarge.override(
-                                    font: GoogleFonts.interTight(
+                                    font: GoogleFonts.poppins(
                                       fontWeight: FlutterFlowTheme.of(context)
                                           .titleLarge
                                           .fontWeight,
@@ -154,12 +154,18 @@ class _PopupccarrinhoWidgetState extends State<PopupccarrinhoWidget> {
                         updateCount: (count) async {
                           safeSetState(
                               () => _model.countControllerValue = count);
-                          _model.apiResultkyx =
+                          _model.postItemOutput =
                               await SaborLocalGroup.postItemCall.call(
                             authtoken: FFAppState().authtoken,
                             nomeProduto: widget.nome?.toString(),
                             qtd: _model.countControllerValue.toString(),
                           );
+
+                          FFAppState().carrinhoState = getJsonField(
+                            (_model.postItemOutput?.jsonBody ?? ''),
+                            r'''$.carrinhoAtualizado''',
+                          );
+                          _model.updatePage(() {});
 
                           safeSetState(() {});
                         },
@@ -192,6 +198,11 @@ class _PopupccarrinhoWidgetState extends State<PopupccarrinhoWidget> {
                         FFAppState()
                             .removeFromCardapiorstate(widget.parametroPopup!);
                         _model.updatePage(() {});
+                        FFAppState().carrinhoState = getJsonField(
+                          (_model.postItemOutput?.jsonBody ?? ''),
+                          r'''$.carrinhoAtualizado''',
+                        );
+                        _model.updatePage(() {});
                       },
                     ),
                   ),
@@ -211,7 +222,7 @@ class _PopupccarrinhoWidgetState extends State<PopupccarrinhoWidget> {
                   Expanded(
                     child: Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(
-                          97.0, 22.0, 175.0, 0.0),
+                          97.0, 22.0, 178.0, 0.0),
                       child: Container(
                         width: 82.19,
                         height: 35.0,
@@ -280,7 +291,7 @@ class _PopupccarrinhoWidgetState extends State<PopupccarrinhoWidget> {
                           'Ops...',
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.inter(
+                              font: GoogleFonts.poppins(
                                 fontWeight: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .fontWeight,

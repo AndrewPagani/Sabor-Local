@@ -99,13 +99,13 @@ double somaTotal(List<dynamic> precoTotal) {
     var precoItem = item['preco'];
 
     // Mude 'quantidade' para o nome exato do campo do carrinho (ex: 'qtd', 'count')
-    var qtdItem = item['quantidade'];
+    var qtdItem = item['qtd'];
 
     if (precoItem != null) {
       double preco = double.tryParse(precoItem.toString()) ?? 0.0;
-      int quantidade = int.tryParse(qtdItem.toString()) ?? 1;
+      int qtd = int.tryParse(qtdItem.toString()) ?? 1;
 
-      total += (preco * quantidade);
+      total += (preco * qtd);
     }
   }
 
@@ -118,18 +118,54 @@ List<dynamic> barraDePesquisa(
 ) {
   if (listaDeProdutos == null) return [];
 
-  if (textoDigitato == null || textoDigitato.isEmpty) {
+  if (textoDigitato == null ||
+      textoDigitato.trim().isEmpty ||
+      textoDigitato == 'null') {
     return listaDeProdutos;
   }
 
-  final String termo = textoDigitato.toLowerCase();
+  final String termo = textoDigitato.toLowerCase().trim();
 
   return listaDeProdutos.where((item) {
     if (item is Map) {
-      // Ajuste 'nome' se na sua API a chave do prato for diferente
       final String nomePrato = (item['nome'] ?? '').toString().toLowerCase();
       return nomePrato.contains(termo);
     }
     return false;
   }).toList();
+}
+
+String? verifyLength(
+  String? numero,
+  String? mes,
+  String? ano,
+  String? cvv,
+) {
+  final cleanNumero = numero?.replaceAll(RegExp(r'\D'), '') ?? '';
+  final cleanMes = mes?.replaceAll(RegExp(r'\D'), '') ?? '';
+  final cleanAno = ano?.replaceAll(RegExp(r'\D'), '') ?? '';
+  final cleanCvv = cvv?.replaceAll(RegExp(r'\D'), '') ?? '';
+
+  if (cleanNumero.length != 16) {
+    return 'Número do cartão inválido. Deve conter exatamente 16 dígitos.';
+  }
+
+  if (cleanMes.length != 2) {
+    return 'Mês inválido. Digite no formato MM (ex: 05).';
+  }
+
+  if (cleanAno.length != 4) {
+    return 'Ano inválido. Digite no formato AAAA (ex: 2026).';
+  }
+
+  final anoInserido = int.tryParse(cleanAno);
+  if (anoInserido != null && anoInserido < 2026) {
+    return '42';
+  }
+
+  if (cleanCvv.length != 3) {
+    return 'Código de segurança (CVV) inválido. Deve conter exatamente 3 dígitos.';
+  }
+
+  return '67';
 }

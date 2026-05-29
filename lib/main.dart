@@ -75,10 +75,34 @@ class _MyAppState extends State<MyApp> {
       supportedLocales: const [Locale('en', '')],
       theme: ThemeData(
         brightness: Brightness.light,
+        scrollbarTheme: ScrollbarThemeData(
+          interactive: false,
+          thumbColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.dragged)) {
+              return Color(0);
+            }
+            if (states.contains(WidgetState.hovered)) {
+              return Color(0);
+            }
+            return Color(0);
+          }),
+        ),
         useMaterial3: false,
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
+        scrollbarTheme: ScrollbarThemeData(
+          interactive: false,
+          thumbColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.dragged)) {
+              return Color(0);
+            }
+            if (states.contains(WidgetState.hovered)) {
+              return Color(0);
+            }
+            return Color(0);
+          }),
+        ),
         useMaterial3: false,
       ),
       themeMode: _themeMode,

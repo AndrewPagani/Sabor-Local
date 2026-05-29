@@ -1,12 +1,13 @@
 import '/backend/api_requests/api_calls.dart';
-import '/components/popupccarrinho_widget.dart';
+import '/componentes/popupccarrinho/popupccarrinho_widget.dart';
+import '/componentes/task_bar/task_bar_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'carrinho_model.dart';
@@ -136,7 +137,7 @@ class _CarrinhoWidgetState extends State<CarrinhoWidget> {
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  font: GoogleFonts.inter(
+                                  font: GoogleFonts.poppins(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .fontWeight,
@@ -174,10 +175,9 @@ class _CarrinhoWidgetState extends State<CarrinhoWidget> {
                                   child: SizedBox(
                                     width: 50.0,
                                     height: 50.0,
-                                    child: CircularProgressIndicator(
-                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                        FlutterFlowTheme.of(context).primary,
-                                      ),
+                                    child: SpinKitDualRing(
+                                      color: FlutterFlowTheme.of(context).info,
+                                      size: 50.0,
                                     ),
                                   ),
                                 );
@@ -259,66 +259,10 @@ class _CarrinhoWidgetState extends State<CarrinhoWidget> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Container(
-                    width: 422.0,
-                    height: 58.2,
-                    decoration: BoxDecoration(
-                      color: Color(0xFF0B5A37),
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20.0),
-                        topRight: Radius.circular(20.0),
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              50.0, 0.0, 0.0, 0.0),
-                          child: InkWell(
-                            splashColor: Colors.transparent,
-                            focusColor: Colors.transparent,
-                            hoverColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            onTap: () async {
-                              context.pushNamed(CardapioWidget.routeName);
-                            },
-                            child: Icon(
-                              Icons.home,
-                              color: Colors.white,
-                              size: 40.0,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              45.0, 0.0, 0.0, 0.0),
-                          child: Icon(
-                            Icons.shopping_cart,
-                            color: Colors.white,
-                            size: 35.0,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              45.0, 0.0, 0.0, 0.0),
-                          child: Icon(
-                            Icons.person,
-                            color: Colors.white,
-                            size: 40.0,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              55.0, 0.0, 0.0, 0.0),
-                          child: FaIcon(
-                            FontAwesomeIcons.cog,
-                            color: Colors.white,
-                            size: 30.0,
-                          ),
-                        ),
-                      ],
-                    ),
+                  wrapWithModel(
+                    model: _model.taskBarModel,
+                    updateCallback: () => safeSetState(() {}),
+                    child: TaskBarWidget(),
                   ),
                 ],
               ),
@@ -360,7 +304,7 @@ class _CarrinhoWidgetState extends State<CarrinhoWidget> {
                                 style: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .override(
-                                      font: GoogleFonts.inter(
+                                      font: GoogleFonts.poppins(
                                         fontWeight: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .fontWeight,
@@ -385,35 +329,58 @@ class _CarrinhoWidgetState extends State<CarrinhoWidget> {
                               Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 10.0, 0.0),
-                                child: Text(
-                                  formatNumber(
-                                    functions.somaTotal(
-                                        FFAppState().cardapiorstate.toList()),
-                                    formatType: FormatType.decimal,
-                                    decimalType: DecimalType.commaDecimal,
-                                    currency: 'R\$ ',
-                                  ),
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                        font: GoogleFonts.inter(
-                                          fontWeight:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontWeight,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontStyle,
+                                child: FutureBuilder<ApiCallResponse>(
+                                  future: SaborLocalGroup.getItemCall.call(),
+                                  builder: (context, snapshot) {
+                                    // Customize what your widget looks like when it's loading.
+                                    if (!snapshot.hasData) {
+                                      return Center(
+                                        child: SizedBox(
+                                          width: 50.0,
+                                          height: 50.0,
+                                          child: SpinKitDualRing(
+                                            color: FlutterFlowTheme.of(context)
+                                                .info,
+                                            size: 50.0,
+                                          ),
                                         ),
-                                        letterSpacing: 0.0,
-                                        fontWeight: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .fontWeight,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .fontStyle,
+                                      );
+                                    }
+                                    final textGetItemResponse = snapshot.data!;
+
+                                    return Text(
+                                      valueOrDefault<String>(
+                                        functions.formatarParaReal(getJsonField(
+                                          FFAppState().carrinhoState,
+                                          r'''$.total''',
+                                        )),
+                                        '...',
                                       ),
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            font: GoogleFonts.poppins(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
+                                            ),
+                                            letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
+                                    );
+                                  },
                                 ),
                               ),
                           ],
@@ -429,8 +396,80 @@ class _CarrinhoWidgetState extends State<CarrinhoWidget> {
                         padding:
                             EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
                         child: FFButtonWidget(
-                          onPressed: () {
-                            print('Button pressed ...');
+                          onPressed: () async {
+                            var _shouldSetState = false;
+                            if (getJsonField(
+                                  FFAppState().carrinhoState,
+                                  r'''$.total''',
+                                ) ==
+                                null) {
+                              ScaffoldMessenger.of(context).clearSnackBars();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Adicione itens ao carrinho',
+                                    style: GoogleFonts.poppins(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 15.0,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  duration: Duration(milliseconds: 1500),
+                                  backgroundColor:
+                                      FlutterFlowTheme.of(context).error,
+                                ),
+                              );
+                              if (_shouldSetState) safeSetState(() {});
+                              return;
+                            } else {
+                              _model.apiResult1hr =
+                                  await SaborLocalGroup.getCartaoCall.call(
+                                authtoken: FFAppState().authtoken,
+                              );
+
+                              _shouldSetState = true;
+                              if (getJsonField(
+                                    (_model.apiResult1hr?.jsonBody ?? ''),
+                                    r'''$[:].token''',
+                                  ) ==
+                                  null) {
+                                context.pushNamed(
+                                  CartaoWidget.routeName,
+                                  queryParameters: {
+                                    'precoParam': serializeParam(
+                                      getJsonField(
+                                        FFAppState().carrinhoState,
+                                        r'''$.total''',
+                                      ),
+                                      ParamType.double,
+                                    ),
+                                  }.withoutNulls,
+                                  extra: <String, dynamic>{
+                                    '__transition_info__': TransitionInfo(
+                                      hasTransition: true,
+                                      transitionType: PageTransitionType.fade,
+                                      duration: Duration(milliseconds: 100),
+                                    ),
+                                  },
+                                );
+                              } else {
+                                context.pushNamed(
+                                  PagamentoWidget.routeName,
+                                  queryParameters: {
+                                    'preco': serializeParam(
+                                      getJsonField(
+                                        FFAppState().carrinhoState,
+                                        r'''$.total''',
+                                      ),
+                                      ParamType.double,
+                                    ),
+                                  }.withoutNulls,
+                                );
+                              }
+                            }
+
+                            if (_shouldSetState) safeSetState(() {});
                           },
                           text: 'Comprar',
                           options: FFButtonOptions(

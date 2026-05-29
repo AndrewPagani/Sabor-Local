@@ -1,8 +1,8 @@
 import '/flutter_flow/flutter_flow_util.dart';
-import 'popup_widget.dart' show PopupWidget;
+import 'task_bar_widget.dart' show TaskBarWidget;
 import 'package:flutter/material.dart';
 
-class PopupModel extends FlutterFlowModel<PopupWidget> {
+class TaskBarModel extends FlutterFlowModel<TaskBarWidget> {
   @override
   void initState(BuildContext context) {}
 

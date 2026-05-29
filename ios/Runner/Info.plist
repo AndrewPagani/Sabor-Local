@@ -43,7 +43,14 @@
 	<true/>
 
 
-
+	<key>NSMicrophoneUsageDescription</key>
+    <string>Precisamos do seu microfone para comandos de voz</string>
+	<key>PermissionGroupNotification</key>
+    <string>Deseja que o aplicativo envie notificações?</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+    <string>Deseja permitir o acesso da sua galeria?</string>
+	<key>NSCameraUsageDescription</key>
+    <string>Permissão para ativar a camera</string>
 
 
 

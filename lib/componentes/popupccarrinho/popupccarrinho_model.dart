@@ -9,7 +9,7 @@ class PopupccarrinhoModel extends FlutterFlowModel<PopupccarrinhoWidget> {
   // State field(s) for CountController widget.
   int? countControllerValue;
   // Stores action output result for [Backend Call - API (PostItem)] action in CountController widget.
-  ApiCallResponse? apiResultkyx;
+  ApiCallResponse? postItemOutput;
 
   @override
   void initState(BuildContext context) {}

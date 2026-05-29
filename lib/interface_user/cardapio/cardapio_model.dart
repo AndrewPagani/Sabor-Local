@@ -1,4 +1,5 @@
 import '/backend/api_requests/api_calls.dart';
+import '/componentes/task_bar/task_bar_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
 import 'cardapio_widget.dart' show CardapioWidget;
@@ -8,10 +9,6 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 class CardapioModel extends FlutterFlowModel<CardapioWidget> {
   ///  State fields for stateful widgets in this page.
 
-  // State field(s) for Pesquisa widget.
-  FocusNode? pesquisaFocusNode;
-  TextEditingController? pesquisaTextController;
-  String? Function(BuildContext, String?)? pesquisaTextControllerValidator;
   // State field(s) for ListView widget.
 
   PagingController<ApiPagingParams, dynamic>? listViewPagingController1;
@@ -32,18 +29,21 @@ class CardapioModel extends FlutterFlowModel<CardapioWidget> {
   PagingController<ApiPagingParams, dynamic>? listViewPagingController4;
   Function(ApiPagingParams nextPageMarker)? listViewApiCall4;
 
+  // Model for taskBar component.
+  late TaskBarModel taskBarModel;
+
   @override
-  void initState(BuildContext context) {}
+  void initState(BuildContext context) {
+    taskBarModel = createModel(context, () => TaskBarModel());
+  }
 
   @override
   void dispose() {
-    pesquisaFocusNode?.dispose();
-    pesquisaTextController?.dispose();
-
     listViewPagingController1?.dispose();
     listViewPagingController2?.dispose();
     listViewPagingController3?.dispose();
     listViewPagingController4?.dispose();
+    taskBarModel.dispose();
   }
 
   /// Additional helper methods.

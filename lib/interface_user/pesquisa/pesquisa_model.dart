@@ -1,15 +1,15 @@
-import '/backend/api_requests/api_calls.dart';
 import '/componentes/task_bar/task_bar_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/index.dart';
-import 'configuracao_widget.dart' show ConfiguracaoWidget;
+import 'pesquisa_widget.dart' show PesquisaWidget;
 import 'package:flutter/material.dart';
 
-class ConfiguracaoModel extends FlutterFlowModel<ConfiguracaoWidget> {
+class PesquisaModel extends FlutterFlowModel<PesquisaWidget> {
   ///  State fields for stateful widgets in this page.
 
-  // Stores action output result for [Backend Call - API (getEndereco)] action in Text widget.
-  ApiCallResponse? getEndereco;
+  // State field(s) for Pesquisa widget.
+  FocusNode? pesquisaFocusNode;
+  TextEditingController? pesquisaTextController;
+  String? Function(BuildContext, String?)? pesquisaTextControllerValidator;
   // Model for taskBar component.
   late TaskBarModel taskBarModel;
 
@@ -20,6 +20,9 @@ class ConfiguracaoModel extends FlutterFlowModel<ConfiguracaoWidget> {
 
   @override
   void dispose() {
+    pesquisaFocusNode?.dispose();
+    pesquisaTextController?.dispose();
+
     taskBarModel.dispose();
   }
 }

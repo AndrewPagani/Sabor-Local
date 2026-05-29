@@ -15,6 +15,9 @@ class AuthGroup {
       'https://x8ki-letl-twmt.n7.xano.io/api:ue7fMkeV';
   static Map<String, String> headers = {};
   static BuscaclienteCall buscaclienteCall = BuscaclienteCall();
+  static TokenizacaoCall tokenizacaoCall = TokenizacaoCall();
+  static CriarClienteAsaasCall criarClienteAsaasCall = CriarClienteAsaasCall();
+  static CriarPagamentoCall criarPagamentoCall = CriarPagamentoCall();
 }
 
 class BuscaclienteCall {
@@ -50,6 +53,116 @@ class BuscaclienteCall {
       ));
 }
 
+class TokenizacaoCall {
+  Future<ApiCallResponse> call({
+    String? nomeTitular = '',
+    String? authtoken = '',
+    String? numero = '',
+    String? expMes = '',
+    String? expAno = '',
+    String? cvv = '',
+  }) async {
+    final baseUrl = AuthGroup.getBaseUrl();
+
+    final ffApiRequestBody = '''
+{
+  "nomeTitular": "${escapeStringForJson(nomeTitular)}",
+  "authtoken": "${escapeStringForJson(authtoken)}",
+  "numero": "${escapeStringForJson(numero)}",
+  "expMes": "${escapeStringForJson(expMes)}",
+  "expAno": "${escapeStringForJson(expAno)}",
+  "cvv": "${escapeStringForJson(cvv)}"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'tokenizacao',
+      apiUrl: '${baseUrl}/tokenizacao',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class CriarClienteAsaasCall {
+  Future<ApiCallResponse> call({
+    String? authtoken = '',
+  }) async {
+    final baseUrl = AuthGroup.getBaseUrl();
+
+    final ffApiRequestBody = '''
+{
+  "authtoken": "${escapeStringForJson(authtoken)}"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'criarClienteAsaas',
+      apiUrl: '${baseUrl}/criarclienteassas',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  bool? status(dynamic response) => castToType<bool>(getJsonField(
+        response,
+        r'''$.status.status''',
+      ));
+}
+
+class CriarPagamentoCall {
+  Future<ApiCallResponse> call({
+    String? authtoken = '',
+    String? valor = '',
+  }) async {
+    final baseUrl = AuthGroup.getBaseUrl();
+
+    final ffApiRequestBody = '''
+{
+  "authtoken": "${escapeStringForJson(authtoken)}",
+  "valor": "${escapeStringForJson(valor)}"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'criarPagamento',
+      apiUrl: '${baseUrl}/criarCobrancaCredito',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  bool? status(dynamic response) => castToType<bool>(getJsonField(
+        response,
+        r'''$.status.status''',
+      ));
+  String? mensagem(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.status.mensagem''',
+      ));
+}
+
 /// End Auth Group Code
 
 /// Start SaborLocal Group Code
@@ -62,10 +175,18 @@ class SaborLocalGroup {
   static PostItemCall postItemCall = PostItemCall();
   static POSTpedidoCall pOSTpedidoCall = POSTpedidoCall();
   static DeleteItemCall deleteItemCall = DeleteItemCall();
+  static GetCartaoCall getCartaoCall = GetCartaoCall();
+  static GetPedidoCall getPedidoCall = GetPedidoCall();
+  static GetEnderecoCall getEnderecoCall = GetEnderecoCall();
+  static GetCepCall getCepCall = GetCepCall();
+  static DeleteEnderecoCall deleteEnderecoCall = DeleteEnderecoCall();
+  static TornarPadraoCall tornarPadraoCall = TornarPadraoCall();
 }
 
 class GetItemCall {
-  Future<ApiCallResponse> call() async {
+  Future<ApiCallResponse> call({
+    String? authtoken = '',
+  }) async {
     final baseUrl = SaborLocalGroup.getBaseUrl();
 
     return ApiManager.instance.makeApiCall(
@@ -73,7 +194,9 @@ class GetItemCall {
       apiUrl: '${baseUrl}/item',
       callType: ApiCallType.GET,
       headers: {},
-      params: {},
+      params: {
+        'authotoken': authtoken,
+      },
       returnBody: true,
       encodeBodyUtf8: false,
       decodeUtf8: false,
@@ -160,6 +283,15 @@ class PostItemCall {
       alwaysAllowBody: false,
     );
   }
+
+  dynamic carrinhoAtualizado(dynamic response) => getJsonField(
+        response,
+        r'''$.carrinhoAtualizado''',
+      );
+  dynamic quantidadeAtualizada(dynamic response) => getJsonField(
+        response,
+        r'''$.quantidadeAtualizada''',
+      );
 }
 
 class POSTpedidoCall {
@@ -227,6 +359,255 @@ class DeleteItemCall {
       alwaysAllowBody: false,
     );
   }
+
+  dynamic carrinhoAtualizado(dynamic response) => getJsonField(
+        response,
+        r'''$.carrinhoAtualizado''',
+      );
+}
+
+class GetCartaoCall {
+  Future<ApiCallResponse> call({
+    String? authtoken = '',
+  }) async {
+    final baseUrl = SaborLocalGroup.getBaseUrl();
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'getCartao',
+      apiUrl: '${baseUrl}/cartaotoknzd',
+      callType: ApiCallType.GET,
+      headers: {},
+      params: {
+        'authtoken': authtoken,
+      },
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  String? token(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$[:].token''',
+      ));
+  String? codigoCliente(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$[:].codigoclienteassas''',
+      ));
+}
+
+class GetPedidoCall {
+  Future<ApiCallResponse> call({
+    String? authtoken = '',
+  }) async {
+    final baseUrl = SaborLocalGroup.getBaseUrl();
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'getPedido',
+      apiUrl: '${baseUrl}/pedido',
+      callType: ApiCallType.GET,
+      headers: {},
+      params: {
+        'authtoken': authtoken,
+      },
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  int? total(dynamic response) => castToType<int>(getJsonField(
+        response,
+        r'''$[:].total''',
+      ));
+  int? id(dynamic response) => castToType<int>(getJsonField(
+        response,
+        r'''$[:].id''',
+      ));
+  int? status(dynamic response) => castToType<int>(getJsonField(
+        response,
+        r'''$[:].status_pedido_id''',
+      ));
+}
+
+class GetEnderecoCall {
+  Future<ApiCallResponse> call({
+    String? authtoken = '',
+  }) async {
+    final baseUrl = SaborLocalGroup.getBaseUrl();
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'getEndereco',
+      apiUrl: '${baseUrl}/endereco',
+      callType: ApiCallType.GET,
+      headers: {},
+      params: {
+        'authtoken': authtoken,
+      },
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  List? endereco(dynamic response) => getJsonField(
+        response,
+        r'''$.endereco''',
+        true,
+      ) as List?;
+  List<String>? log(dynamic response) => (getJsonField(
+        response,
+        r'''$.endereco[:].logradouro''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<String>(x))
+          .withoutNulls
+          .toList();
+  List<String>? num(dynamic response) => (getJsonField(
+        response,
+        r'''$.endereco[:].numero''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<String>(x))
+          .withoutNulls
+          .toList();
+  List<String>? bairro(dynamic response) => (getJsonField(
+        response,
+        r'''$.endereco[:].bairro''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<String>(x))
+          .withoutNulls
+          .toList();
+  List<bool>? padrao(dynamic response) => (getJsonField(
+        response,
+        r'''$.endereco[:].padrao''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<bool>(x))
+          .withoutNulls
+          .toList();
+  List<int>? id(dynamic response) => (getJsonField(
+        response,
+        r'''$.endereco[:].id''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<int>(x))
+          .withoutNulls
+          .toList();
+}
+
+class GetCepCall {
+  Future<ApiCallResponse> call({
+    String? authtoken = '',
+  }) async {
+    final baseUrl = SaborLocalGroup.getBaseUrl();
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'getCep',
+      apiUrl: '${baseUrl}/cep',
+      callType: ApiCallType.GET,
+      headers: {},
+      params: {
+        'authtoken': authtoken,
+      },
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  String? cep(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$[:].cep''',
+      ));
+}
+
+class DeleteEnderecoCall {
+  Future<ApiCallResponse> call({
+    int? id,
+  }) async {
+    final baseUrl = SaborLocalGroup.getBaseUrl();
+
+    final ffApiRequestBody = '''
+{
+  "id": ${id}
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'deleteEndereco',
+      apiUrl: '${baseUrl}/deleteEndereco',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  List? enderecoAtt(dynamic response) => getJsonField(
+        response,
+        r'''$.enderecosAtualizado''',
+        true,
+      ) as List?;
+}
+
+class TornarPadraoCall {
+  Future<ApiCallResponse> call({
+    String? authtoken = '',
+    int? id,
+  }) async {
+    final baseUrl = SaborLocalGroup.getBaseUrl();
+
+    final ffApiRequestBody = '''
+{
+  "authtoken": "${escapeStringForJson(authtoken)}",
+  "id": ${id}
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'tornarPadrao',
+      apiUrl: '${baseUrl}/tornarPadrao',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  List? enderecoAtt(dynamic response) => getJsonField(
+        response,
+        r'''$.enderecoAtualizado''',
+        true,
+      ) as List?;
 }
 
 /// End SaborLocal Group Code
@@ -278,6 +659,7 @@ class AddenderecoCall {
     String? referencia,
     String? cep2 = '',
     String? cpf = '',
+    String? authtoken = '',
   }) async {
     complemento ??= null;
     referencia ??= null;
@@ -290,7 +672,8 @@ class AddenderecoCall {
   "bairro": "${escapeStringForJson(bairro)}",
   "complemento": "${escapeStringForJson(complemento)}",
   "referencia": "${escapeStringForJson(referencia)}",
-  "cpf": "${escapeStringForJson(cpf)}"
+  "cpf": "${escapeStringForJson(cpf)}",
+  "authtoken": "${escapeStringForJson(authtoken)}"
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'addendereco',
@@ -309,26 +692,35 @@ class AddenderecoCall {
     );
   }
 
+  static dynamic endereco(dynamic response) => getJsonField(
+        response,
+        r'''$.ENDERECO''',
+      );
   static String? log(dynamic response) => castToType<String>(getJsonField(
         response,
-        r'''$.logradouro''',
+        r'''$.ENDERECO.logradouro''',
       ));
   static String? num(dynamic response) => castToType<String>(getJsonField(
         response,
-        r'''$.numero''',
+        r'''$.ENDERECO.numero''',
       ));
-  static String? com(dynamic response) => castToType<String>(getJsonField(
+  static String? bairro(dynamic response) => castToType<String>(getJsonField(
         response,
-        r'''$.complemento''',
+        r'''$.ENDERECO.bairro''',
       ));
-  static String? bai(dynamic response) => castToType<String>(getJsonField(
+  static bool? padrao(dynamic response) => castToType<bool>(getJsonField(
         response,
-        r'''$.bairro''',
+        r'''$.ENDERECO.padrao''',
       ));
-  static String? ref(dynamic response) => castToType<String>(getJsonField(
+  static int? cepid(dynamic response) => castToType<int>(getJsonField(
         response,
-        r'''$.referencia''',
+        r'''$.ENDERECO.cep_id''',
       ));
+  static List? enderecoAtt(dynamic response) => getJsonField(
+        response,
+        r'''$.enderecosAtualizado''',
+        true,
+      ) as List?;
 }
 
 class AddcepCall {

@@ -17,5 +17,9 @@ export '/interface_user/carrinho/carrinho_widget.dart' show CarrinhoWidget;
 export '/interface_user/configuracao/configuracao_widget.dart'
     show ConfiguracaoWidget;
 export '/interface_user/pagamento/pagamento_widget.dart' show PagamentoWidget;
-export '/interface_user/cardapio_copy/cardapio_copy_widget.dart'
-    show CardapioCopyWidget;
+export '/interface_user/pesquisa/pesquisa_widget.dart' show PesquisaWidget;
+export '/interface_user/pedido_realizado/pedido_realizado_widget.dart'
+    show PedidoRealizadoWidget;
+export '/interface_user/meus_enderecos/meus_enderecos_widget.dart'
+    show MeusEnderecosWidget;
+export '/interface_user/user/user_widget.dart' show UserWidget;

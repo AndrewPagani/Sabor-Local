@@ -109,7 +109,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: CartaoWidget.routeName,
           path: CartaoWidget.routePath,
-          builder: (context, params) => CartaoWidget(),
+          builder: (context, params) => CartaoWidget(
+            precoParam: params.getParam(
+              'precoParam',
+              ParamType.double,
+            ),
+          ),
         ),
         FFRoute(
           name: RedefinirSenhaWidget.routeName,
@@ -144,12 +149,37 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: PagamentoWidget.routeName,
           path: PagamentoWidget.routePath,
-          builder: (context, params) => PagamentoWidget(),
+          builder: (context, params) => PagamentoWidget(
+            preco: params.getParam(
+              'preco',
+              ParamType.double,
+            ),
+          ),
         ),
         FFRoute(
-          name: CardapioCopyWidget.routeName,
-          path: CardapioCopyWidget.routePath,
-          builder: (context, params) => CardapioCopyWidget(),
+          name: PesquisaWidget.routeName,
+          path: PesquisaWidget.routePath,
+          builder: (context, params) => PesquisaWidget(),
+        ),
+        FFRoute(
+          name: PedidoRealizadoWidget.routeName,
+          path: PedidoRealizadoWidget.routePath,
+          builder: (context, params) => PedidoRealizadoWidget(
+            momentoClique: params.getParam(
+              'momentoClique',
+              ParamType.DateTime,
+            ),
+          ),
+        ),
+        FFRoute(
+          name: MeusEnderecosWidget.routeName,
+          path: MeusEnderecosWidget.routePath,
+          builder: (context, params) => MeusEnderecosWidget(),
+        ),
+        FFRoute(
+          name: UserWidget.routeName,
+          path: UserWidget.routePath,
+          builder: (context, params) => UserWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

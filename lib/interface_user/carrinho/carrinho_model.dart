@@ -1,4 +1,6 @@
-import '/components/popupccarrinho_widget.dart';
+import '/backend/api_requests/api_calls.dart';
+import '/componentes/popupccarrinho/popupccarrinho_widget.dart';
+import '/componentes/task_bar/task_bar_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
 import 'carrinho_widget.dart' show CarrinhoWidget;
@@ -9,15 +11,21 @@ class CarrinhoModel extends FlutterFlowModel<CarrinhoWidget> {
 
   // Models for popupccarrinho dynamic component.
   late FlutterFlowDynamicModels<PopupccarrinhoModel> popupccarrinhoModels;
+  // Model for taskBar component.
+  late TaskBarModel taskBarModel;
+  // Stores action output result for [Backend Call - API (getCartao)] action in Button widget.
+  ApiCallResponse? apiResult1hr;
 
   @override
   void initState(BuildContext context) {
     popupccarrinhoModels =
         FlutterFlowDynamicModels(() => PopupccarrinhoModel());
+    taskBarModel = createModel(context, () => TaskBarModel());
   }
 
   @override
   void dispose() {
     popupccarrinhoModels.dispose();
+    taskBarModel.dispose();
   }
 }

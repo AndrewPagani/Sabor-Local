@@ -7,6 +7,7 @@ import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'popup_model.dart';
@@ -15,14 +16,14 @@ export 'popup_model.dart';
 class PopupWidget extends StatefulWidget {
   const PopupWidget({
     super.key,
-    required this.parametroPopup,
     required this.preco,
     required this.nome,
+    required this.parametroPopup,
   });
 
-  final dynamic parametroPopup;
   final double? preco;
   final String? nome;
+  final dynamic parametroPopup;
 
   @override
   State<PopupWidget> createState() => _PopupWidgetState();
@@ -253,11 +254,15 @@ class _PopupWidgetState extends State<PopupWidget> {
                                       size: 24.0,
                                     ),
                                     onPressed: () async {
-                                      await SaborLocalGroup.pOSTpedidoCall.call(
+                                      _model.postPedido = await SaborLocalGroup
+                                          .pOSTpedidoCall
+                                          .call(
                                         authtoken: FFAppState().authtoken,
                                       );
 
-                                      await SaborLocalGroup.postItemCall.call(
+                                      _model.postItem = await SaborLocalGroup
+                                          .postItemCall
+                                          .call(
                                         qtd: '1',
                                         authtoken: FFAppState().authtoken,
                                         nomeProduto: widget.nome,
@@ -266,6 +271,16 @@ class _PopupWidgetState extends State<PopupWidget> {
                                       FFAppState().addToCardapiorstate(
                                           widget.parametroPopup!);
                                       _model.updatePage(() {});
+                                      FFAppState().carrinhoState = getJsonField(
+                                        (_model.postItem?.jsonBody ?? ''),
+                                        r'''$.carrinhoAtualizado''',
+                                      );
+                                      _model.updatePage(() {});
+                                      FFAppState().pedidoId = getJsonField(
+                                        (_model.postPedido?.jsonBody ?? ''),
+                                        r'''$.pedido.id''',
+                                      ).toString();
+                                      safeSetState(() {});
 
                                       context.pushNamed(
                                         CarrinhoWidget.routeName,
@@ -276,6 +291,8 @@ class _PopupWidgetState extends State<PopupWidget> {
                                           ),
                                         }.withoutNulls,
                                       );
+
+                                      safeSetState(() {});
                                     },
                                   ),
                                 ),
@@ -298,13 +315,11 @@ class _PopupWidgetState extends State<PopupWidget> {
                                             child: SizedBox(
                                               width: 50.0,
                                               height: 50.0,
-                                              child: CircularProgressIndicator(
-                                                valueColor:
-                                                    AlwaysStoppedAnimation<
-                                                        Color>(
-                                                  FlutterFlowTheme.of(context)
-                                                      .primary,
-                                                ),
+                                              child: SpinKitDualRing(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .info,
+                                                size: 50.0,
                                               ),
                                             ),
                                           );
