@@ -124,12 +124,30 @@ List<dynamic> barraDePesquisa(
     return listaDeProdutos;
   }
 
-  final String termo = textoDigitato.toLowerCase().trim();
+  // Função interna para remover acentos e caracteres especiais
+  String removerAcentos(String texto) {
+    var comAcento =
+        'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝŔàáâãäåæçèéêëìíîïðñòóôõöøùúûüýŕŕ';
+    var semAcento =
+        'AAAAAAACEEEEIIIIDNOOOOOOUUUUYRaaaaaaaceeeeiiiidnoooooouuuuyrr';
+
+    String resultado = texto;
+    for (int i = 0; i < comAcento.length; i++) {
+      resultado = resultado.replaceAll(comAcento[i], semAcento[i]);
+    }
+    return resultado;
+  }
+
+  // Prepara o termo de busca limpo e sem acentos
+  final String termo = removerAcentos(textoDigitato.toLowerCase().trim());
 
   return listaDeProdutos.where((item) {
-    if (item is Map) {
+    if (item != null) {
+      // Puxa o nome do prato aceitando qualquer estrutura de mapa/json
       final String nomePrato = (item['nome'] ?? '').toString().toLowerCase();
-      return nomePrato.contains(termo);
+
+      // Compara ambos sem acentos
+      return removerAcentos(nomePrato).startsWith(termo);
     }
     return false;
   }).toList();

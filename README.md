@@ -1,4 +1,4 @@
-# Sabor Local Projeto
+# Sabor Local
 
 A new Flutter project.
 
