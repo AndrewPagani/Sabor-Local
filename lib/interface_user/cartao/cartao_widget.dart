@@ -1106,27 +1106,11 @@ class _CartaoWidgetState extends State<CartaoWidget> {
                                     );
 
                                     _shouldSetState = true;
-                                    if ((_model.apiResultd7d?.succeeded ??
-                                        true)) {
-                                      context.pushNamed(
-                                        PagamentoWidget.routeName,
-                                        queryParameters: {
-                                          'preco': serializeParam(
-                                            widget.precoParam,
-                                            ParamType.double,
-                                          ),
-                                        }.withoutNulls,
-                                        extra: <String, dynamic>{
-                                          '__transition_info__': TransitionInfo(
-                                            hasTransition: true,
-                                            transitionType:
-                                                PageTransitionType.fade,
-                                            duration:
-                                                Duration(milliseconds: 200),
-                                          ),
-                                        },
-                                      );
-                                    } else {
+                                    if (getJsonField(
+                                          (_model.apiResultd7d?.jsonBody ?? ''),
+                                          r'''$.status.status''',
+                                        ) ==
+                                        null) {
                                       ScaffoldMessenger.of(context)
                                           .clearSnackBars();
                                       ScaffoldMessenger.of(context)
@@ -1148,6 +1132,26 @@ class _CartaoWidgetState extends State<CartaoWidget> {
                                                   .error,
                                         ),
                                       );
+                                    } else {
+                                      context.pushNamed(
+                                        PagamentoWidget.routeName,
+                                        queryParameters: {
+                                          'preco': serializeParam(
+                                            widget.precoParam,
+                                            ParamType.double,
+                                          ),
+                                        }.withoutNulls,
+                                        extra: <String, dynamic>{
+                                          '__transition_info__': TransitionInfo(
+                                            hasTransition: true,
+                                            transitionType:
+                                                PageTransitionType.fade,
+                                            duration:
+                                                Duration(milliseconds: 200),
+                                          ),
+                                        },
+                                      );
+
                                       if (_shouldSetState) safeSetState(() {});
                                       return;
                                     }

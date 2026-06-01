@@ -322,8 +322,7 @@ class _EnderecosWidgetState extends State<EnderecosWidget> {
                             textAlign: TextAlign.center,
                           ),
                           duration: Duration(milliseconds: 1500),
-                          backgroundColor:
-                              FlutterFlowTheme.of(context).secondary,
+                          backgroundColor: FlutterFlowTheme.of(context).error,
                         ),
                       );
                     } else {

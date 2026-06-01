@@ -89,6 +89,11 @@ class TokenizacaoCall {
       alwaysAllowBody: false,
     );
   }
+
+  bool? status(dynamic response) => castToType<bool>(getJsonField(
+        response,
+        r'''$.status.status''',
+      ));
 }
 
 class CriarClienteAsaasCall {
@@ -389,13 +394,26 @@ class GetCartaoCall {
     );
   }
 
+  List? cartao(dynamic response) => getJsonField(
+        response,
+        r'''$.cartao''',
+        true,
+      ) as List?;
   String? token(dynamic response) => castToType<String>(getJsonField(
         response,
-        r'''$[:].token''',
+        r'''$.cartao[:].token''',
       ));
-  String? codigoCliente(dynamic response) => castToType<String>(getJsonField(
+  String? codigo(dynamic response) => castToType<String>(getJsonField(
         response,
-        r'''$[:].codigoclienteassas''',
+        r'''$.cartao[:].codigoclienteassas''',
+      ));
+  String? digitos(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.cartao[:].digitosFinais''',
+      ));
+  String? bandeira(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.cartao[:].bandeira''',
       ));
 }
 

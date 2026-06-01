@@ -78,26 +78,117 @@ class _UserWidgetState extends State<UserWidget> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Container(
-                            width: 86.0,
-                            height: 86.0,
-                            clipBehavior: Clip.antiAlias,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                            ),
-                            child: Image.network(
-                              'https://picsum.photos/seed/628/600',
-                              fit: BoxFit.cover,
+                          Expanded(
+                            child: Container(
+                              width: 100.0,
+                              height: 100.0,
+                              clipBehavior: Clip.antiAlias,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                              ),
+                              child: Image.network(
+                                'https://picsum.photos/seed/628/600',
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                         ],
                       ),
                     ),
-                    SizedBox(
-                      width: 380.0,
-                      child: Divider(
-                        thickness: 1.0,
-                        color: FlutterFlowTheme.of(context).primaryText,
+                    Align(
+                      alignment: AlignmentDirectional(-0.15, -0.13),
+                      child: Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(
+                            0.0, 262.0, 0.0, 0.0),
+                        child: InkWell(
+                          splashColor: Colors.transparent,
+                          focusColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          onTap: () async {
+                            var confirmDialogResponse = await showDialog<bool>(
+                                  context: context,
+                                  builder: (alertDialogContext) {
+                                    return AlertDialog(
+                                      title: Text('Sair da conta'),
+                                      content:
+                                          Text('Você deseja sair da conta?'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () => Navigator.pop(
+                                              alertDialogContext, false),
+                                          child: Text('Não'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () => Navigator.pop(
+                                              alertDialogContext, true),
+                                          child: Text('Sim'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                ) ??
+                                false;
+                            FFAppState().authtoken = '';
+                            FFAppState().nomeUser = '';
+                            FFAppState().carrinhoState = null;
+                            FFAppState().pedidoId = '';
+                            FFAppState().enderecoState = [];
+                            FFAppState().qtd = [];
+                            FFAppState().cardapiorstate = [];
+                            safeSetState(() {});
+
+                            context.pushNamed(LoginWidget.routeName);
+                          },
+                          child: Container(
+                            width: 346.4,
+                            height: 27.0,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  blurRadius: 4.0,
+                                  color: Color(0x33000000),
+                                  offset: Offset(
+                                    0.0,
+                                    2.0,
+                                  ),
+                                )
+                              ],
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10.0),
+                                topRight: Radius.circular(10.0),
+                                bottomLeft: Radius.circular(10.0),
+                                bottomRight: Radius.circular(10.0),
+                              ),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 2.0, 0.0, 0.0),
+                              child: Text(
+                                'Sair da conta',
+                                textAlign: TextAlign.center,
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .override(
+                                      font: GoogleFonts.inter(
+                                        fontWeight: FontWeight.w500,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
+                                      ),
+                                      color: Colors.black,
+                                      fontSize: 18.0,
+                                      letterSpacing: 0.0,
+                                      fontWeight: FontWeight.w500,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ],
@@ -105,97 +196,32 @@ class _UserWidgetState extends State<UserWidget> {
               ),
               Align(
                 alignment: AlignmentDirectional(-0.19, -0.63),
-                child: Container(
-                  width: 346.4,
-                  height: 27.0,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 4.0,
-                        color: Color(0x33000000),
-                        offset: Offset(
-                          0.0,
-                          2.0,
-                        ),
-                      )
-                    ],
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10.0),
-                      topRight: Radius.circular(10.0),
-                      bottomLeft: Radius.circular(10.0),
-                      bottomRight: Radius.circular(10.0),
-                    ),
-                  ),
-                  child: Text(
-                    'Meus favoritos',
-                    textAlign: TextAlign.center,
-                    style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          font: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w500,
-                            fontStyle: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .fontStyle,
-                          ),
-                          color: Colors.black,
-                          fontSize: 18.0,
-                          letterSpacing: 0.0,
-                          fontWeight: FontWeight.w500,
-                          fontStyle:
-                              FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                        ),
-                  ),
-                ),
-              ),
-              Align(
-                alignment: AlignmentDirectional(-0.17, -0.49),
-                child: Container(
-                  width: 346.4,
-                  height: 27.0,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 4.0,
-                        color: Color(0x33000000),
-                        offset: Offset(
-                          0.0,
-                          2.0,
-                        ),
-                      )
-                    ],
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10.0),
-                      topRight: Radius.circular(10.0),
-                      bottomLeft: Radius.circular(10.0),
-                      bottomRight: Radius.circular(10.0),
-                    ),
-                  ),
-                  child: InkWell(
-                    splashColor: Colors.transparent,
-                    focusColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    onTap: () async {
-                      context.pushNamed(
-                        CarrinhoWidget.routeName,
-                        queryParameters: {
-                          'preco': serializeParam(
+                child: Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+                  child: Container(
+                    width: 346.4,
+                    height: 27.0,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 4.0,
+                          color: Color(0x33000000),
+                          offset: Offset(
                             0.0,
-                            ParamType.double,
+                            2.0,
                           ),
-                        }.withoutNulls,
-                        extra: <String, dynamic>{
-                          '__transition_info__': TransitionInfo(
-                            hasTransition: true,
-                            transitionType: PageTransitionType.fade,
-                            duration: Duration(milliseconds: 100),
-                          ),
-                        },
-                      );
-                    },
+                        )
+                      ],
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10.0),
+                        topRight: Radius.circular(10.0),
+                        bottomLeft: Radius.circular(10.0),
+                        bottomRight: Radius.circular(10.0),
+                      ),
+                    ),
                     child: Text(
-                      'Meu carrinho',
+                      'Meus favoritos',
                       textAlign: TextAlign.center,
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             font: GoogleFonts.poppins(
@@ -212,7 +238,93 @@ class _UserWidgetState extends State<UserWidget> {
                                 .bodyMedium
                                 .fontStyle,
                           ),
-                      overflow: TextOverflow.clip,
+                    ),
+                  ),
+                ),
+              ),
+              Align(
+                alignment: AlignmentDirectional(-0.17, -0.49),
+                child: InkWell(
+                  splashColor: Colors.transparent,
+                  focusColor: Colors.transparent,
+                  hoverColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  onTap: () async {
+                    context.pushNamed(
+                      CarrinhoWidget.routeName,
+                      queryParameters: {
+                        'preco': serializeParam(
+                          0.0,
+                          ParamType.double,
+                        ),
+                      }.withoutNulls,
+                    );
+                  },
+                  child: Container(
+                    width: 346.4,
+                    height: 27.0,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 4.0,
+                          color: Color(0x33000000),
+                          offset: Offset(
+                            0.0,
+                            2.0,
+                          ),
+                        )
+                      ],
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10.0),
+                        topRight: Radius.circular(10.0),
+                        bottomLeft: Radius.circular(10.0),
+                        bottomRight: Radius.circular(10.0),
+                      ),
+                    ),
+                    child: InkWell(
+                      splashColor: Colors.transparent,
+                      focusColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () async {
+                        context.pushNamed(
+                          CarrinhoWidget.routeName,
+                          queryParameters: {
+                            'preco': serializeParam(
+                              0.0,
+                              ParamType.double,
+                            ),
+                          }.withoutNulls,
+                          extra: <String, dynamic>{
+                            '__transition_info__': TransitionInfo(
+                              hasTransition: true,
+                              transitionType: PageTransitionType.fade,
+                              duration: Duration(milliseconds: 100),
+                            ),
+                          },
+                        );
+                      },
+                      child: Text(
+                        'Meu carrinho',
+                        textAlign: TextAlign.center,
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              font: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w500,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .fontStyle,
+                              ),
+                              color: Colors.black,
+                              fontSize: 18.0,
+                              letterSpacing: 0.0,
+                              fontWeight: FontWeight.w500,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .fontStyle,
+                            ),
+                        overflow: TextOverflow.clip,
+                      ),
                     ),
                   ),
                 ),

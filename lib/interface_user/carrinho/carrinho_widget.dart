@@ -431,7 +431,7 @@ class _CarrinhoWidgetState extends State<CarrinhoWidget> {
                               _shouldSetState = true;
                               if (getJsonField(
                                     (_model.apiResult1hr?.jsonBody ?? ''),
-                                    r'''$[:].token''',
+                                    r'''$.cartao[:].token''',
                                   ) ==
                                   null) {
                                 context.pushNamed(
@@ -454,6 +454,15 @@ class _CarrinhoWidgetState extends State<CarrinhoWidget> {
                                   },
                                 );
                               } else {
+                                FFAppState().Cartao = getJsonField(
+                                  (_model.apiResult1hr?.jsonBody ?? ''),
+                                  r'''$.cartao''',
+                                  true,
+                                )!
+                                    .toList()
+                                    .cast<dynamic>();
+                                safeSetState(() {});
+
                                 context.pushNamed(
                                   PagamentoWidget.routeName,
                                   queryParameters: {

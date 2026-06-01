@@ -19,6 +19,9 @@ class FFAppState extends ChangeNotifier {
     _safeInit(() {
       _modoNoturno = prefs.getBool('ff_modoNoturno') ?? _modoNoturno;
     });
+    _safeInit(() {
+      _foto = prefs.getString('ff_foto') ?? _foto;
+    });
   }
 
   void update(VoidCallback callback) {
@@ -144,6 +147,42 @@ class FFAppState extends ChangeNotifier {
 
   void insertAtIndexInQtd(int index, int value) {
     qtd.insert(index, value);
+  }
+
+  List<dynamic> _Cartao = [];
+  List<dynamic> get Cartao => _Cartao;
+  set Cartao(List<dynamic> value) {
+    _Cartao = value;
+  }
+
+  void addToCartao(dynamic value) {
+    Cartao.add(value);
+  }
+
+  void removeFromCartao(dynamic value) {
+    Cartao.remove(value);
+  }
+
+  void removeAtIndexFromCartao(int index) {
+    Cartao.removeAt(index);
+  }
+
+  void updateCartaoAtIndex(
+    int index,
+    dynamic Function(dynamic) updateFn,
+  ) {
+    Cartao[index] = updateFn(_Cartao[index]);
+  }
+
+  void insertAtIndexInCartao(int index, dynamic value) {
+    Cartao.insert(index, value);
+  }
+
+  String _foto = '';
+  String get foto => _foto;
+  set foto(String value) {
+    _foto = value;
+    prefs.setString('ff_foto', value);
   }
 }
 

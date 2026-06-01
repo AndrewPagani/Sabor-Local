@@ -1,4 +1,5 @@
 import '/backend/api_requests/api_calls.dart';
+import '/componentes/selecione_cartao/selecione_cartao_widget.dart';
 import '/componentes/task_bar/task_bar_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -6,6 +7,7 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'pagamento_model.dart';
@@ -127,7 +129,7 @@ class _PagamentoWidgetState extends State<PagamentoWidget> {
                 width: 182.9,
                 height: 75.4,
                 decoration: BoxDecoration(
-                  color: Color(0xA2A49F9F),
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(8.0),
                   border: Border.all(
                     color: Colors.black,
@@ -206,7 +208,7 @@ class _PagamentoWidgetState extends State<PagamentoWidget> {
                 width: 182.9,
                 height: 75.4,
                 decoration: BoxDecoration(
-                  color: Color(0xA2A49F9F),
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(8.0),
                   border: Border.all(
                     width: 1.0,
@@ -285,81 +287,152 @@ class _PagamentoWidgetState extends State<PagamentoWidget> {
             ),
             Align(
               alignment: AlignmentDirectional(-0.9, -0.48),
-              child: Container(
-                width: 182.9,
-                height: 75.4,
-                decoration: BoxDecoration(
-                  color: Color(0xA2A49F9F),
-                  borderRadius: BorderRadius.circular(8.0),
-                  border: Border.all(
-                    color: Colors.black,
-                    width: 1.0,
+              child: Builder(
+                builder: (context) => FutureBuilder<ApiCallResponse>(
+                  future: SaborLocalGroup.getCartaoCall.call(
+                    authtoken: FFAppState().authtoken,
                   ),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(5.0, 0.0, 0.0, 0.0),
-                      child: Theme(
-                        data: ThemeData(
-                          checkboxTheme: CheckboxThemeData(
-                            visualDensity: VisualDensity.compact,
-                            materialTapTargetSize:
-                                MaterialTapTargetSize.shrinkWrap,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
+                  builder: (context, snapshot) {
+                    // Customize what your widget looks like when it's loading.
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: SizedBox(
+                          width: 50.0,
+                          height: 50.0,
+                          child: SpinKitDualRing(
+                            color: FlutterFlowTheme.of(context).info,
+                            size: 50.0,
                           ),
                         ),
-                        child: Checkbox(
-                          value: _model.creditoValue ??= false,
-                          onChanged: ((_model.debitoValue == true) ||
-                                  (_model.pixValue == true) ||
-                                  (_model.dwalletValue == true))
-                              ? null
-                              : (newValue) async {
-                                  safeSetState(
-                                      () => _model.creditoValue = newValue!);
+                      );
+                    }
+                    final containerGetCartaoResponse = snapshot.data!;
+
+                    return InkWell(
+                      splashColor: Colors.transparent,
+                      focusColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () async {
+                        FFAppState().Cartao = getJsonField(
+                          containerGetCartaoResponse.jsonBody,
+                          r'''$.cartao''',
+                          true,
+                        )!
+                            .toList()
+                            .cast<dynamic>();
+                        safeSetState(() {});
+                        await showDialog(
+                          context: context,
+                          builder: (dialogContext) {
+                            return Dialog(
+                              elevation: 0,
+                              insetPadding: EdgeInsets.zero,
+                              backgroundColor: Colors.transparent,
+                              alignment: AlignmentDirectional(0.0, 0.0)
+                                  .resolve(Directionality.of(context)),
+                              child: GestureDetector(
+                                onTap: () {
+                                  FocusScope.of(dialogContext).unfocus();
+                                  FocusManager.instance.primaryFocus?.unfocus();
                                 },
-                          activeColor: FlutterFlowTheme.of(context).secondary,
-                          checkColor: ((_model.debitoValue == true) ||
-                                  (_model.pixValue == true) ||
-                                  (_model.dwalletValue == true))
-                              ? null
-                              : FlutterFlowTheme.of(context).info,
+                                child: SelecioneCartaoWidget(
+                                  digito: getJsonField(
+                                    containerGetCartaoResponse.jsonBody,
+                                    r'''$.cartao[:].digitosFinais''',
+                                  ).toString(),
+                                  bandeira: getJsonField(
+                                    containerGetCartaoResponse.jsonBody,
+                                    r'''$.cartao[:].bandeira''',
+                                  ).toString(),
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      child: Container(
+                        width: 182.9,
+                        height: 75.4,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8.0),
+                          border: Border.all(
+                            color: Colors.black,
+                            width: 1.0,
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  5.0, 0.0, 0.0, 0.0),
+                              child: Theme(
+                                data: ThemeData(
+                                  checkboxTheme: CheckboxThemeData(
+                                    visualDensity: VisualDensity.compact,
+                                    materialTapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                  ),
+                                ),
+                                child: Checkbox(
+                                  value: _model.creditoValue ??= false,
+                                  onChanged: ((_model.debitoValue == true) ||
+                                          (_model.pixValue == true) ||
+                                          (_model.dwalletValue == true))
+                                      ? null
+                                      : (newValue) async {
+                                          safeSetState(() =>
+                                              _model.creditoValue = newValue!);
+                                        },
+                                  activeColor:
+                                      FlutterFlowTheme.of(context).secondary,
+                                  checkColor: ((_model.debitoValue == true) ||
+                                          (_model.pixValue == true) ||
+                                          (_model.dwalletValue == true))
+                                      ? null
+                                      : FlutterFlowTheme.of(context).info,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  5.0, 0.0, 0.0, 0.0),
+                              child: Icon(
+                                Icons.credit_card,
+                                color: Color(0xFF4D4DCC),
+                                size: 60.0,
+                              ),
+                            ),
+                            Text(
+                              'CRÉDITO',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    font: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w600,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
+                                    color: Colors.black,
+                                    fontSize: 15.0,
+                                    letterSpacing: 0.0,
+                                    fontWeight: FontWeight.w600,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
+                                  ),
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(5.0, 0.0, 0.0, 0.0),
-                      child: Icon(
-                        Icons.credit_card,
-                        color: Color(0xFF4D4DCC),
-                        size: 60.0,
-                      ),
-                    ),
-                    Text(
-                      'CRÉDITO',
-                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            font: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w600,
-                              fontStyle: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .fontStyle,
-                            ),
-                            color: Colors.black,
-                            fontSize: 15.0,
-                            letterSpacing: 0.0,
-                            fontWeight: FontWeight.w600,
-                            fontStyle: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .fontStyle,
-                          ),
-                    ),
-                  ],
+                    );
+                  },
                 ),
               ),
             ),
@@ -369,7 +442,7 @@ class _PagamentoWidgetState extends State<PagamentoWidget> {
                 width: 182.9,
                 height: 75.4,
                 decoration: BoxDecoration(
-                  color: Color(0xA2A49F9F),
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(8.0),
                   border: Border.all(
                     color: Colors.black,
@@ -745,7 +818,7 @@ class _PagamentoWidgetState extends State<PagamentoWidget> {
                           _model.criarPedido =
                               await AuthGroup.criarPagamentoCall.call(
                             authtoken: FFAppState().authtoken,
-                            valor: ((widget.preco!) + 5).toString(),
+                            valor: widget.preco?.toString(),
                           );
 
                           _shouldSetState = true;
@@ -758,10 +831,7 @@ class _PagamentoWidgetState extends State<PagamentoWidget> {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(
-                                  getJsonField(
-                                    (_model.criarPedido?.jsonBody ?? ''),
-                                    r'''$.status.mensagem''',
-                                  ).toString(),
+                                  'Tente novamente em 5  segundos',
                                   style: GoogleFonts.poppins(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w500,
@@ -798,6 +868,25 @@ class _PagamentoWidgetState extends State<PagamentoWidget> {
                             );
                           }
                         } else if (_model.pixValue == true) {
+                          ScaffoldMessenger.of(context).clearSnackBars();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'Função em desenvolvimento',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16.0,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              duration: Duration(milliseconds: 1500),
+                              backgroundColor:
+                                  FlutterFlowTheme.of(context).secondary,
+                            ),
+                          );
+                          if (_shouldSetState) safeSetState(() {});
+                          return;
                         } else if (_model.debitoValue == true) {
                           ScaffoldMessenger.of(context).clearSnackBars();
                           ScaffoldMessenger.of(context).showSnackBar(

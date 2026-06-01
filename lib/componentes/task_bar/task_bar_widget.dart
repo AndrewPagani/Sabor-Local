@@ -63,6 +63,7 @@ class _TaskBarWidgetState extends State<TaskBarWidget> {
                     '__transition_info__': TransitionInfo(
                       hasTransition: true,
                       transitionType: PageTransitionType.fade,
+                      duration: Duration(milliseconds: 100),
                     ),
                   },
                 );
@@ -90,6 +91,13 @@ class _TaskBarWidgetState extends State<TaskBarWidget> {
                       ParamType.double,
                     ),
                   }.withoutNulls,
+                  extra: <String, dynamic>{
+                    '__transition_info__': TransitionInfo(
+                      hasTransition: true,
+                      transitionType: PageTransitionType.fade,
+                      duration: Duration(milliseconds: 100),
+                    ),
+                  },
                 );
               },
               child: Icon(
@@ -107,7 +115,16 @@ class _TaskBarWidgetState extends State<TaskBarWidget> {
               hoverColor: Colors.transparent,
               highlightColor: Colors.transparent,
               onTap: () async {
-                context.pushNamed(UserWidget.routeName);
+                context.pushNamed(
+                  UserWidget.routeName,
+                  extra: <String, dynamic>{
+                    '__transition_info__': TransitionInfo(
+                      hasTransition: true,
+                      transitionType: PageTransitionType.fade,
+                      duration: Duration(milliseconds: 100),
+                    ),
+                  },
+                );
               },
               child: Icon(
                 Icons.person,
