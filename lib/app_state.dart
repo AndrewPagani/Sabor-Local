@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'flutter_flow/request_manager.dart';
+import '/backend/api_requests/api_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FFAppState extends ChangeNotifier {
@@ -184,6 +186,21 @@ class FFAppState extends ChangeNotifier {
     _foto = value;
     prefs.setString('ff_foto', value);
   }
+
+  final _njrManager = FutureRequestManager<ApiCallResponse>();
+  Future<ApiCallResponse> njr({
+    String? uniqueQueryKey,
+    bool? overrideCache,
+    required Future<ApiCallResponse> Function() requestFn,
+  }) =>
+      _njrManager.performRequest(
+        uniqueQueryKey: uniqueQueryKey,
+        overrideCache: overrideCache,
+        requestFn: requestFn,
+      );
+  void clearNjrCache() => _njrManager.clear();
+  void clearNjrCacheKey(String? uniqueKey) =>
+      _njrManager.clearRequest(uniqueKey);
 }
 
 void _safeInit(Function() initializeField) {

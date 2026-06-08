@@ -228,11 +228,6 @@ class _PesquisaWidgetState extends State<PesquisaWidget> {
                                 color: FlutterFlowTheme.of(context).primaryText,
                                 size: 35.0,
                               ),
-                              Icon(
-                                Icons.arrow_back,
-                                color: FlutterFlowTheme.of(context).primaryText,
-                                size: 24.0,
-                              ),
                             ],
                           ),
                         ),

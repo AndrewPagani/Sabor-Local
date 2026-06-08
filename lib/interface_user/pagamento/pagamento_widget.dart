@@ -1,4 +1,5 @@
 import '/backend/api_requests/api_calls.dart';
+import '/componentes/enderecos_copy/enderecos_copy_widget.dart';
 import '/componentes/selecione_cartao/selecione_cartao_widget.dart';
 import '/componentes/task_bar/task_bar_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -90,9 +91,7 @@ class _PagamentoWidgetState extends State<PagamentoWidget> {
                                 .bodyMedium
                                 .override(
                                   font: GoogleFonts.inter(
-                                    fontWeight: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontWeight,
+                                    fontWeight: FontWeight.bold,
                                     fontStyle: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .fontStyle,
@@ -101,9 +100,7 @@ class _PagamentoWidgetState extends State<PagamentoWidget> {
                                       FlutterFlowTheme.of(context).primaryText,
                                   fontSize: 30.0,
                                   letterSpacing: 0.0,
-                                  fontWeight: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .fontWeight,
+                                  fontWeight: FontWeight.bold,
                                   fontStyle: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .fontStyle,
@@ -118,6 +115,62 @@ class _PagamentoWidgetState extends State<PagamentoWidget> {
                     child: Divider(
                       thickness: 1.0,
                       color: FlutterFlowTheme.of(context).secondaryText,
+                    ),
+                  ),
+                  Align(
+                    alignment: AlignmentDirectional(0.0, 0.0),
+                    child: Padding(
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(0.0, 410.0, 0.0, 0.0),
+                      child: Container(
+                        width: 344.0,
+                        height: 100.0,
+                        decoration: BoxDecoration(),
+                        child: FutureBuilder<ApiCallResponse>(
+                          future: FFAppState().njr(
+                            requestFn: () =>
+                                SaborLocalGroup.getEnderecoCall.call(
+                              authtoken: FFAppState().authtoken,
+                            ),
+                          ),
+                          builder: (context, snapshot) {
+                            // Customize what your widget looks like when it's loading.
+                            if (!snapshot.hasData) {
+                              return Center(
+                                child: SizedBox(
+                                  width: 50.0,
+                                  height: 50.0,
+                                  child: SpinKitDualRing(
+                                    color: FlutterFlowTheme.of(context).info,
+                                    size: 50.0,
+                                  ),
+                                ),
+                              );
+                            }
+                            final enderecosCopyGetEnderecoResponse =
+                                snapshot.data!;
+
+                            return wrapWithModel(
+                              model: _model.enderecosCopyModel,
+                              updateCallback: () => safeSetState(() {}),
+                              child: EnderecosCopyWidget(
+                                logra: getJsonField(
+                                  enderecosCopyGetEnderecoResponse.jsonBody,
+                                  r'''$.endereco[?(@.padrao == true)].logradouro''',
+                                ).toString(),
+                                bairro: getJsonField(
+                                  enderecosCopyGetEnderecoResponse.jsonBody,
+                                  r'''$.endereco[?(@.padrao == true)].bairro''',
+                                ).toString(),
+                                numero: getJsonField(
+                                  enderecosCopyGetEnderecoResponse.jsonBody,
+                                  r'''$.endereco[?(@.padrao == true)].numero''',
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -154,23 +207,33 @@ class _PagamentoWidgetState extends State<PagamentoWidget> {
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
                             ),
+                            unselectedWidgetColor: Colors.black,
                           ),
                           child: Checkbox(
                             value: _model.debitoValue ??= false,
-                            onChanged: ((_model.creditoValue == true) ||
-                                    (_model.pixValue == true) ||
-                                    (_model.dwalletValue == true))
-                                ? null
-                                : (newValue) async {
-                                    safeSetState(
-                                        () => _model.debitoValue = newValue!);
-                                  },
+                            onChanged: (newValue) async {
+                              safeSetState(
+                                  () => _model.debitoValue = newValue!);
+                              if (newValue!) {
+                                safeSetState(() {
+                                  _model.creditoValue = false;
+                                });
+                                safeSetState(() {
+                                  _model.pixValue = false;
+                                });
+                                safeSetState(() {
+                                  _model.dwalletValue = false;
+                                });
+                              }
+                            },
+                            side: (Colors.black != null)
+                                ? BorderSide(
+                                    width: 2,
+                                    color: Colors.black,
+                                  )
+                                : null,
                             activeColor: FlutterFlowTheme.of(context).secondary,
-                            checkColor: ((_model.creditoValue == true) ||
-                                    (_model.pixValue == true) ||
-                                    (_model.dwalletValue == true))
-                                ? null
-                                : FlutterFlowTheme.of(context).info,
+                            checkColor: FlutterFlowTheme.of(context).info,
                           ),
                         ),
                       ),
@@ -230,23 +293,32 @@ class _PagamentoWidgetState extends State<PagamentoWidget> {
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                           ),
+                          unselectedWidgetColor: Colors.black,
                         ),
                         child: Checkbox(
                           value: _model.pixValue ??= false,
-                          onChanged: ((_model.debitoValue == true) ||
-                                  (_model.creditoValue == true) ||
-                                  (_model.dwalletValue == true))
-                              ? null
-                              : (newValue) async {
-                                  safeSetState(
-                                      () => _model.pixValue = newValue!);
-                                },
+                          onChanged: (newValue) async {
+                            safeSetState(() => _model.pixValue = newValue!);
+                            if (newValue!) {
+                              safeSetState(() {
+                                _model.debitoValue = false;
+                              });
+                              safeSetState(() {
+                                _model.dwalletValue = false;
+                              });
+                              safeSetState(() {
+                                _model.pixValue = false;
+                              });
+                            }
+                          },
+                          side: (Colors.black != null)
+                              ? BorderSide(
+                                  width: 2,
+                                  color: Colors.black,
+                                )
+                              : null,
                           activeColor: FlutterFlowTheme.of(context).secondary,
-                          checkColor: ((_model.debitoValue == true) ||
-                                  (_model.creditoValue == true) ||
-                                  (_model.dwalletValue == true))
-                              ? null
-                              : FlutterFlowTheme.of(context).info,
+                          checkColor: FlutterFlowTheme.of(context).info,
                         ),
                       ),
                     ),
@@ -378,24 +450,34 @@ class _PagamentoWidgetState extends State<PagamentoWidget> {
                                       borderRadius: BorderRadius.circular(10.0),
                                     ),
                                   ),
+                                  unselectedWidgetColor: Colors.black,
                                 ),
                                 child: Checkbox(
                                   value: _model.creditoValue ??= false,
-                                  onChanged: ((_model.debitoValue == true) ||
-                                          (_model.pixValue == true) ||
-                                          (_model.dwalletValue == true))
-                                      ? null
-                                      : (newValue) async {
-                                          safeSetState(() =>
-                                              _model.creditoValue = newValue!);
-                                        },
+                                  onChanged: (newValue) async {
+                                    safeSetState(
+                                        () => _model.creditoValue = newValue!);
+                                    if (newValue!) {
+                                      safeSetState(() {
+                                        _model.debitoValue = false;
+                                      });
+                                      safeSetState(() {
+                                        _model.pixValue = false;
+                                      });
+                                      safeSetState(() {
+                                        _model.dwalletValue = false;
+                                      });
+                                    }
+                                  },
+                                  side: (Colors.black != null)
+                                      ? BorderSide(
+                                          width: 2,
+                                          color: Colors.black,
+                                        )
+                                      : null,
                                   activeColor:
                                       FlutterFlowTheme.of(context).secondary,
-                                  checkColor: ((_model.debitoValue == true) ||
-                                          (_model.pixValue == true) ||
-                                          (_model.dwalletValue == true))
-                                      ? null
-                                      : FlutterFlowTheme.of(context).info,
+                                  checkColor: FlutterFlowTheme.of(context).info,
                                 ),
                               ),
                             ),
@@ -465,23 +547,32 @@ class _PagamentoWidgetState extends State<PagamentoWidget> {
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                           ),
+                          unselectedWidgetColor: Colors.black,
                         ),
                         child: Checkbox(
                           value: _model.dwalletValue ??= false,
-                          onChanged: ((_model.debitoValue == true) ||
-                                  (_model.pixValue == true) ||
-                                  (_model.creditoValue == true))
-                              ? null
-                              : (newValue) async {
-                                  safeSetState(
-                                      () => _model.dwalletValue = newValue!);
-                                },
+                          onChanged: (newValue) async {
+                            safeSetState(() => _model.dwalletValue = newValue!);
+                            if (newValue!) {
+                              safeSetState(() {
+                                _model.debitoValue = false;
+                              });
+                              safeSetState(() {
+                                _model.pixValue = false;
+                              });
+                              safeSetState(() {
+                                _model.creditoValue = false;
+                              });
+                            }
+                          },
+                          side: (Colors.black != null)
+                              ? BorderSide(
+                                  width: 2,
+                                  color: Colors.black,
+                                )
+                              : null,
                           activeColor: FlutterFlowTheme.of(context).secondary,
-                          checkColor: ((_model.debitoValue == true) ||
-                                  (_model.pixValue == true) ||
-                                  (_model.creditoValue == true))
-                              ? null
-                              : FlutterFlowTheme.of(context).info,
+                          checkColor: FlutterFlowTheme.of(context).info,
                         ),
                       ),
                     ),
@@ -801,37 +892,100 @@ class _PagamentoWidgetState extends State<PagamentoWidget> {
             ),
             Align(
               alignment: AlignmentDirectional(-0.18, 0.4),
-              child: Container(
-                width: 363.6,
-                height: 36.0,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    FFButtonWidget(
-                      onPressed: () async {
-                        var _shouldSetState = false;
-                        if (_model.creditoValue == true) {
-                          _model.criarPedido =
-                              await AuthGroup.criarPagamentoCall.call(
-                            authtoken: FFAppState().authtoken,
-                            valor: widget.preco?.toString(),
-                          );
+              child: Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0.0, 197.0, 0.0, 0.0),
+                child: Container(
+                  width: 363.6,
+                  height: 36.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FFButtonWidget(
+                        onPressed: () async {
+                          var _shouldSetState = false;
+                          if (_model.creditoValue == true) {
+                            _model.criarPedido =
+                                await AuthGroup.criarPagamentoCall.call(
+                              authtoken: FFAppState().authtoken,
+                              valor: widget.preco?.toString(),
+                            );
 
-                          _shouldSetState = true;
-                          if (getJsonField(
-                                (_model.criarPedido?.jsonBody ?? ''),
-                                r'''$.status.status''',
-                              ) ==
-                              null) {
+                            _shouldSetState = true;
+                            if (getJsonField(
+                                  (_model.criarPedido?.jsonBody ?? ''),
+                                  r'''$.status.status''',
+                                ) ==
+                                null) {
+                              ScaffoldMessenger.of(context).clearSnackBars();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Tente novamente em 5 segundos',
+                                    style: GoogleFonts.poppins(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 15.0,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  duration: Duration(milliseconds: 1500),
+                                  backgroundColor:
+                                      FlutterFlowTheme.of(context).error,
+                                ),
+                              );
+                              if (_shouldSetState) safeSetState(() {});
+                              return;
+                            } else {
+                              _model.momentoClique = getCurrentTimestamp;
+                              safeSetState(() {});
+
+                              context.pushNamed(
+                                PedidoRealizadoWidget.routeName,
+                                queryParameters: {
+                                  'momentoClique': serializeParam(
+                                    getCurrentTimestamp,
+                                    ParamType.DateTime,
+                                  ),
+                                }.withoutNulls,
+                                extra: <String, dynamic>{
+                                  '__transition_info__': TransitionInfo(
+                                    hasTransition: true,
+                                    transitionType: PageTransitionType.fade,
+                                    duration: Duration(milliseconds: 100),
+                                  ),
+                                },
+                              );
+                            }
+                          } else if (_model.pixValue == true) {
                             ScaffoldMessenger.of(context).clearSnackBars();
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(
-                                  'Tente novamente em 5  segundos',
+                                  'Função em desenvolvimento',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16.0,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                duration: Duration(milliseconds: 1500),
+                                backgroundColor:
+                                    FlutterFlowTheme.of(context).secondary,
+                              ),
+                            );
+                            if (_shouldSetState) safeSetState(() {});
+                            return;
+                          } else if (_model.debitoValue == true) {
+                            ScaffoldMessenger.of(context).clearSnackBars();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'Função em desenvolvimento',
                                   style: GoogleFonts.poppins(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w500,
@@ -841,107 +995,55 @@ class _PagamentoWidgetState extends State<PagamentoWidget> {
                                 ),
                                 duration: Duration(milliseconds: 1500),
                                 backgroundColor:
-                                    FlutterFlowTheme.of(context).error,
+                                    FlutterFlowTheme.of(context).secondary,
                               ),
                             );
                             if (_shouldSetState) safeSetState(() {});
                             return;
                           } else {
-                            _model.momentoClique = getCurrentTimestamp;
-                            safeSetState(() {});
-
-                            context.pushNamed(
-                              PedidoRealizadoWidget.routeName,
-                              queryParameters: {
-                                'momentoClique': serializeParam(
-                                  getCurrentTimestamp,
-                                  ParamType.DateTime,
+                            ScaffoldMessenger.of(context).clearSnackBars();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'Função em desenvolvimento',
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 15.0,
+                                  ),
+                                  textAlign: TextAlign.center,
                                 ),
-                              }.withoutNulls,
-                              extra: <String, dynamic>{
-                                '__transition_info__': TransitionInfo(
-                                  hasTransition: true,
-                                  transitionType: PageTransitionType.fade,
-                                  duration: Duration(milliseconds: 100),
-                                ),
-                              },
+                                duration: Duration(milliseconds: 1500),
+                                backgroundColor:
+                                    FlutterFlowTheme.of(context).secondary,
+                              ),
                             );
+                            if (_shouldSetState) safeSetState(() {});
+                            return;
                           }
-                        } else if (_model.pixValue == true) {
-                          ScaffoldMessenger.of(context).clearSnackBars();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                'Função em desenvolvimento',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16.0,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                              duration: Duration(milliseconds: 1500),
-                              backgroundColor:
-                                  FlutterFlowTheme.of(context).secondary,
-                            ),
-                          );
-                          if (_shouldSetState) safeSetState(() {});
-                          return;
-                        } else if (_model.debitoValue == true) {
-                          ScaffoldMessenger.of(context).clearSnackBars();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                'Função em desenvolvimento',
-                                style: GoogleFonts.poppins(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 15.0,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                              duration: Duration(milliseconds: 1500),
-                              backgroundColor:
-                                  FlutterFlowTheme.of(context).secondary,
-                            ),
-                          );
-                          if (_shouldSetState) safeSetState(() {});
-                          return;
-                        } else {
-                          ScaffoldMessenger.of(context).clearSnackBars();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                'Função em desenvolvimento',
-                                style: GoogleFonts.poppins(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 15.0,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                              duration: Duration(milliseconds: 1500),
-                              backgroundColor:
-                                  FlutterFlowTheme.of(context).secondary,
-                            ),
-                          );
-                          if (_shouldSetState) safeSetState(() {});
-                          return;
-                        }
 
-                        if (_shouldSetState) safeSetState(() {});
-                      },
-                      text: 'Comprar',
-                      options: FFButtonOptions(
-                        height: 40.0,
-                        padding: EdgeInsetsDirectional.fromSTEB(
-                            16.0, 0.0, 16.0, 0.0),
-                        iconPadding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                        color: FlutterFlowTheme.of(context).secondary,
-                        textStyle:
-                            FlutterFlowTheme.of(context).titleSmall.override(
-                                  font: GoogleFonts.interTight(
+                          if (_shouldSetState) safeSetState(() {});
+                        },
+                        text: 'Comprar',
+                        options: FFButtonOptions(
+                          height: 40.0,
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              16.0, 0.0, 16.0, 0.0),
+                          iconPadding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 0.0, 0.0),
+                          color: FlutterFlowTheme.of(context).secondary,
+                          textStyle:
+                              FlutterFlowTheme.of(context).titleSmall.override(
+                                    font: GoogleFonts.interTight(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontStyle,
+                                    ),
+                                    color: Colors.white,
+                                    letterSpacing: 0.0,
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .titleSmall
                                         .fontWeight,
@@ -949,20 +1051,12 @@ class _PagamentoWidgetState extends State<PagamentoWidget> {
                                         .titleSmall
                                         .fontStyle,
                                   ),
-                                  color: Colors.white,
-                                  letterSpacing: 0.0,
-                                  fontWeight: FlutterFlowTheme.of(context)
-                                      .titleSmall
-                                      .fontWeight,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .titleSmall
-                                      .fontStyle,
-                                ),
-                        elevation: 0.0,
-                        borderRadius: BorderRadius.circular(8.0),
+                          elevation: 0.0,
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
