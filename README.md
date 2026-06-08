@@ -96,24 +96,31 @@ Assistente virtual responsável por:
 # 🔄 Fluxo Geral da Plataforma
 
 Cliente
+
 ⬇️
 
 App Cliente
+
 ⬇️
 
 Xano (Backend)
+
 ⬇️
 
 Banco de Dados
+
 ⬇️
 
 Pagamento
+
 ⬇️
 
 Produção
+
 ⬇️
 
 Entrega
+
 ⬇️
 
 Cliente
@@ -123,24 +130,31 @@ Cliente
 # 🔐 Fluxo de Cadastro
 
 Cliente
+
 ⬇️
 
 Informa Nome e Telefone
+
 ⬇️
 
 Recebe Código de Verificação
+
 ⬇️
 
 Informa Código
+
 ⬇️
 
 Sistema Valida Código
+
 ⬇️
 
 Cadastro Completo Liberado
+
 ⬇️
 
 Cliente Define E-mail e Senha
+
 ⬇️
 
 Conta Ativada
@@ -150,27 +164,35 @@ Conta Ativada
 # 🔑 Fluxo de Recuperação de Senha
 
 Usuário
+
 ⬇️
 
 Seleciona "Esqueci Minha Senha"
+
 ⬇️
 
 Informa E-mail ou Telefone
+
 ⬇️
 
 Sistema Gera Código
+
 ⬇️
 
 Código É Enviado
+
 ⬇️
 
 Usuário Informa Código
+
 ⬇️
 
 Sistema Valida
+
 ⬇️
 
 Nova Senha Definida
+
 ⬇️
 
 Senha Atualizada
@@ -180,18 +202,23 @@ Senha Atualizada
 # 🔍 Fluxo de Pesquisa de Produtos
 
 Usuário
+
 ⬇️
 
 Digita Nome do Produto
+
 ⬇️
 
 Sistema Consulta Catálogo
+
 ⬇️
 
 Produtos Compatíveis Encontrados
+
 ⬇️
 
 Resultados Exibidos
+
 ⬇️
 
 Usuário Seleciona Produto
