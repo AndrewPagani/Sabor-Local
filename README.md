@@ -127,7 +127,7 @@ Cliente
 
 ---
 
-# 🔐 Fluxo de Cadastro
+# Fluxo de Cadastro
 
 Cliente
 
@@ -161,7 +161,7 @@ Conta Ativada
 
 ---
 
-# 🔑 Fluxo de Recuperação de Senha
+# Fluxo de Recuperação de Senha
 
 Usuário
 
@@ -199,7 +199,7 @@ Senha Atualizada
 
 ---
 
-# 🔍 Fluxo de Pesquisa de Produtos
+# Fluxo de Pesquisa de Produtos
 
 Usuário
 
@@ -225,7 +225,7 @@ Usuário Seleciona Produto
 
 ---
 
-# 📍 Gerenciamento de Endereços
+# Gerenciamento de Endereços
 
 O sistema permite múltiplos endereços por usuário.
 
@@ -264,7 +264,7 @@ Endereço Salvo
 
 ---
 
-# 💳 Gerenciamento de Cartões
+# Gerenciamento de Cartões
 
 O sistema utiliza tokenização para armazenamento seguro.
 
@@ -302,7 +302,7 @@ Cartão Disponível para Uso
 
 ---
 
-# 🛒 Fluxo do Carrinho
+# Fluxo do Carrinho
 
 Cliente
 
@@ -328,7 +328,7 @@ Cliente Prossegue para Checkout
 
 ---
 
-# 📦 Fluxo do Pedido
+# Fluxo do Pedido
 
 Cliente
 
@@ -374,7 +374,7 @@ Ordem de Produção Gerada
 
 ---
 
-# 💰 Fluxo de Pagamento
+# Fluxo de Pagamento
 
 ## Pix
 
@@ -424,7 +424,7 @@ Pedido Atualizado para Pago
 
 ---
 
-# 👨‍🍳 Fluxo de Produção
+# Fluxo de Produção
 
 Pedido Pago
 
@@ -450,37 +450,6 @@ Pedido Liberado para Entrega
 
 ---
 
-# 🚚 Fluxo de Entrega
-
-Pedido Pronto
-
-⬇️
-
-Entregador Recebe Rota
-
-⬇️
-
-Google Maps Calcula Trajeto
-
-⬇️
-
-Cliente Acompanha Entrega
-
-⬇️
-
-Entregador Solicita Código
-
-⬇️
-
-Cliente Informa Código
-
-⬇️
-
-Entrega Confirmada
-
-⬇️
-
-Pedido Finalizado
 
 ---
 
