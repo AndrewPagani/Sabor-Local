@@ -1,171 +1,658 @@
-## Fluxos Funcionais
+# 🍽️ Sabor Local (SLFood)
 
-### Recuperação de Senha
-
-O sistema disponibiliza um fluxo seguro de recuperação de senha para usuários que perderam ou esqueceram suas credenciais de acesso.
-
-#### Fluxo
-
-1. O usuário seleciona a opção **"Esqueci minha senha"**.
-2. Informa o e-mail ou telefone cadastrado.
-3. O sistema gera um código temporário de recuperação.
-4. O código é enviado ao usuário.
-5. O usuário informa o código recebido.
-6. O sistema valida o código.
-7. Caso seja válido, o usuário pode definir uma nova senha.
-8. A nova senha é armazenada no sistema.
-9. O usuário pode realizar login utilizando a nova credencial.
-
-#### Regras de Negócio
-
-- O código possui tempo limitado de validade.
-- Códigos expirados são rejeitados.
-- Apenas códigos válidos permitem a alteração da senha.
-- Após a redefinição da senha, o código é invalidado automaticamente.
-- A nova senha deve atender aos critérios mínimos de segurança definidos pela plataforma.
+Plataforma completa de delivery desenvolvida para permitir que restaurantes operem seu próprio ecossistema digital, reduzindo a dependência de marketplaces de terceiros e fortalecendo o relacionamento direto com seus clientes.
 
 ---
 
-### Pesquisa de Produtos
+# 📖 Descrição do Problema
 
-O sistema permite que os usuários localizem rapidamente produtos disponíveis através de uma ferramenta de pesquisa integrada ao cardápio.
+Restaurantes de pequeno e médio porte enfrentam diversos desafios ao utilizar plataformas de delivery terceirizadas:
 
-#### Fluxo
+* Taxas elevadas sobre cada pedido (20% a 30%).
+* Pouco controle sobre a experiência do cliente.
+* Dificuldade em fidelizar consumidores.
+* Acesso limitado aos dados dos clientes.
+* Dependência operacional de plataformas externas.
 
-1. O usuário acessa o campo de pesquisa.
-2. Digita o nome completo ou parcial do produto desejado.
-3. O sistema consulta os produtos disponíveis.
-4. Os resultados compatíveis são exibidos em tempo real.
-5. O usuário pode acessar diretamente o produto encontrado.
-
-#### Regras de Negócio
-
-- A pesquisa considera apenas produtos ativos.
-- A busca suporta correspondências parciais.
-- Produtos podem ser filtrados por categoria.
-- Produtos indisponíveis podem ser ocultados ou sinalizados visualmente.
+O **Sabor Local (SLFood)** foi desenvolvido para resolver esses problemas através de uma solução própria de delivery, permitindo controle total da operação, maior lucratividade e fortalecimento da marca.
 
 ---
 
-### Gerenciamento de Endereços
+# 🎯 Objetivo da Solução
 
-O sistema permite o cadastro e gerenciamento de múltiplos endereços de entrega.
+Criar um ecossistema digital integrado que permita ao restaurante:
 
-#### Fluxo de Cadastro
-
-1. O usuário acessa a área de endereços.
-2. Seleciona a opção **"Adicionar Endereço"**.
-3. Informa CEP e demais dados necessários.
-4. O sistema valida as informações.
-5. O endereço é salvo na conta do usuário.
-
-#### Regras de Negócio
-
-- Um usuário pode possuir múltiplos endereços cadastrados.
-- Deve existir pelo menos um endereço válido para realização de pedidos.
-- Apenas um endereço pode ser definido como padrão.
-- Ao definir um novo endereço como padrão, o endereço anterior perde automaticamente essa condição.
-- Endereços podem ser editados a qualquer momento.
-- Endereços podem ser removidos pelo usuário.
-- O sistema impede que todos os endereços sejam removidos caso isso deixe o usuário sem endereço válido para entrega.
-
-#### Seleção de Endereço no Checkout
-
-1. O sistema seleciona automaticamente o endereço padrão.
-2. O usuário pode alterar para qualquer outro endereço cadastrado.
-3. O endereço escolhido é vinculado ao pedido.
-4. Após a confirmação do pedido, o endereço utilizado é armazenado no histórico da compra.
+* Receber pedidos diretamente.
+* Gerenciar entregas.
+* Controlar cardápio e estoque.
+* Fidelizar clientes.
+* Automatizar atendimento.
+* Acompanhar indicadores operacionais.
+* Processar pagamentos digitais com segurança.
 
 ---
 
-### Gerenciamento de Cartões
+# 🏗️ Arquitetura da Solução
 
-O sistema permite o armazenamento seguro de múltiplos cartões para utilização em pagamentos futuros.
+## Tecnologias Utilizadas
 
-#### Fluxo de Cadastro
-
-1. O usuário acessa a área de métodos de pagamento.
-2. Seleciona **"Adicionar Cartão"**.
-3. Os dados são enviados ao gateway de pagamento.
-4. O gateway realiza a tokenização das informações.
-5. O sistema armazena apenas o token e informações não sensíveis do cartão.
-6. O cartão fica disponível para futuras compras.
-
-#### Regras de Negócio
-
-- Um usuário pode possuir múltiplos cartões cadastrados.
-- Dados sensíveis não são armazenados diretamente pela plataforma.
-- Apenas tokens fornecidos pelo gateway são persistidos.
-- Cartões podem ser removidos pelo usuário.
-- Um cartão pode ser definido como método de pagamento preferencial.
-
-#### Seleção de Cartão no Checkout
-
-1. O sistema exibe todos os cartões cadastrados.
-2. O usuário seleciona o cartão desejado.
-3. Opcionalmente, pode cadastrar um novo cartão.
-4. O pagamento é processado pelo gateway.
-5. O resultado da transação é retornado ao sistema.
-
-#### Regras de Negócio
-
-- Apenas cartões válidos podem ser utilizados.
-- Cartões expirados não podem ser selecionados.
-- O usuário pode escolher qualquer cartão cadastrado durante a compra.
-- O sistema pode sugerir automaticamente o cartão definido como preferencial.
+| Tecnologia      | Finalidade                                              |
+| --------------- | ------------------------------------------------------- |
+| FlutterFlow     | Desenvolvimento dos aplicativos e painel administrativo |
+| Xano            | Backend e banco de dados                                |
+| Google Maps API | Geolocalização e rastreamento                           |
+| Mercado Pago    | Processamento de pagamentos                             |
+| Asaas           | Processamento de pagamentos                             |
+| SendGrid        | Envio de e-mails                                        |
+| Telegram        | Canal de atendimento                                    |
+| n8n             | Automação e Agente de IA                                |
 
 ---
 
-### Carrinho de Compras
+# 🧩 Componentes do Sistema
 
-O carrinho é responsável por consolidar os produtos selecionados pelo usuário antes da finalização do pedido.
+## App Cliente
 
-#### Fluxo
+Aplicativo utilizado pelos consumidores para:
 
-1. O usuário adiciona produtos ao carrinho.
-2. O sistema cria ou atualiza automaticamente o pedido em andamento.
-3. O usuário pode alterar quantidades ou remover itens.
-4. O valor total é recalculado automaticamente.
-5. O usuário segue para a etapa de checkout.
-
-#### Regras de Negócio
-
-- Não é permitido adicionar quantidades superiores ao estoque disponível.
-- O subtotal de cada item é calculado automaticamente.
-- O valor total do pedido é atualizado em tempo real.
-- Produtos removidos deixam de compor o cálculo final do pedido.
+* Cadastro e autenticação
+* Consulta de cardápio
+* Pesquisa de produtos
+* Gerenciamento de endereços
+* Gerenciamento de cartões
+* Realização de pedidos
+* Pagamentos digitais
+* Rastreamento de entregas
+* Programa de fidelidade
 
 ---
 
-### Acompanhamento de Pedidos
+## App Entregador
 
-O sistema permite que os clientes acompanhem o andamento do pedido em tempo real.
+Aplicativo utilizado pelos entregadores para:
 
-#### Status Disponíveis
+* Receber entregas
+* Visualizar rotas
+* Atualizar status
+* Confirmar entregas
+* Registrar incidentes
 
-- Criado
-- Aguardando Pagamento
-- Pago
-- Em Produção
-- Em Separação
-- Saiu para Entrega
-- Entregue
-- Cancelado
+---
 
-#### Fluxo
+## Sistema de Gestão Web
 
-1. O pedido é criado.
-2. O pagamento é confirmado.
-3. A cozinha recebe a ordem de produção.
-4. O pedido é preparado.
-5. O entregador recebe a rota.
-6. O cliente acompanha a localização da entrega.
-7. A entrega é confirmada mediante código de validação.
-8. O pedido é finalizado.
+Painel administrativo responsável por:
 
-#### Regras de Negócio
+* Gestão de produtos
+* Gestão de categorias
+* Gestão de pedidos
+* Gestão de funcionários
+* Controle operacional
+* Relatórios financeiros
+* Controle de estoque
 
-- Cada alteração de status é registrada no histórico do pedido.
-- O cliente recebe notificações durante o processo.
-- Apenas usuários autorizados podem alterar determinados status.
-- O pedido somente pode ser concluído após a confirmação da entrega.
+---
+
+## Agente IA
+
+Assistente virtual responsável por:
+
+* Consultar pedidos
+* Responder dúvidas
+* Informar status de entrega
+* Apresentar promoções
+* Auxiliar clientes via Telegram
+
+---
+
+# 🔄 Fluxo Geral da Plataforma
+
+Cliente
+
+⬇️
+
+App Cliente
+
+⬇️
+
+Xano (Backend)
+
+⬇️
+
+Banco de Dados
+
+⬇️
+
+Pagamento
+
+⬇️
+
+Produção
+
+⬇️
+
+Entrega
+
+⬇️
+
+Cliente
+
+---
+
+# 🔐 Fluxo de Cadastro
+
+Cliente
+
+⬇️
+
+Informa Nome e Telefone
+
+⬇️
+
+Recebe Código de Verificação
+
+⬇️
+
+Informa Código
+
+⬇️
+
+Sistema Valida Código
+
+⬇️
+
+Cadastro Completo Liberado
+
+⬇️
+
+Cliente Define E-mail e Senha
+
+⬇️
+
+Conta Ativada
+
+---
+
+# 🔑 Fluxo de Recuperação de Senha
+
+Usuário
+
+⬇️
+
+Seleciona "Esqueci Minha Senha"
+
+⬇️
+
+Informa E-mail ou Telefone
+
+⬇️
+
+Sistema Gera Código
+
+⬇️
+
+Código É Enviado
+
+⬇️
+
+Usuário Informa Código
+
+⬇️
+
+Sistema Valida
+
+⬇️
+
+Nova Senha Definida
+
+⬇️
+
+Senha Atualizada
+
+---
+
+# 🔍 Fluxo de Pesquisa de Produtos
+
+Usuário
+
+⬇️
+
+Digita Nome do Produto
+
+⬇️
+
+Sistema Consulta Catálogo
+
+⬇️
+
+Produtos Compatíveis Encontrados
+
+⬇️
+
+Resultados Exibidos
+
+⬇️
+
+Usuário Seleciona Produto
+
+---
+
+# 📍 Gerenciamento de Endereços
+
+O sistema permite múltiplos endereços por usuário.
+
+## Regras de Negócio
+
+* Um usuário pode possuir vários endereços.
+* Deve existir pelo menos um endereço cadastrado.
+* Apenas um endereço pode ser marcado como padrão.
+* Ao definir um novo endereço padrão, o anterior perde automaticamente esta condição.
+* Endereços podem ser editados.
+* Endereços podem ser removidos.
+
+## Fluxo
+
+Usuário
+
+⬇️
+
+Adicionar Endereço
+
+⬇️
+
+Informar CEP
+
+⬇️
+
+Informar Complementos
+
+⬇️
+
+Validação
+
+⬇️
+
+Endereço Salvo
+
+---
+
+# 💳 Gerenciamento de Cartões
+
+O sistema utiliza tokenização para armazenamento seguro.
+
+## Regras de Negócio
+
+* Um usuário pode possuir múltiplos cartões.
+* Apenas tokens são armazenados.
+* Dados completos do cartão nunca são persistidos.
+* Cartões podem ser removidos.
+* Um cartão pode ser definido como preferencial.
+
+## Fluxo
+
+Usuário
+
+⬇️
+
+Adicionar Cartão
+
+⬇️
+
+Gateway Realiza Tokenização
+
+⬇️
+
+Token Retornado
+
+⬇️
+
+Token Armazenado
+
+⬇️
+
+Cartão Disponível para Uso
+
+---
+
+# 🛒 Fluxo do Carrinho
+
+Cliente
+
+⬇️
+
+Seleciona Produto
+
+⬇️
+
+Produto Adicionado ao Carrinho
+
+⬇️
+
+Sistema Atualiza Pedido
+
+⬇️
+
+Sistema Calcula Totais
+
+⬇️
+
+Cliente Prossegue para Checkout
+
+---
+
+# 📦 Fluxo do Pedido
+
+Cliente
+
+⬇️
+
+Seleciona Produtos
+
+⬇️
+
+Adiciona ao Carrinho
+
+⬇️
+
+Seleciona Endereço
+
+⬇️
+
+Seleciona Forma de Pagamento
+
+⬇️
+
+Confirma Pedido
+
+⬇️
+
+Pedido Criado
+
+⬇️
+
+Validação de Estoque
+
+⬇️
+
+Processamento do Pagamento
+
+⬇️
+
+Pedido Pago
+
+⬇️
+
+Ordem de Produção Gerada
+
+---
+
+# 💰 Fluxo de Pagamento
+
+## Pix
+
+Pedido
+
+⬇️
+
+Gerar QR Code
+
+⬇️
+
+Cliente Efetua Pagamento
+
+⬇️
+
+Gateway Confirma Transação
+
+⬇️
+
+Pedido Atualizado para Pago
+
+---
+
+## Cartão
+
+Pedido
+
+⬇️
+
+Selecionar Cartão
+
+⬇️
+
+Enviar Token ao Gateway
+
+⬇️
+
+Validação da Transação
+
+⬇️
+
+Pagamento Aprovado
+
+⬇️
+
+Pedido Atualizado para Pago
+
+---
+
+# 👨‍🍳 Fluxo de Produção
+
+Pedido Pago
+
+⬇️
+
+Ordem de Produção Criada
+
+⬇️
+
+Cozinha Recebe Pedido
+
+⬇️
+
+Preparação dos Itens
+
+⬇️
+
+Conferência
+
+⬇️
+
+Pedido Liberado para Entrega
+
+---
+
+# 🚚 Fluxo de Entrega
+
+Pedido Pronto
+
+⬇️
+
+Entregador Recebe Rota
+
+⬇️
+
+Google Maps Calcula Trajeto
+
+⬇️
+
+Cliente Acompanha Entrega
+
+⬇️
+
+Entregador Solicita Código
+
+⬇️
+
+Cliente Informa Código
+
+⬇️
+
+Entrega Confirmada
+
+⬇️
+
+Pedido Finalizado
+
+---
+
+# 📊 Status do Pedido
+
+| Status               |
+| -------------------- |
+| Criado               |
+| Aguardando Pagamento |
+| Pago                 |
+| Em Produção          |
+| Em Separação         |
+| Saiu para Entrega    |
+| Entregue             |
+| Cancelado            |
+
+---
+
+# 🗄️ Estrutura de Dados
+
+## Principais Entidades
+
+### Usuário
+
+* id
+* email
+* senha
+* authToken
+* papel_id
+
+### Cliente
+
+* nome
+* cpf
+* celular
+* status
+
+### Endereço
+
+* cliente_id
+* cep
+* logradouro
+* numero
+* bairro
+* endereco_padrao
+
+### Produto
+
+* nome
+* descricao
+* preco
+* qtd_disp
+* precisa_produzir
+
+### Pedido
+
+* cliente_id
+* total
+* status
+* codigo_entrega
+
+### ItemPedido
+
+* pedido_id
+* produto_id
+* quantidade
+* subtotal
+
+### CartaoTokenizado
+
+* token
+* bandeira
+* ultimos_4_digitos
+
+---
+
+# 🔒 Segurança
+
+## Controles Implementados
+
+| Controle              | Implementação  |
+| --------------------- | -------------- |
+| Autenticação          | AuthToken Xano |
+| Controle de Acesso    | RBAC           |
+| Criptografia          | AES-256        |
+| Tokenização           | PCI DSS        |
+| Comunicação Segura    | TLS/SSL        |
+| Validação de Cadastro | SMS + E-mail   |
+| Proteção LGPD         | Sim            |
+
+## Perfis
+
+### Administrador
+
+* Gestão total da plataforma
+
+### Atendente
+
+* Gestão operacional dos pedidos
+
+### Cozinheiro
+
+* Produção
+
+### Entregador
+
+* Logística
+
+### Cliente
+
+* Consumo da plataforma
+
+---
+
+# 🔌 Integrações Externas
+
+| Serviço      | Finalidade           |
+| ------------ | -------------------- |
+| Asaas        | Pagamentos           |
+| SendGrid     | E-mails              |
+| Telegram     | Atendimento          |
+| n8n          | IA e automações      |
+
+---
+
+# 🚀 Roadmap
+
+## Versão 1.1
+
+* Preferências de compra
+* Recompra rápida
+* Promoções personalizadas
+
+## Versão 1.2
+
+* Multiunidades
+* Dashboard avançado
+* Relatórios analíticos
+
+## Versão 2.0
+
+* Inteligência Artificial avançada
+* Recomendação de produtos
+* Otimização automática de rotas
+* Expansão para múltiplos restaurantes
+
+---
+
+# 📈 Capacidade Inicial do MVP
+
+| Métrica                  | Valor      |
+| ------------------------ | ---------- |
+| Pedidos Mensais          | 1.000      |
+| Entregadores Simultâneos | 10         |
+| Tempo Máximo de Produção | 30 minutos |
+| Código de Entrega        | 4 dígitos  |
+| Validade do Pix          | 20 minutos |
+
+---
+
+# 🏁 Resultado Esperado
+
+O SLFood busca proporcionar independência operacional ao restaurante, reduzir custos com intermediários, melhorar a experiência do cliente e aumentar a lucratividade através de uma plataforma própria, escalável e integrada.
