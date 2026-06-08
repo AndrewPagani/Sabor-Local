@@ -49,6 +49,13 @@ Criar um ecossistema digital integrado que permita ao restaurante:
 
 ---
 
+## Diagrama Entidade Relacionamento
+
+<p align="center">
+  <img src="assets/imagem_2026-06-08_183827297.png" width="1000">
+</p>
+
+
 # Componentes do Sistema
 
 ## App Cliente
