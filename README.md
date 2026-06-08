@@ -40,8 +40,6 @@ Criar um ecossistema digital integrado que permita ao restaurante:
 | --------------- | ------------------------------------------------------- |
 | FlutterFlow     | Desenvolvimento dos aplicativos e painel administrativo |
 | Xano            | Backend e banco de dados                                |
-| Google Maps API | Geolocalização e rastreamento                           |
-| Mercado Pago    | Processamento de pagamentos                             |
 | Asaas           | Processamento de pagamentos                             |
 | SendGrid        | Envio de e-mails                                        |
 | Telegram        | Canal de atendimento                                    |
