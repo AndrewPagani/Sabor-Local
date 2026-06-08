@@ -1,10 +1,10 @@
-# 🍽️ Sabor Local (SLFood)
+# Sabor Local (SLFood)
 
 Plataforma completa de delivery desenvolvida para permitir que restaurantes operem seu próprio ecossistema digital, reduzindo a dependência de marketplaces de terceiros e fortalecendo o relacionamento direto com seus clientes.
 
 ---
 
-# 📖 Descrição do Problema
+# Descrição do Problema
 
 Restaurantes de pequeno e médio porte enfrentam diversos desafios ao utilizar plataformas de delivery terceirizadas:
 
@@ -18,7 +18,7 @@ O **Sabor Local (SLFood)** foi desenvolvido para resolver esses problemas atrav�
 
 ---
 
-# 🎯 Objetivo da Solução
+# Objetivo da Solução
 
 Criar um ecossistema digital integrado que permita ao restaurante:
 
@@ -49,7 +49,7 @@ Criar um ecossistema digital integrado que permita ao restaurante:
 
 ---
 
-# 🧩 Componentes do Sistema
+# Componentes do Sistema
 
 ## App Cliente
 
@@ -64,18 +64,6 @@ Aplicativo utilizado pelos consumidores para:
 * Pagamentos digitais
 * Rastreamento de entregas
 * Programa de fidelidade
-
----
-
-## App Entregador
-
-Aplicativo utilizado pelos entregadores para:
-
-* Receber entregas
-* Visualizar rotas
-* Atualizar status
-* Confirmar entregas
-* Registrar incidentes
 
 ---
 
@@ -108,31 +96,24 @@ Assistente virtual responsável por:
 # 🔄 Fluxo Geral da Plataforma
 
 Cliente
-
 ⬇️
 
 App Cliente
-
 ⬇️
 
 Xano (Backend)
-
 ⬇️
 
 Banco de Dados
-
 ⬇️
 
 Pagamento
-
 ⬇️
 
 Produção
-
 ⬇️
 
 Entrega
-
 ⬇️
 
 Cliente
@@ -142,31 +123,24 @@ Cliente
 # 🔐 Fluxo de Cadastro
 
 Cliente
-
 ⬇️
 
 Informa Nome e Telefone
-
 ⬇️
 
 Recebe Código de Verificação
-
 ⬇️
 
 Informa Código
-
 ⬇️
 
 Sistema Valida Código
-
 ⬇️
 
 Cadastro Completo Liberado
-
 ⬇️
 
 Cliente Define E-mail e Senha
-
 ⬇️
 
 Conta Ativada
@@ -176,35 +150,27 @@ Conta Ativada
 # 🔑 Fluxo de Recuperação de Senha
 
 Usuário
-
 ⬇️
 
 Seleciona "Esqueci Minha Senha"
-
 ⬇️
 
 Informa E-mail ou Telefone
-
 ⬇️
 
 Sistema Gera Código
-
 ⬇️
 
 Código É Enviado
-
 ⬇️
 
 Usuário Informa Código
-
 ⬇️
 
 Sistema Valida
-
 ⬇️
 
 Nova Senha Definida
-
 ⬇️
 
 Senha Atualizada
@@ -214,23 +180,18 @@ Senha Atualizada
 # 🔍 Fluxo de Pesquisa de Produtos
 
 Usuário
-
 ⬇️
 
 Digita Nome do Produto
-
 ⬇️
 
 Sistema Consulta Catálogo
-
 ⬇️
 
 Produtos Compatíveis Encontrados
-
 ⬇️
 
 Resultados Exibidos
-
 ⬇️
 
 Usuário Seleciona Produto
