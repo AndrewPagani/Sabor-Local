@@ -49,10 +49,11 @@ Criar um ecossistema digital integrado que permita ao restaurante:
 
 ---
 
-## 🎥 Demonstração do Sistema
+## Demonstração do Sistema
 
 [![Assista à demonstração](https://img.youtube.com/vi/g95lzhgjzCU/maxresdefault.jpg)](https://youtu.be/g95lzhgjzCU)
 
+## Chat Bot - Telegram
 [![Assista à demonstração](https://img.youtube.com/vi/vRQ1nonLMOs/maxresdefault.jpg)](https://youtu.be/vRQ1nonLMOs)
 
 
