@@ -552,8 +552,7 @@ Pedido Liberado para Entrega
 | Criptografia          | AES-256        |
 | Tokenização           | PCI DSS        |
 | Comunicação Segura    | TLS/SSL        |
-| Validação de Cadastro | SMS + E-mail   |
-| Proteção LGPD         | Sim            |
+| Validação de Cadastro | E-mail         |
 
 ## Perfis
 
@@ -590,40 +589,6 @@ Pedido Liberado para Entrega
 
 ---
 
-# 🚀 Roadmap
-
-## Versão 1.1
-
-* Preferências de compra
-* Recompra rápida
-* Promoções personalizadas
-
-## Versão 1.2
-
-* Multiunidades
-* Dashboard avançado
-* Relatórios analíticos
-
-## Versão 2.0
-
-* Inteligência Artificial avançada
-* Recomendação de produtos
-* Otimização automática de rotas
-* Expansão para múltiplos restaurantes
-
----
-
-# 📈 Capacidade Inicial do MVP
-
-| Métrica                  | Valor      |
-| ------------------------ | ---------- |
-| Pedidos Mensais          | 1.000      |
-| Entregadores Simultâneos | 10         |
-| Tempo Máximo de Produção | 30 minutos |
-| Código de Entrega        | 4 dígitos  |
-| Validade do Pix          | 20 minutos |
-
----
 
 # 🏁 Resultado Esperado
 
